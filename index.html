@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maximum Reality – Azul & Mochkil</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  background: linear-gradient(to bottom, #070707, #111);
+  color: #f0f0f0;
+  margin: 0;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  color: #39ff14;
+  text-shadow: 0 0 10px #39ff14;
+}
+
+p {
+  text-align: center;
+  color: #aaa;
+}
+
+#chatContainer {
+  max-width: 720px;
+  margin: auto;
+}
+
+input {
+  width: 100%;
+  padding: .6rem;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: .5rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+}
+
+button {
+  padding: .5rem 1rem;
+  background: #111;
+  color: #39ff14;
+  border: 2px solid #39ff14;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:hover {
+  background: #39ff14;
+  color: #000;
+}
+
+#responses {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.response {
+  background: #111;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #39ff14;
+  animation: fadeIn .4s;
+}
+
+img.character {
+  width: 40px;
+  margin-right: .4rem;
+  vertical-align: middle;
+  animation: bounceIn .6s;
+}
+
+.storyButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+
+video {
+  display: block;
+  margin: 1rem auto;
+  max-width: 90%;
+  border: 3px solid #39ff14;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #39ff14;
+}
+
+#typingIndicator {
+  text-align: center;
+  color: #39ff14;
+  display: none;
+}
+
+.floating {
+  position: fixed;
+  font-size: 3rem;
+  pointer-events: none;
+  transition: all 2s ease;
+}
+
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: fall 2s linear forwards;
+  z-index: 9999;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(.3) translateY(-40px); opacity: 0 }
+  60% { transform: scale(1.05) translateY(10px) }
+  100% { transform: scale(1); opacity: 1 }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px) }
+  to { opacity: 1; transform: translateY(0) }
+}
+
+@keyframes fall {
+  from { transform: translateY(0); opacity: 1 }
+  to { transform: translateY(100vh); opacity: 0 }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Chat with Azul & Mochkil 🐱🐈‍⬛</h1>
+<p>Type freely — or roll the dice 🎲 to unlock an adventure.</p>
+
+<div id="chatContainer">
+  <input id="prompt" placeholder="Ask a question or roll the dice…" />
+
+  <!-- ✅ DICE IS HERE AND VISIBLE -->
+  <div class="controls">
+    <button onclick="send()">Send</button>
+    <button onclick="randomPrompt()">🎲 Random</button>
+  </div>
+
+  <div id="typingIndicator">💬 Azul & Mochkil are thinking...</div>
+</div>
+
+<div id="responses"></div>
+<div class="storyButtons" id="choices"></div>
+
+<script>
+const responses = document.getElementById("responses");
+const choicesDiv = document.getElementById("choices");
+const typing = document.getElementById("typingIndicator");
+const input = document.getElementById("prompt");
+
+// ---------- CHAT ----------
+const azulReplies = [
+  "Maximum Reality engaged 🧪",
+  "Floating again 🌀",
+  "This is getting interesting 😎"
+];
+
+const mochkilReplies = [
+  "SNACKS 🍪",
+  "Oops 😺",
+  "Adventure time!"
+];
+
+// ---------- 🎲 RANDOM PROMPTS ----------
+function randomPrompt(){
+  const prompts = [
+    "Azul, should we board the pirate ship or sneak aboard?",
+    "Mochkil wants tacos — what happens if he orders?",
+    "What goes wrong on our space voyage?",
+    "Can we have a picnic on the moon?",
+    "Are the ninja cats ready for training?",
+    "What happens when Azul hacks scammer call centers?",
+    "What is Mochkil dreaming about?",
+    "Where should we explore in New Zealand?"
+  ];
+  input.value = prompts[Math.floor(Math.random()*prompts.length)];
+}
+
+// ---------- STORIES ----------
+const stories = {
+  pirate:{ intro:{text:"A pirate ship appears. Board or sneak aboard?",choices:[
+      {text:"Board proudly",next:"end"},
+      {text:"Sneak aboard",next:"end"}]},
+    end:{text:"You sail into legend.",end:true,video:"azul_mochkil_pirates.mp4",vtt:"azul_mochkil_pirates.vtt",emoji:"🏴‍☠️"}},
+
+  space:{ intro:{text:"Launch into space?",choices:[
+      {text:"Launch",next:"end"},
+      {text:"Hack navigation",next:"end"}]},
+    end:{text:"Cosmic success!",end:true,video:"azul_mochkil_space_voyager.mp4",vtt:"azul_mochkil_space_voyager.vtt",emoji:"🚀"}},
+
+  taco:{ intro:{text:"A taco truck appears. Order?",choices:[
+      {text:"Try ordering",next:"end"},
+      {text:"Let Mochkil order",next:"end"}]},
+    end:{text:"🌮 Tacos unlocked!",end:true,
+      video:"azul_mochkil_taco_truck.mp4",
+      vtt:"azul_mochkil_taco_truck.vtt",
+      emoji:"🌮"}},
+
+  moon:{ intro:{text:"Picnic on the moon?",choices:[
+      {text:"Yes",next:"end"},
+      {text:"Float away",next:"end"}]},
+    end:{text:"Moon picnic complete.",end:true,video:"azul_lori_moon_picnic.mp4",vtt:"azul_lori_moon_picnic.vtt",emoji:"🌙"}},
+
+  ninja:{ intro:{text:"Train ninja cats?",choices:[
+      {text:"Train",next:"end"},
+      {text:"Steal carrots",next:"end"}]},
+    end:{text:"Ninja chaos!",end:true,video:"azul_mochkil_ninja_farm.mp4",vtt:"azul_mochkil_ninja_farm.vtt",emoji:"🥷"}},
+
+  hacker:{ intro:{text:"Scammer call detected.",choices:[
+      {text:"Hack",next:"end"},
+      {text:"Ignore",next:"end"}]},
+    end:{text:"Scammers defeated.",end:true,video:"azul_lori_hacker.mp4",vtt:"azul_lori_hacker.vtt",emoji:"💻"}},
+
+  dream:{ intro:{text:"Enter Mochkil’s dream?",choices:[
+      {text:"Enter dream",next:"end"},
+      {text:"Wake him",next:"end"}]},
+    end:{text:"Sweet dreams.",end:true,video:"mochkil_sweet_dream.mp4",emoji:"😴"}},
+
+  newzealand:{ intro:{text:"Explore New Zealand?",choices:[
+      {text:"Mountains",next:"end"},
+      {text:"Beach",next:"end"}]},
+    end:{text:"Adventure complete!",end:true,video:"azul_mochkil_new_zealand.mp4",emoji:"🗺️"}}
+};
+
+// ---------- FUNCTIONS ----------
+function send(){
+  if(!input.value) return;
+  typing.style.display="block";
+
+  setTimeout(()=>{
+    typing.style.display="none";
+    bubble("You",input.value);
+    bubble("Azul 🧪",rand(azulReplies),"azul.png");
+    bubble("Mochkil 🍪",rand(mochkilReplies),"mochkil.png");
+    checkStory(input.value.toLowerCase());
+    input.value="";
+  },700);
+}
+
+function bubble(name,text,img){
+  const d=document.createElement("div");
+  d.className="response";
+  d.innerHTML=(img?`<img src="${img}" class="character">`:"")+`<strong>${name}:</strong> ${text}`;
+  responses.prepend(d);
+}
+
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+
+function checkStory(text){
+  for(const k in stories){ if(text.includes(k)) startStory(k); }
+}
+
+function startStory(k){
+  choicesDiv.innerHTML="";
+  showNode(stories[k].intro,k);
+}
+
+function showNode(node,k){
+  bubble("Story",node.text);
+  if(node.end){ unlock(node); return; }
+  choicesDiv.innerHTML="";
+  node.choices.forEach(c=>{
+    const b=document.createElement("button");
+    b.textContent=c.text;
+    b.onclick=()=>showNode(stories[k][c.next],k);
+    choicesDiv.appendChild(b);
+  });
+}
+
+function unlock(n){
+  confetti(); float(n.emoji);
+  if(navigator.vibrate) navigator.vibrate(200);
+  const v=document.createElement("video");
+  v.controls=true;
+  v.innerHTML=`<source src="${n.video}" type="video/mp4">
+  ${n.vtt?`<track kind="subtitles" src="${n.vtt}" default>`:""}`;
+  document.body.appendChild(v);
+}
+
+function float(e){
+  const f=document.createElement("div");
+  f.className="floating";
+  f.textContent=e+"🎉";
+  f.style.left="50%"; f.style.top="50%";
+  document.body.appendChild(f);
+  setTimeout(()=>{f.style.top="20%";f.style.opacity=0},50);
+  setTimeout(()=>f.remove(),2000);
+}
+
+function confetti(){
+  for(let i=0;i<40;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+    c.style.left=Math.random()*window.innerWidth+"px";
+    c.style.top="-10px";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2000);
+  }
+}
+</script>
+</body>
+</html>
