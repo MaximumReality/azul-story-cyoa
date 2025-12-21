@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat with Azul & Mochkil 🐱🐈‍⬛</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    body {
+      font-family: 'Press Start 2P', monospace;
+      background: linear-gradient(to bottom, #0a0a0a, #111);
+      color: #f0f0f0;
+      padding: 2rem;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #39ff14;
+      text-shadow: 0 0 10px #39ff14;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+
+    #chatContainer {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input[type="text"] {
+      font-family: monospace;
+      font-size: 1rem;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      font-family: monospace;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      margin-top: 0.5rem;
+      background: #222;
+      color: #39ff14;
+      border: 2px solid #39ff14;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #39ff14;
+      color: #000;
+    }
+
+    #responses {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 1rem;
+    }
+
+    .response {
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      background: #111;
+      box-shadow: 0 0 10px #39ff14;
+      animation: fadeIn 0.5s;
+    }
+
+    .response strong {
+      color: #39ff14;
+    }
+
+    img.character {
+      width: 40px;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    #typingIndicator {
+      text-align: center;
+      font-style: italic;
+      color: #39ff14;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Subtle paw-print background for Maximum Reality vibe */
+    body::before {
+      content: "🐾";
+      position: fixed;
+      font-size: 3rem;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      opacity: 0.03;
+      pointer-events: none;
+    }
+
+    video {
+      display: block;
+      margin: 1rem auto;
+      max-width: 90%;
+      border: 3px solid #39ff14;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #39ff14;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Chat with Azul & Mochkil 🐱🐈‍⬛</h1>
+  <p>Ask Azul or Mochkil a question and watch Maximum Reality come alive!</p>
+
+  <div id="chatContainer">
+    <input type="text" id="promptInput" placeholder="Type your story prompt here...">
+    <div>
+      <button onclick="addResponse()">Send</button>
+      <button onclick="randomPrompt()">🎲 Random Prompt</button>
+    </div>
+    <div id="typingIndicator">💬 Azul & Mochkil are thinking...</div>
+  </div>
+
+  <div id="responses"></div>
+
+  <h2>Maximum Reality Adventures</h2>
+
+  <!-- Videos with captions where needed -->
+  <video controls>
+    <source src="azul_lori_moon_picnic.mp4" type="video/mp4">
+    <track kind="subtitles" src="azul_lori_moon_picnic.vtt" srclang="en" label="English" default>
+  </video>
+
+  <video controls>
+    <source src="azul_mochkil_new_zealand.mp4" type="video/mp4">
+  </video>
+
+  <video controls>
+    <source src="azul_mochkil_ninja_farm.mp4" type="video/mp4">
+    <track kind="subtitles" src="azul_mochkil_ninja_farm.vtt" srclang="en" label="English" default>
+  </video>
+
+  <video controls>
+    <source src="azul_mochkil_pirates.mp4" type="video/mp4">
+    <track kind="subtitles" src="azul_mochkil_pirates.vtt" srclang="en" label="English" default>
+  </video>
+
+  <video controls>
+    <source src="azul_mochkil_space_voyager.mp4" type="video/mp4">
+    <track kind="subtitles" src="azul_mochkil_space_voyager.vtt" srclang="en" label="English" default>
+  </video>
+
+  <video controls>
+    <source src="azul_mochkil_taco_truck.mp4" type="video/mp4">
+    <track kind="subtitles" src="azul_mochkil_taco_truck.vtt" srclang="es" label="Español" default>
+  </video>
+
+  <video controls>
+    <source src="mochkil_sweet_dream.mp4" type="video/mp4">
+  </video>
+
+  <video controls>
+    <source src="azul_lori_hacker.mp4" type="video/mp4">
+    <track kind="subtitles" src="azul_lori_hacker.vtt" srclang="en" label="English" default>
+  </video>
+
+  <script>
+    const azulReplies = [
+      "Azul 🧪 floats by, holographic paws glowing, ready for mischief ✨.",
+      "Mochkil 🍪 sails carefully down a river of milk 🍶, giggling at every cookie rock!",
+      "A chocolate syrup waterfall cascades nearby — Mochkil can’t resist 😸.",
+      "Cotton candy clouds drift slowly above Maximum Reality ☁️.",
+      "Azul 🧪 hacks the scammers again 💻, laser-focused and glowing green.",
+      "Macaron mountains rise in the distance; Mochkil 🍪 looks amazed 🏔️.",
+      "Mochkil 🍪 tries to eat everything in sight — and it instantly replenishes 😋.",
+      "Azul 🧪 floats upside-down, whispering secrets of Maximum Reality 🌀.",
+      "A glowing holographic snack lands beside Mochkil 🍪 — lucky him! 🍪",
+      "Azul 🧪 zips past in a neon trail, leaving sparkling code behind ✨."
+    ];
+
+    const randomPrompts = [
+      "What is Mochkil dreaming today? 🍪",
+      "What hack is Azul working on? 🧪",
+      "What's happening in Maximum Reality right now? 🌌",
+      "Pirates Adventure! 🏴‍☠️",
+      "Space voyage time! 🚀"
+    ];
+
+    function showTypingIndicator(show) {
+      document.getElementById('typingIndicator').style.display = show ? 'block' : 'none';
+    }
+
+    function addResponse() {
+      const input = document.getElementById('promptInput');
+      const responses = document.getElementById('responses');
+      if (input.value.trim() === '') return;
+
+      showTypingIndicator(true);
+      setTimeout(() => {
+        showTypingIndicator(false);
+
+        const userPrompt = input.value;
+        const reply = azulReplies[Math.floor(Math.random() * azulReplies.length)];
+
+        const div = document.createElement('div');
+        div.className = 'response';
+        div.innerHTML = `
+          <strong>You:</strong> ${userPrompt}<br>
+          <img src="azul.png" class="character"> <strong>Azul & Mochkil:</strong> ${reply}
+        `;
+        responses.prepend(div);
+        input.value = '';
+      }, 800);
+    }
+
+    function randomPrompt() {
+      const prompt = randomPrompts[Math.floor(Math.random() * randomPrompts.length)];
+      document.getElementById('promptInput').value = prompt;
+    }
+  </script>
+
+</body>
+</html>
