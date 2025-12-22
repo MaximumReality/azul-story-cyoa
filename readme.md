@@ -52,7 +52,7 @@ Designed to work smoothly on iPhone / iOS Safari, including GitHub Pages hosting
 	1.	Clone or download this repository
 	2.	Keep index.html, all .mp4 videos, and .vtt subtitle files in the same folder
 	3.	Open index.html in your browser (or via GitHub Pages)
-	4.	Chat, choose adventures, roll the 🎲, and unlock stories
+	4.	Chat, choose adventures, roll the 🎲, and unlock stories.
 
 ⸻
 
