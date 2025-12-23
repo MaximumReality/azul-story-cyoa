@@ -13,7 +13,6 @@ body {
   padding:2rem;
   margin:0;
   min-height:100vh;
-  overflow-x:hidden;
 }
 
 h1 {
@@ -26,7 +25,7 @@ h1 {
 p {
   text-align:center;
   color:#aaa;
-  margin-bottom:2rem;
+  margin-bottom:1rem;
 }
 
 #chatContainer {
@@ -37,7 +36,7 @@ p {
   gap:1rem;
 }
 
-input[type="text"] {
+input[type="text"], input[type="text"].nameInput {
   font-family:monospace;
   font-size:1rem;
   padding:0.5rem;
@@ -82,7 +81,7 @@ button:hover {
 
 .response strong {
   color:#39ff14;
-  text-shadow: 0 0 5px #ff00ff;
+  text-shadow:0 0 5px #ff00ff;
 }
 
 img.character {
@@ -130,18 +129,20 @@ video {
   color:#39ff14;
   text-decoration:none;
 }
+
 .neon-link:hover {
-  text-shadow:0 0 5px #ff00ff,0 0 10px #39ff14;
+  text-shadow:0 0 5px #ff00ff, 0 0 10px #39ff14;
 }
 </style>
 </head>
 <body>
 
 <h1>Chat with Azul & Mochkil 🐱🐈‍⬛</h1>
-<p>Ask a question or start an adventure! Enter your name (optional):</p>
+<p>Enter your name (optional):</p>
+<input type="text" id="playerName" class="nameInput" placeholder="Your name...">
+<p>Ask a question or start an adventure!</p>
 
 <div id="chatContainer">
-  <input type="text" id="playerName" placeholder="Your name...">
   <input type="text" id="promptInput" placeholder="Type your story prompt here...">
   <div>
     <button onclick="addResponse()">Send</button>
@@ -168,7 +169,7 @@ video {
 
 <script>
 // Character replies
-const azulReplies = [
+const azulReplies=[
   "Oh, sure… like I haven’t seen this before 😏",
   "Adventure calls! Hope you can keep up 🚀",
   "Sarcastic comment loaded… but I’ll save it for the dramatic moment 😎",
@@ -178,7 +179,7 @@ const azulReplies = [
   "Bet you didn’t expect THAT in Maximum Reality! 🧪"
 ];
 
-const mochkilReplies = [
+const mochkilReplies=[
   "Is it snack time yet? 🍪",
   "I’ll eat everything in sight… maybe later 😋",
   "Bored… let’s play ninjas! 🥷🏻",
@@ -189,20 +190,20 @@ const mochkilReplies = [
 ];
 
 // Random prompts
-const randomPrompts = [
+const randomPrompts=[
   "What is Mochkil dreaming today? 🍪",
   "What hack is Azul working on? 🧪",
   "What's happening in Maximum Reality right now? 🌌",
   "Pirates Adventure! 🏴‍☠️",
   "Space voyage time! 🚀",
-  "Taco truck adventure 🌮",
-  "Treasure cave ⚱️",
-  "Visit Dr Azul 🩺"
+  "Dr Azul appointment 🩺",
+  "Treasure cave ⚱️"
 ];
 
 // Typing indicator
-const typingIndicator = document.getElementById('typingIndicator');
+const typingIndicator=document.getElementById('typingIndicator');
 let typingInterval;
+
 function showTypingIndicator(show){
   if(show){
     typingIndicator.style.display='block';
@@ -214,10 +215,10 @@ function showTypingIndicator(show){
   }
 }
 
-// Story videos and questions
-const stories = {
+// Stories
+const stories={
   taco:{
-    title: "Taco Adventure 🌮",
+    title:"Taco Adventure 🌮",
     triggers:["taco","🌮"],
     questions:[
       {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"],correct:0},
@@ -232,8 +233,8 @@ const stories = {
     video:"azul_mochkil_taco_truck.mp4",
     vtt:"azul_mochkil_taco_truck.vtt"
   },
-  pirate:{
-    title: "Pirate Adventure 🏴‍☠️",
+  pirates:{
+    title:"Pirate Adventure 🏴‍☠️",
     triggers:["pirate","🏴‍☠️"],
     questions:[
       {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"],correct:0},
@@ -266,7 +267,7 @@ const stories = {
   },
   moon:{
     title:"Moon Picnic 🌌",
-    triggers:["moon","🌌"],
+    triggers:["moon","picnic","🌌"],
     questions:[
       {q:"Do you enjoy the picnic?",a:["Yes","Float away","Ignore"],correct:0},
       {q:"Pick a snack:",a:["Moon cheese","Space fruit","Chocolate"],correct:1},
@@ -281,7 +282,7 @@ const stories = {
   },
   hacker:{
     title:"Hacker Competition 💻",
-    triggers:["hacker","💻"],
+    triggers:["hack","💻"],
     questions:[
       {q:"Do you hack the scammers?",a:["Yes","No","Try later"],correct:0},
       {q:"Keyboard preference?",a:["Mechanical","Soft","Virtual"],correct:0},
@@ -294,56 +295,45 @@ const stories = {
     video:"azul_lori_hacker.mp4",
     vtt:"azul_lori_hacker.vtt"
   },
-  jungle:{
-    title:"Jungle Adventure 🌴",
-    triggers:["jungle","🌴"],
-    questions:[],
-    video:"azul_mochkil_jungle.mp4"
-  },
-  olivegrove:{
-    title:"Olive Grove 🫒",
-    triggers:["olive","🫒"],
-    questions:[],
-    video:"azul_mochkil_olivegrove.mp4"
-  },
-  treasure:{
-    title:"Treasure Cave ⚱️",
-    triggers:["treasure","⚱️"],
-    questions:[],
-    video:"treasure_cave.mp4"
-  },
-  newzealand:{
-    title:"New Zealand Adventure 🥝",
-    triggers:["new zealand","🥝"],
-    questions:[],
-    video:"azul_mochkil_new_zealand.mp4"
-  },
-  ninja:{
-    title:"Ninja Farm 🥷🏻",
-    triggers:["ninja","🥷🏻"],
-    questions:[],
-    video:"azul_mochkil_ninja_farm.mp4",
-    vtt:"azul_mochkil_ninja_farm.vtt"
-  },
   dr_azul:{
-    title:"Dr Azul 🩺🩻🥼",
-    triggers:["dr azul","🩺","🩻","🥼"],
-    questions:[],
+    title:"Dr Azul 🩺",
+    triggers:["doctor","🩺","dr azul"],
+    questions:[
+      {q:"Mochkil complains of a tummy ache. What do you do?",a:["Check patient file","Give candy","Ignore"],correct:0},
+      {q:"Patient lets out a fart. Your response?",a:["Sigh","Laugh","Look away"],correct:0},
+      {q:"Update patient file?",a:["Yes","No","Maybe"],correct:0}
+    ],
     video:"dr_azul.mp4"
   },
   mochkil_dream:{
-    title:"Mochkil’s Sweet Dream 😴",
-    triggers:["dream","sweet dream","💤"],
-    questions:[],
+    title:"Mochkil Sweet Dream 🍪",
+    triggers:["dream","sweet","🍪"],
+    questions:[
+      {q:"What snack is Mochkil dreaming of?",a:["Cookies","Fish","Milk"],correct:0}
+    ],
     video:"mochkil_sweet_dream.mp4"
+  },
+  treasure:{
+    title:"Treasure Cave ⚱️",
+    triggers:["treasure","cave","⚱️"],
+    questions:[
+      {q:"Do you enter the cave?",a:["Yes","No","Peek"],correct:0},
+      {q:"Pick up shiny objects?",a:["Yes","No","Maybe"],correct:0}
+    ],
+    video:"treasure_cave.mp4"
   }
 };
 
+// Azulo commercials
+const azuloCommercials=[
+  "azulo1.mp4","azulo2.mp4","azulo3.mp4","azulo4.mp4","azulo5.mp4","azulo6.mp4","azulo7.mp4"
+];
+
+// Story state
 let storyProgress=null;
 let questionIndex=0;
-const videosContainer=document.getElementById('videosContainer');
 
-// Add chat responses
+// Add response
 function addResponse(){
   const input=document.getElementById('promptInput');
   if(input.value.trim()==='') return;
@@ -372,6 +362,17 @@ function addResponse(){
       }
     }
 
+    // 10% chance to unlock a commercial
+    const chance=Math.random();
+    if(chance<=0.1){
+      const commercial=azuloCommercials[Math.floor(Math.random()*azuloCommercials.length)];
+      unlockVideo(commercial);
+      const div2=document.createElement('div');
+      div2.className='response';
+      div2.innerHTML=`💡 Surprise! You unlocked a special Azulo commercial!`;
+      document.getElementById('responses').prepend(div2);
+    }
+
     input.value='';
   },1000);
 }
@@ -393,7 +394,7 @@ function startStory(key){
 function showNextQuestion(){
   if(!storyProgress) return;
   const story=stories[storyProgress];
-  if(questionIndex >= (story.questions.length || 0)){
+  if(questionIndex>=story.questions.length){
     unlockVideo(story.video, story.vtt);
     storyProgress=null;
     return;
@@ -440,6 +441,5 @@ function unlockVideo(src,vtt){
   if(navigator.vibrate) navigator.vibrate(100);
 }
 </script>
-
 </body>
 </html>
