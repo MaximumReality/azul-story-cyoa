@@ -186,7 +186,14 @@ const randomPrompts = [
   "Azul floats upside-down, what is he thinking? 🌀",
   "Secret treasure hidden nearby, do we investigate? 🏴‍☠️",
   "Strange sounds in the cave, do we follow them? 🕯️",
-  "Luna's birthday party, any surprises? 🎉"
+  "Luna's birthday party, any surprises? 🎉",
+  
+  // New adventures
+  "Visit Dr. Azul today 🩺",
+  "Explore the treasure cave 🏰",
+  "Birthday cake chaos 🎂",
+  "New Zealand adventure 🇳🇿",
+  "Ninja farm training 🥷🌾"
 ];
 
 // Typing indicator
@@ -205,103 +212,146 @@ function showTypingIndicator(show){
 
 // Story and questions
 const stories = {
-  taco:{title:"Taco Adventure 🌮", questions:[
-    {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"],correct:0},
-    {q:"What topping do you choose?",a:["Chicken","Beef","Mystery taco"],correct:2},
-    {q:"Do you want salsa on it?",a:["Yes!","No","Extra spicy"],correct:0},
-    {q:"Choose a side:",a:["Churros","Fries","Nothing"],correct:0},
-    {q:"Drink preference?",a:["Soda","Water","Juice"],correct:2},
-    {q:"Where do you eat it?",a:["Bench","Street","On a roof"],correct:0},
-    {q:"Is Mochkil trying to sneak a bite?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0}
-  ], video:"azul_mochkil_taco_truck.mp4", vtt:"azul_mochkil_taco_truck.vtt"},
+  taco:{
+    title: "Taco Adventure 🌮",
+    questions:[
+      {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"],correct:0},
+      {q:"What topping do you choose?",a:["Chicken","Beef","Mystery taco"],correct:2},
+      {q:"Do you want salsa on it?",a:["Yes!","No","Extra spicy"],correct:0},
+      {q:"Choose a side:",a:["Churros","Fries","Nothing"],correct:0},
+      {q:"Drink preference?",a:["Soda","Water","Juice"],correct:2},
+      {q:"Where do you eat it?",a:["Bench","Street","On a roof"],correct:0},
+      {q:"Is Mochkil trying to sneak a bite?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0},
+    ],
+    video:"azul_mochkil_taco_truck.mp4",
+    vtt:"azul_mochkil_taco_truck.vtt"
+  },
+  pirate:{
+    title: "Pirate Adventure 🏴‍☠️",
+    questions:[
+      {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"],correct:0},
+      {q:"Pick a pirate role:",a:["Captain","Cook","Deckhand"],correct:0},
+      {q:"Weapon of choice?",a:["Sword","Cannon","Map"],correct:0},
+      {q:"Treasure preference?",a:["Gold","Gems","Map"],correct:1},
+      {q:"Do you sing a sea shanty?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Hide or fight?",a:["Hide","Fight","Negotiate"],correct:2},
+      {q:"Ship color?",a:["Black","Red","White"],correct:0},
+      {q:"Parrot companion?",a:["Yes","No","Mochkil"],correct:2}
+    ],
+    video:"azul_mochkil_pirates.mp4",
+    vtt:"azul_mochkil_pirates.vtt"
+  },
+  space:{
+    title:"Space Voyage 🚀",
+    questions:[
+      {q:"Launch the spaceship?",a:["Yes","No","Hack navigation"],correct:0},
+      {q:"Destination?",a:["Moon","Mars","Mystery planet"],correct:1},
+      {q:"Fuel check?",a:["Full","Half","Empty"],correct:0},
+      {q:"Co-pilot?",a:["Azul","Mochkil","You"],correct:2},
+      {q:"Alien greeting?",a:["Wave","Laser","Hide"],correct:0},
+      {q:"Collect samples?",a:["Yes","No","Just look"],correct:0},
+      {q:"Zero gravity meal?",a:["Freeze-dried","Pizza","Tacos"],correct:0},
+      {q:"Do you float upside-down?",a:["Yes","No","Maybe"],correct:0}
+    ],
+    video:"azul_mochkil_space_voyager.mp4",
+    vtt:"azul_mochkil_space_voyager.vtt"
+  },
+  moon:{
+    title:"Moon Picnic 🌌",
+    questions:[
+      {q:"Do you enjoy the picnic?",a:["Yes","Float away","Ignore"],correct:0},
+      {q:"Pick a snack:",a:["Moon cheese","Space fruit","Chocolate"],correct:1},
+      {q:"Seat location?",a:["Crater","Rover","Blanket"],correct:2},
+      {q:"Bring a blanket?",a:["Yes","No","Use suit"],correct:0},
+      {q:"Look at stars?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Who floats away?",a:["You","Mochkil","Azul"],correct:2},
+      {q:"Take photos?",a:["Yes","No","Draw"],correct:0}
+    ],
+    video:"azul_lori_moon_picnic.mp4",
+    vtt:"azul_lori_moon_picnic.vtt"
+  },
+  hacker:{
+    title:"Hacker Competition 💻",
+    questions:[
+      {q:"Do you hack the scammers?",a:["Yes","No","Try later"],correct:0},
+      {q:"Keyboard preference?",a:["Mechanical","Soft","Virtual"],correct:0},
+      {q:"Which software?",a:["Custom","Standard","Mystery"],correct:0},
+      {q:"Co-hacker?",a:["Azul","Mochkil","No one"],correct:1},
+      {q:"Level of stealth?",a:["High","Medium","Low"],correct:0},
+      {q:"Victory celebration?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Public or private?",a:["Private","Public","Secret"],correct:0}
+    ],
+    video:"azul_lori_hacker.mp4",
+    vtt:"azul_lori_hacker.vtt"
+  },
 
-  pirate:{title:"Pirate Adventure 🏴‍☠️", questions:[
-    {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"],correct:0},
-    {q:"Pick a pirate role:",a:["Captain","Cook","Deckhand"],correct:0},
-    {q:"Weapon of choice?",a:["Sword","Cannon","Map"],correct:0},
-    {q:"Treasure preference?",a:["Gold","Gems","Map"],correct:1},
-    {q:"Do you sing a sea shanty?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Hide or fight?",a:["Hide","Fight","Negotiate"],correct:2},
-    {q:"Ship color?",a:["Black","Red","White"],correct:0},
-    {q:"Parrot companion?",a:["Yes","No","Mochkil"],correct:2}
-  ], video:"azul_mochkil_pirates.mp4", vtt:"azul_mochkil_pirates.vtt"},
-
-  space:{title:"Space Voyage 🚀", questions:[
-    {q:"Launch the spaceship?",a:["Yes","No","Hack navigation"],correct:0},
-    {q:"Destination?",a:["Moon","Mars","Mystery planet"],correct:1},
-    {q:"Fuel check?",a:["Full","Half","Empty"],correct:0},
-    {q:"Co-pilot?",a:["Azul","Mochkil","You"],correct:2},
-    {q:"Alien greeting?",a:["Wave","Laser","Hide"],correct:0},
-    {q:"Collect samples?",a:["Yes","No","Just look"],correct:0},
-    {q:"Zero gravity meal?",a:["Freeze-dried","Pizza","Tacos"],correct:0},
-    {q:"Do you float upside-down?",a:["Yes","No","Maybe"],correct:0}
-  ], video:"azul_mochkil_space_voyager.mp4", vtt:"azul_mochkil_space_voyager.vtt"},
-
-  moon:{title:"Moon Picnic 🌌", questions:[
-    {q:"Do you enjoy the picnic?",a:["Yes","Float away","Ignore"],correct:0},
-    {q:"Pick a snack:",a:["Moon cheese","Space fruit","Chocolate"],correct:1},
-    {q:"Seat location?",a:["Crater","Rover","Blanket"],correct:2},
-    {q:"Bring a blanket?",a:["Yes","No","Use suit"],correct:0},
-    {q:"Look at stars?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Who floats away?",a:["You","Mochkil","Azul"],correct:2},
-    {q:"Take photos?",a:["Yes","No","Draw"],correct:0}
-  ], video:"azul_lori_moon_picnic.mp4", vtt:"azul_lori_moon_picnic.vtt"},
-
-  hacker:{title:"Hacker Competition 💻", questions:[
-    {q:"Do you hack the scammers?",a:["Yes","No","Try later"],correct:0},
-    {q:"Keyboard preference?",a:["Mechanical","Soft","Virtual"],correct:0},
-    {q:"Which software?",a:["Custom","Standard","Mystery"],correct:0},
-    {q:"Co-hacker?",a:["Azul","Mochkil","No one"],correct:1},
-    {q:"Level of stealth?",a:["High","Medium","Low"],correct:0},
-    {q:"Victory celebration?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Public or private?",a:["Private","Public","Secret"],correct:0}
-  ], video:"azul_lori_hacker.mp4", vtt:"azul_lori_hacker.vtt"},
-
-  dr_azul:{title:"Visit Dr. Azul 🩺", questions:[
-    {q:"What do you tell Dr. Azul?",a:["My belly hurts","Nothing","I need advice"],correct:0},
-    {q:"Do you wait patiently?",a:["Yes","No","Peek at files"],correct:0},
-    {q:"Do you apologize for Mochkil's fart?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Choose a snack while waiting:",a:["Cake","Cookies","Nothing"],correct:0},
-    {q:"Do you leave or stay?",a:["Leave","Stay","Ask more questions"],correct:1},
-    {q:"Do you wave goodbye?",a:["Yes","No","Maybe"],correct:0}
-  ], video:"dr_azul.mp4", vtt:null},
-
-  birthday_cake:{title:"Birthday Cake Adventure 🎂", questions:[
-    {q:"Do you let Mochkil eat the cake?",a:["Yes","No","Only a slice"],correct:0},
-    {q:"Do you bring a spare cake?",a:["Yes","No","Don't bother"],correct:0},
-    {q:"Who eats first?",a:["Mochkil","Luna","Azul"],correct:0},
-    {q:"Do you blow candles?",a:["Yes","No","Skip"],correct:0},
-    {q:"Share with friends?",a:["Yes","No","Only Mochkil"],correct:0},
-    {q:"Clean up afterwards?",a:["Yes","No","Maybe"],correct:0}
-  ], video:"birthday_cake.mp4", vtt:null},
-
-  treasure_cave:{title:"Treasure Cave Adventure 🏰", questions:[
-    {q:"Do you enter the cave?",a:["Yes","No","Peek in"],correct:0},
-    {q:"Pick a torch?",a:["Small","Large","Magic"],correct:2},
-    {q:"Do you touch treasure?",a:["Yes","No","Just look"],correct:0},
-    {q:"Take some coins?",a:["Yes","No","Share with friends"],correct:0},
-    {q:"Do you shout 'Eureka'?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Exit the cave?",a:["Yes","No","Explore more"],correct:0}
-  ], video:"treasure_cave.mp4", vtt:null},
-
-  new_zealand:{title:"New Zealand Adventure 🥝", questions:[
-    {q:"Do you visit the mountains?",a:["Yes","No","Maybe"],correct:0},
-    {q:"See the kiwis?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Try bungee jumping?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Meet the locals?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Do you collect souvenirs?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Take a photo?",a:["Yes","No","Maybe"],correct:0}
-  ], video:"azul_mochkil_new_zealand.mp4", vtt:null},
-
-  ninja_farm:{title:"Ninja Farm Adventure 🥷🌾", questions:[
-    {q:"Sneak past the animals?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Do you practice ninja moves?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Feed the chickens?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Collect eggs?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Hide from Mochkil?",a:["Yes","No","Maybe"],correct:0},
-    {q:"Do a flip?",a:["Yes","No","Maybe"],correct:0}
-  ], video:"azul_mochkil_ninja_farm.mp4", vtt:"azul_mochkil_ninja_farm.vtt"}
+  // NEW ADVENTURES
+  dr_azul:{
+    title:"Dr. Azul Visit 🩺",
+    questions:[
+      {q:"How do you greet Dr. Azul?", a:["Hello","Hi","Good day"], correct:0},
+      {q:"Do you tell him your problem?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Eat more snacks?", a:["Yes","No","Surprise"], correct:0},
+      {q:"Ask for advice?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Leave the office?", a:["Yes","No","Sneak out"], correct:0},
+      {q:"Say thank you?", a:["Yes","No","Maybe"], correct:0}
+    ],
+    video:"dr_azul.mp4",
+    vtt:""
+  },
+  treasure_cave:{
+    title:"Treasure Cave 🏰",
+    questions:[
+      {q:"Do you enter the cave?", a:["Yes","No","Wait"], correct:0},
+      {q:"Pick a torch?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Go left or right?", a:["Left","Right","Straight"], correct:1},
+      {q:"Take a gold coin?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Open a treasure box?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Shout 'Ali Baba'?", a:["Yes","No","Maybe"], correct:0}
+    ],
+    video:"treasure_cave.mp4",
+    vtt:""
+  },
+  birthday_cake:{
+    title:"Birthday Cake Chaos 🎂",
+    questions:[
+      {q:"Who eats the cake first?", a:["Mochkil","Azul","You"], correct:0},
+      {q:"Share with friends?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Blow out candles?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Sing Happy Birthday?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Clean up mess?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Eat leftovers?", a:["Yes","No","Maybe"], correct:0}
+    ],
+    video:"birthday_cake.mp4",
+    vtt:""
+  },
+  new_zealand:{
+    title:"New Zealand Adventure 🇳🇿",
+    questions:[
+      {q:"Explore the mountains?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Ride a sheep?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Visit a kiwi farm?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Take photos?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Eat kiwi fruit?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Camp overnight?", a:["Yes","No","Maybe"], correct:0}
+    ],
+    video:"azul_mochkil_new_zealand.mp4",
+    vtt:""
+  },
+  ninja_farm:{
+    title:"Ninja Farm 🥷🌾",
+    questions:[
+      {q:"Practice ninja moves?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Hide from Mochkil?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Catch vegetables?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Feed animals?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Climb the barn?", a:["Yes","No","Maybe"], correct:0},
+      {q:"Jump over fences?", a:["Yes","No","Maybe"], correct:0}
+    ],
+    video:"azul_mochkil_ninja_farm.mp4",
+    vtt:"azul_mochkil_ninja_farm.vtt"
+  }
 };
 
 // Map friendly keywords to story keys
