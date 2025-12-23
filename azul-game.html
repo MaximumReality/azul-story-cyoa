@@ -340,13 +340,17 @@ function addResponse(){
       <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}`;
     document.getElementById('responses').prepend(div);
 
-    // Check keyword to start adventure
-    for(const phrase in storyKeywords){
-      if(userPrompt.toLowerCase().includes(phrase)){
-        startStory(storyKeywords[phrase]);
-        break;
-      }
+   // Check keyword to start adventure (works for typed or random prompts)
+const keyword = userPrompt.toLowerCase();
+for(const key in stories){
+  if(keyword.includes(key)){
+    // Start story if not already in progress
+    if(!storyProgress) {
+      startStory(key);
     }
+    break;
+  }
+}
     input.value='';
   },1000);
 }
@@ -355,6 +359,15 @@ function addResponse(){
 function randomPrompt(){
   const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
   document.getElementById('promptInput').value = prompt;
+
+  // Automatically trigger story if prompt matches a keyword
+  const keyword = prompt.toLowerCase();
+  for(const key in stories){
+    if(keyword.includes(key)){
+      if(!storyProgress) startStory(key);
+      break;
+    }
+  }
 }
 
 // Start story
