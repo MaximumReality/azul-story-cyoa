@@ -210,11 +210,14 @@ const randomPrompts = [
   "Space voyage time! 🚀",
   "Treasure Cave ⚱️",
   "Taco Truck 🌮",
-  "Dr Azul 🧪"
+  "Dr Azul 🧪",
+  "Mochkil's Sweet Dream 🍪",
+  "New Zealand 🇳🇿",
+  "Surprise Azulo Commercial 🎥"
 ];
 
 // Typing indicator
-const typingIndicator = document.getElementById('typingIndicator');
+const typingIndicator=document.getElementById('typingIndicator');
 let typingInterval;
 function showTypingIndicator(show){
   if(show){
@@ -229,85 +232,78 @@ function showTypingIndicator(show){
   }
 }
 
-// Story and questions
-const stories = {
-  taco:{
-    title:"Taco Adventure 🌮",
-    questions:[
-      {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"]},
-      {q:"What topping do you choose?",a:["Chicken","Beef","Mystery taco"]},
-      {q:"Do you want salsa on it?",a:["Yes!","No","Extra spicy"]},
-      {q:"Choose a side:",a:["Churros","Fries","Nothing"]},
-      {q:"Drink preference?",a:["Soda","Water","Juice"]},
-      {q:"Where do you eat it?",a:["Bench","Street","On a roof"]},
-      {q:"Is Mochkil trying to sneak a bite?",a:["Yes","No","Maybe"]},
-      {q:"Do you share your taco?",a:["Yes","No","With Azul"]}
-    ],
-    video:"azul_mochkil_taco_truck.mp4",
-    vtt:"azul_mochkil_taco_truck.vtt"
-  },
-  pirate:{
-    title:"Pirate Adventure 🏴‍☠️",
-    questions:[
-      {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"]},
-      {q:"Pick a pirate role:",a:["Captain","Cook","Deckhand"]},
-      {q:"Weapon of choice?",a:["Sword","Cannon","Map"]},
-      {q:"Treasure preference?",a:["Gold","Gems","Map"]},
-      {q:"Do you sing a sea shanty?",a:["Yes","No","Maybe"]},
-      {q:"Hide or fight?",a:["Hide","Fight","Negotiate"]},
-      {q:"Ship color?",a:["Black","Red","White"]},
-      {q:"Parrot companion?",a:["Yes","No","Mochkil"]}
-    ],
-    video:"azul_mochkil_pirates.mp4",
-    vtt:"azul_mochkil_pirates.vtt"
-  },
-  space:{
-    title:"Space Voyage 🚀",
-    questions:[
-      {q:"Launch the spaceship?",a:["Yes","No","Hack navigation"]},
-      {q:"Destination?",a:["Moon","Mars","Mystery planet"]},
-      {q:"Fuel check?",a:["Full","Half","Empty"]},
-      {q:"Co-pilot?",a:["Azul","Mochkil","You"]},
-      {q:"Alien greeting?",a:["Wave","Laser","Hide"]},
-      {q:"Collect samples?",a:["Yes","No","Just look"]},
-      {q:"Zero gravity meal?",a:["Freeze-dried","Pizza","Tacos"]},
-      {q:"Do you float upside-down?",a:["Yes","No","Maybe"]}
-    ],
-    video:"azul_mochkil_space_voyager.mp4",
-    vtt:"azul_mochkil_space_voyager.vtt"
-  },
-  dr_azul:{
-    title:"Dr Azul 🧪",
-    questions:[
-      {q:"Do you enter Dr Azul's lab?",a:["Yes","Peek through window","Run away"]},
-      {q:"Which experiment do you try?",a:["Potion","Laser","Robot"]},
-      {q:"Mix carefully?",a:["Yes","No","Ask Mochkil"]},
-      {q:"Wear protective gear?",a:["Yes","No","Too late"]},
-      {q:"Take notes?",a:["Yes","No","Draw doodles"]}
-    ],
-    video:"dr_azul.mp4",
-    vtt:"dr_azul.vtt"
-  },
-  treasure:{
-    title:"Treasure Cave ⚱️",
-    questions:[
-      {q:"Enter the mysterious cave?",a:["Yes","No","Sneak in"]},
-      {q:"Torch or flashlight?",a:["Torch","Flashlight","Glow"]},
-      {q:"Pick a chest?",a:["Gold","Silver","Mystery"]},
-      {q:"Open carefully?",a:["Yes","No","Maybe"]},
-      {q:"Share with Mochkil?",a:["Yes","No","With Azul"]}
-    ],
-    video:"treasure_cave.mp4",
-    vtt:"treasure_cave.vtt"
-  }
-  // Add more adventures as needed
+// Stories
+const stories={
+  taco:{title:"Taco Adventure 🌮",questions:[
+    {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"]},
+    {q:"What topping do you choose?",a:["Chicken","Beef","Mystery taco"]},
+    {q:"Do you want salsa on it?",a:["Yes!","No","Extra spicy"]},
+    {q:"Choose a side:",a:["Churros","Fries","Nothing"]},
+    {q:"Drink preference?",a:["Soda","Water","Juice"]},
+    {q:"Where do you eat it?",a:["Bench","Street","On a roof"]},
+    {q:"Is Mochkil trying to sneak a bite?",a:["Yes","No","Maybe"]},
+    {q:"Do you share your taco?",a:["Yes","No","With Azul"]}
+  ],video:"azul_mochkil_taco_truck.mp4",vtt:"azul_mochkil_taco_truck.vtt"},
+  pirate:{title:"Pirate Adventure 🏴‍☠️",questions:[
+    {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"]},
+    {q:"Pick a pirate role:",a:["Captain","Cook","Deckhand"]},
+    {q:"Weapon of choice?",a:["Sword","Cannon","Map"]},
+    {q:"Treasure preference?",a:["Gold","Gems","Map"]},
+    {q:"Do you sing a sea shanty?",a:["Yes","No","Maybe"]},
+    {q:"Hide or fight?",a:["Hide","Fight","Negotiate"]},
+    {q:"Ship color?",a:["Black","Red","White"]},
+    {q:"Parrot companion?",a:["Yes","No","Mochkil"]}
+  ],video:"azul_mochkil_pirates.mp4",vtt:"azul_mochkil_pirates.vtt"},
+  space:{title:"Space Voyage 🚀",questions:[
+    {q:"Launch the spaceship?",a:["Yes","No","Hack navigation"]},
+    {q:"Destination?",a:["Moon","Mars","Mystery planet"]},
+    {q:"Fuel check?",a:["Full","Half","Empty"]},
+    {q:"Co-pilot?",a:["Azul","Mochkil","You"]},
+    {q:"Alien greeting?",a:["Wave","Laser","Hide"]},
+    {q:"Collect samples?",a:["Yes","No","Just look"]},
+    {q:"Zero gravity meal?",a:["Freeze-dried","Pizza","Tacos"]},
+    {q:"Do you float upside-down?",a:["Yes","No","Maybe"]}
+  ],video:"azul_mochkil_space_voyager.mp4",vtt:"azul_mochkil_space_voyager.vtt"},
+  dr_azul:{title:"Dr Azul 🧪",questions:[
+    {q:"Do you enter Dr Azul's lab?",a:["Yes","Peek through window","Run away"]},
+    {q:"Which experiment do you try?",a:["Potion","Laser","Robot"]},
+    {q:"Mix carefully?",a:["Yes","No","Ask Mochkil"]},
+    {q:"Wear protective gear?",a:["Yes","No","Too late"]},
+    {q:"Take notes?",a:["Yes","No","Draw doodles"]}
+  ],video:"dr_azul.mp4",vtt:"dr_azul.vtt"},
+  treasure:{title:"Treasure Cave ⚱️",questions:[
+    {q:"Enter the mysterious cave?",a:["Yes","No","Sneak in"]},
+    {q:"Torch or flashlight?",a:["Torch","Flashlight","Glow"]},
+    {q:"Pick a chest?",a:["Gold","Silver","Mystery"]},
+    {q:"Open carefully?",a:["Yes","No","Maybe"]},
+    {q:"Share with Mochkil?",a:["Yes","No","With Azul"]}
+  ],video:"treasure_cave.mp4",vtt:"treasure_cave.vtt"},
+  mochkil_dream:{title:"Mochkil's Sweet Dream 🍪",questions:[
+    {q:"Where is Mochkil sleeping?",a:["Pillow","Box","Kitchen counter"]},
+    {q:"Dream snack?",a:["Cheese","Cookies","Fish"]},
+    {q:"Invite Azul?",a:["Yes","No","Maybe"]},
+    {q:"Night adventure?",a:["Yes","No","Float around"]},
+    {q:"Wake up gently?",a:["Yes","No","Jump start"]}
+  ],video:"mochkil_dream.mp4",vtt:"mochkil_dream.vtt"},
+  nz:{title:"New Zealand 🇳🇿",questions:[
+    {q:"Where do you go first?",a:["Beach","Mountain","City"]},
+    {q:"Try local food?",a:["Yes","No","Ask Mochkil"]},
+    {q:"Adventure activity?",a:["Bungee","Hiking","Relax"]},
+    {q:"Spot wildlife?",a:["Kiwi","Sheep","Nothing"]},
+    {q:"Take a selfie?",a:["Yes","No","Drone photo"]}
+  ],video:"new_zealand.mp4",vtt:"new_zealand.vtt"},
+  azulo_commercial:{title:"Surprise Azulo Commercial 🎥",questions:[
+    {q:"Watch commercial?",a:["Yes","No","Skip"]},
+    {q:"Snack preference?",a:["Cookies","Potion","Tacos"]},
+    {q:"Share with friends?",a:["Yes","No","Only Azul"]}
+  ],video:"azulo_commercial.mp4",vtt:"azulo_commercial.vtt"}
 };
 
-// Current state
+// State
 let storyProgress=null;
 let questionIndex=0;
 
-// Add chat responses
+// Chat responses
 function addResponse(){
   const name=document.getElementById('nameInput').value.trim()||"You";
   const input=document.getElementById('promptInput');
@@ -325,7 +321,7 @@ function addResponse(){
     <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}`;
     document.getElementById('responses').prepend(div);
 
-    // Check triggers for adventures
+    // Check for triggers
     const keyword=userPrompt.toLowerCase();
     for(const key in stories){
       if(keyword.includes(key)||keyword.includes(stories[key].title.toLowerCase())){
@@ -350,7 +346,7 @@ function startStory(storyKey){
   showNextQuestion();
 }
 
-// Show next question
+// Next question
 function showNextQuestion(){
   if(!storyProgress) return;
   const story=stories[storyProgress];
@@ -364,7 +360,7 @@ function showNextQuestion(){
   div.className='response';
   div.innerHTML=`<strong>Question ${questionIndex+1}:</strong> ${q.q}`;
   const btnContainer=document.createElement('div');
-  q.a.forEach((ans)=>{
+  q.a.forEach(ans=>{
     const btn=document.createElement('button');
     btn.textContent=ans;
     btn.onclick=()=>{
