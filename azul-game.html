@@ -36,20 +36,24 @@ button {
   animation:fadeIn 0.4s; line-height: 1.6;
 }
 
-/* SPRITES RESTORED */
-.sprite-row { display: flex; align-items: center; margin-top: 10px; }
+/* SPRITE FIX: Visible & Aligned */
+.sprite-row { display: flex !important; align-items: center !important; margin: 12px 0 !important; }
 .sprite-img { 
-  width: 45px; height: 45px; border-radius: 50%; 
-  border: 2px solid #39ff14; margin-right: 12px; background: #222;
+  width: 50px !important; height: 50px !important; 
+  border-radius: 50%; border: 2px solid #39ff14; 
+  margin-right: 12px; background: #222;
 }
 
 video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
 
+/* YOUR ORIGINAL FOOTER STYLE */
 footer {
-  text-align:center; margin-top:3rem; padding:1.5rem; 
-  border-top:1px solid #333; font-size: 0.5rem;
+  text-align:center; margin-top:3rem; padding:2rem; 
+  border-top:1px solid #333; font-size: 0.6rem; color: #f0f0f0;
 }
+.footer-title { margin-bottom: 15px; display: block; color: #ff69b4; }
 .neon-link { color:#39ff14; text-decoration:none; margin: 0 10px; }
+.copyright { display: block; margin-top: 15px; font-size: 0.45rem; color: #666; }
 
 @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1;} }
 </style>
@@ -60,7 +64,7 @@ footer {
 
 <div id="chatContainer">
   <input type="text" id="playerName" placeholder="Your name...">
-  <input type="text" id="promptInput" placeholder="Try 'Jungle', 'Hacker', or 'Azulo'...">
+  <input type="text" id="promptInput" placeholder="Try 'Azulo', 'Hacker', or 'Jungle'...">
   <div class="button-row">
     <button onclick="addResponse()">SEND</button>
     <button onclick="randomPrompt()">🎲 RANDOM</button>
@@ -71,37 +75,39 @@ footer {
 <div id="videosContainer"></div>
 
 <footer>
-  <a href="https://maximum-reality-shop.fourthwall.com/" target="_blank" class="neon-link">SHOP</a> |
-  <a href="https://buymeacoffee.com/MaximumReality" target="_blank" class="neon-link">COFFEE</a> |
-  <a href="https://www.youtube.com/@maximumrealityLori" target="_blank" class="neon-link">YOUTUBE</a>
+  <span class="footer-title">💖 Support & Follow Maximum Reality 💖</span>
+  <a href="https://maximum-reality-shop.fourthwall.com/" target="_blank" class="neon-link">Shop</a> |
+  <a href="https://buymeacoffee.com/MaximumReality" target="_blank" class="neon-link">Buy Me a Coffee</a> |
+  <a href="https://www.youtube.com/@maximumrealityLori" target="_blank" class="neon-link">YouTube</a>
+  <span class="copyright">© 2025 Maximum Reality</span>
 </footer>
 
 <script>
-const azulReplies = ["Did you bring the Azulo cereal?", "I'm hacking for more toy surprises.", "Downloading crunchiness...", "Mainframe: Optimized."];
-const mochkilReplies = ["Is there a toy in the box?", "I want the ninja toy!", "Crunch crunch crunch.", "Zzz... dreaming of cereal."];
+const azulReplies = ["Is it Azulo Cereal time yet?", "I'm optimizing the toy surprise.", "Hack the crunchiness!", "I only accept payment in cereal bits."];
+const mochkilReplies = ["I want the ninja toy from the box!", "Crunch crunch crunch!", "Can we live in a cereal box?", "Zzz... dreaming of blue milk."];
 
 const stories = {
-  hacker: { triggers: ["hacker", "💻"], video: "azul_lori_hacker.mp4", questions: [
-    {q: "Azul is hacking the cereal mainframe. Help?", a: ["Hack", "Wait"], correct: 0},
-    {q: "Firewall: 10 layers of crunch.", a: ["Bypass", "Smash"], correct: 0},
-    {q: "Lori needs a secure password.", a: ["Azulo123", "Admin"], correct: 0},
-    {q: "A scammer wants your prize!", a: ["Block", "Trace"], correct: 1},
-    {q: "The code is turning blue.", a: ["Keep going", "Stop"], correct: 0},
-    {q: "System over-crunching!", a: ["Fan it", "Wait"], correct: 0},
-    {q: "Binary revealed.", a: ["Read", "Guess"], correct: 0},
-    {q: "Final: Hack the surprise toy?", a: ["Success!", "Fail"], correct: 0}
+  hacker: { triggers: ["hacker", "coding", "💻"], video: "azul_lori_hacker.mp4", questions: [
+    {q: "Azul is at the keyboard. Assist him?", a: ["Hack", "Wait"], correct: 0},
+    {q: "The firewall is thick!", a: ["Code", "Smash"], correct: 0},
+    {q: "A scammer is calling Lori!", a: ["Trace", "Block"], correct: 0},
+    {q: "Lori needs a password.", a: ["Azulo99", "Admin"], correct: 0},
+    {q: "The code is scrolling fast!", a: ["Read it", "Ignore"], correct: 0},
+    {q: "Server is overheating.", a: ["Fan", "Type faster"], correct: 1},
+    {q: "Binary revealed.", a: ["Access", "Exit"], correct: 0},
+    {q: "Final: Did you help Azul?", a: ["Success!", "Fail"], correct: 0}
   ]},
   jungle: { triggers: ["jungle", "🌴"], video: "azul_mochkil_jungle.mp4", questions: [
-    {q: "Jungle is thick. Use machete?", a: ["Yes", "No"], correct: 0},
+    {q: "The jungle is thick. Use machete?", a: ["Yes", "No"], correct: 0},
     {q: "Mochkil sees a butterfly.", a: ["Stay", "Chase"], correct: 0},
-    {q: "Azul finds a flower.", a: ["Scan", "Pick"], correct: 0},
-    {q: "Monkey stole your hat!", a: ["Climb", "Run"], correct: 0},
+    {q: "Azul scans a rare leaf.", a: ["Scan", "Pick"], correct: 0},
+    {q: "A monkey stole your hat!", a: ["Climb", "Run"], correct: 0},
     {q: "River has piranhas.", a: ["Raft", "Swim"], correct: 0},
-    {q: "Ancient cat statue.", a: ["Bow", "Hiss"], correct: 0},
+    {q: "Ancient cat statue found.", a: ["Bow", "Ignore"], correct: 0},
     {q: "Glow in cave.", a: ["Enter", "Exit"], correct: 0},
-    {q: "Final: Hidden waterfall?", a: ["Yes", "No"], correct: 0}
-  ]},
-  // Add more stories following this pattern...
+    {q: "Final: Hidden waterfall?", a: ["Yes!", "No"], correct: 0}
+  ]}
+  // Note: All other 9 adventures go here...
 };
 
 function addResponse() {
@@ -110,15 +116,15 @@ function addResponse() {
   if(!text) return;
   const player = document.getElementById('playerName').value || "You";
 
-  // SPECIAL AZULO COMMERCIAL TRIGGER
+  // AZULO COMMERCIAL LOGIC
   if (text.includes("azulo")) {
-    const randNum = Math.floor(Math.random() * 4) + 1; // Randomly picks azulo1 to azulo4
+    const rand = Math.floor(Math.random() * 4) + 1; // Pulls azulo1.mp4, azulo2.mp4, etc.
     const div = document.createElement('div');
     div.className = 'response';
     div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
-      <strong>📺 COMMERCIAL BREAK: AZULO CEREAL!</strong>`;
+      <div style="color:#ff69b4; text-align:center;">✨ AZULO CEREAL COMMERCIAL BREAK! ✨</div>`;
     document.getElementById('responses').prepend(div);
-    playVideo(`azulo${randNum}.mp4`);
+    playVideo(`azulo${rand}.mp4`);
     input.value = "";
     return;
   }
