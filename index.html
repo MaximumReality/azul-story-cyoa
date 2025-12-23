@@ -44,6 +44,29 @@ body::after {
   100% { background-position: 0 10px; }
 }
 
+/* Neon grid behind video */
+.grid-background {
+  position:relative;
+  width:100%;
+  max-width:90%;
+  margin:1rem auto 2rem;
+  z-index:0;
+  height:320px; /* approximate video height */
+  background:
+    linear-gradient(0deg, rgba(57,255,20,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57,255,20,0.05) 1px, transparent 1px);
+  background-size:40px 40px;
+  animation:moveGrid 20s linear infinite;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 0 15px rgba(57,255,20,0.1), 0 0 25px rgba(0,255,255,0.1);
+}
+
+@keyframes moveGrid {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 40px, 40px 0; }
+}
+
 /* Drifting paws */
 .paw {
   position:fixed;
@@ -73,16 +96,19 @@ p.subtitle {
   font-size:0.95rem;
 }
 
-/* Video */
+/* Video styling */
 video {
-  max-width:90%;
+  max-width:100%;
   border:3px solid #39ff14;
   border-radius:10px;
   box-shadow:0 0 20px #ff00ff;
   display:block;
-  margin:1rem auto 2rem;
-  z-index:2;
-  position:relative;
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  z-index:1;
+  border-radius:10px;
 }
 
 /* Cards */
@@ -153,11 +179,13 @@ body::before {
 <h1>Maximum Reality</h1>
 <p class="subtitle">Welcome to the whimsical world of Azul 🧪 & Mochkil 🍪</p>
 
-<!-- Intro video -->
-<video controls>
-  <source src="maximum_intro.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<!-- Grid background container with video inside -->
+<div class="grid-background">
+  <video controls>
+    <source src="maximum_intro.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
 
 <!-- Description cards -->
 <div class="card">
