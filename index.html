@@ -111,25 +111,67 @@ p.subtitle {
   font-size:0.95rem;
 }
 
-/* Video styling with restored magenta glow */
+/* Video styling with green border, magenta glow, glitch & color shift */
 .grid-background video {
   max-width:100%;
-  border:3px solid #39ff14;
-  border-radius:10px;
-  box-shadow:0 0 20px #ff00ff, 0 0 30px #ff00ff inset;
-  display:block;
-  position:absolute;
-  top:0; left:0;
   width:100%;
   height:100%;
-  z-index:1;
+  border:3px solid #39ff14; /* green outline */
   border-radius:10px;
-  animation:videoGlowPulse 4s ease-in-out infinite alternate;
+  box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset; /* magenta glow */
+  display:block;
+  position:relative;
+  z-index:1;
+  animation:
+    videoGreenPulse 4s ease-in-out infinite alternate,
+    videoMagentaPulse 4s ease-in-out infinite alternate 2s,
+    videoGlitch 0.3s linear infinite,
+    videoColorShift 0.6s ease-in-out infinite alternate;
 }
 
-@keyframes videoGlowPulse {
-  0% { box-shadow:0 0 15px #ff00ff, 0 0 25px #ff00ff inset; }
-  100% { box-shadow:0 0 30px #ff00ff, 0 0 50px #ff00ff inset; }
+/* Green border pulse */
+@keyframes videoGreenPulse {
+  0% { border-color:#39ff14; }
+  50% { border-color:#7fff3f; }
+  100% { border-color:#39ff14; }
+}
+
+/* Magenta glow pulse */
+@keyframes videoMagentaPulse {
+  0% { box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset; }
+  50% { box-shadow:0 0 35px #ff00ff, 0 0 60px #ff00ff inset; }
+  100% { box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset; }
+}
+
+/* Subtle glitch/jitter */
+@keyframes videoGlitch {
+  0%   { transform: translate(0,0) rotate(0deg); }
+  10%  { transform: translate(-1px,1px) rotate(-0.2deg); }
+  20%  { transform: translate(1px,-1px) rotate(0.2deg); }
+  30%  { transform: translate(-1px,1px) rotate(0deg); }
+  40%  { transform: translate(1px,0px) rotate(-0.1deg); }
+  50%  { transform: translate(-1px,-1px) rotate(0.1deg); }
+  60%  { transform: translate(0px,1px) rotate(0deg); }
+  70%  { transform: translate(1px,-1px) rotate(-0.1deg); }
+  80%  { transform: translate(-1px,0px) rotate(0.1deg); }
+  90%  { transform: translate(0px,-1px) rotate(0deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+
+/* Subtle color shift on glow */
+@keyframes videoColorShift {
+  0% {
+    border-color:#39ff14;
+    box-shadow:0 0 25px #ff00ff, 0 0 45px #ff00ff inset;
+  }
+  50% {
+    border-color:#7fff3f;
+    box-shadow:0 0 25px #ff55ff, 0 0 50px #ff55ff inset;
+  }
+  100% {
+    border-color:#39ff14;
+    box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset;
+  }
 }
 
 /* Cards with smaller font */
