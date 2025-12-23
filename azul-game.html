@@ -6,39 +6,15 @@
 <title>Azul & Mochkil: Maximum Reality</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-body {
-  font-family:'Press Start 2P', cursive;
-  background: #0a0a0a; color:#f0f0f0;
-  padding:1rem; margin:0; font-size: 0.6rem;
-}
-
-h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size: 0.9rem; }
-
+body { font-family:'Press Start 2P', cursive; background: #0a0a0a; color:#f0f0f0; padding:1rem; margin:0; font-size: 0.6rem; }
+h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size: 0.8rem; }
 #chatContainer { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:0.8rem; }
-
-input[type="text"] {
-  font-family:monospace; font-size:16px; padding:0.8rem;
-  border-radius:5px; border:1px solid #333; width:100%;
-  box-sizing:border-box; background: #111; color: #39ff14;
-}
-
+input[type="text"] { font-family:monospace; font-size:16px; padding:0.8rem; border-radius:5px; border:1px solid #333; width:100%; box-sizing:border-box; background: #111; color: #39ff14; }
 .button-row { display: flex; gap: 10px; }
-button {
-  flex: 1; font-family: 'Press Start 2P'; font-size: 0.5rem;
-  padding: 0.8rem; background:#222; color:#39ff14;
-  border:2px solid #39ff14; border-radius:5px; cursor: pointer;
-}
-
-.response {
-  padding:1rem; border-radius:10px; background:#111;
-  border: 1px solid #39ff14; margin-top: 1rem;
-  animation:fadeIn 0.4s; line-height: 1.6;
-}
-
+button { flex: 1; font-family: 'Press Start 2P'; font-size: 0.5rem; padding: 0.8rem; background:#222; color:#39ff14; border:2px solid #39ff14; border-radius:5px; cursor: pointer; }
+.response { padding:1rem; border-radius:10px; background:#111; border: 1px solid #39ff14; margin-top: 1rem; animation:fadeIn 0.4s; line-height: 1.6; }
 .response strong { color: #39ff14; }
 img.character { width:40px; vertical-align:middle; border-radius:50%; margin-right:8px; border:1px solid #39ff14; }
-
 video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
 @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1;} }
 </style>
@@ -49,7 +25,7 @@ video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10
 
 <div id="chatContainer">
   <input type="text" id="playerName" placeholder="Your name...">
-  <input type="text" id="promptInput" placeholder="Try 'Dr Azul 🩺', 'Ninja', 'Moon'...">
+  <input type="text" id="promptInput" placeholder="Try 'Olive Grove', 'Moon', 'Dr Azul'...">
   <div class="button-row">
     <button onclick="addResponse()">SEND</button>
     <button onclick="randomPrompt()">🎲 RANDOM</button>
@@ -60,35 +36,59 @@ video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10
 <div id="videosContainer"></div>
 
 <script>
-const azulReplies = ["Sarcastic comment loading...", "I'm hacking the system!", "Walking is for humans. I float.", "Oh, sure... like I haven't seen THIS before."];
-const mochkilReplies = ["Is it snack time?", "I can eat that.", "Let's be ninjas!", "I'm bored... feed me?"];
-
 const stories = {
   dr_azul: { 
-    triggers: ["dr", "doctor", "azul", "🩺", "🩻", "🥼"], 
-    video: "dr_azul.mp4", 
+    triggers: ["dr", "doctor", "azul", "🩺", "🩻", "🥼"], video: "dr_azul.mp4", 
     questions: [
-      {q: "You enter the clinic. Do you have an appointment?", a:["Yes", "No"], correct: 0},
-      {q: "Dr. Azul is wearing a lab coat. Does he look professional?", a:["Very", "He's a cat"], correct: 0},
-      {q: "Mochkil is in the waiting room looking pale. Help him?", a:["Check his pulse", "Give him a cookie"], correct: 0},
-      {q: "Mochkil says his tummy hurts. Is it serious?", a:["Emergency!", "Probably gas"], correct: 1},
-      {q: "Azul asks you to have a seat. Do you sit?", a:["Sit down", "Run away"], correct: 0},
-      {q: "A strange sound echoes in the office. What was that?", a:["A ghost", "Mochkil's stomach"], correct: 1},
-      {q: "Dr. Azul sighs deeply. Is he tired of his patient?", a:["Definitely", "He's just focused"], correct: 0},
-      {q: "Final: Ready for the diagnosis?", a:["Yes, Doctor", "I'm scared"], correct: 0}
+      {q: "Enter the clinic. Do you have an appointment?", a:["Yes", "I'm a walk-in"], correct: 0},
+      {q: "Azul's lab coat is neatly embroidered. Notice it?", a:["Compliment it", "Ignore it"], correct: 0},
+      {q: "He asks you to have a seat. Do you?", a:["Sit down", "Stay standing"], correct: 0},
+      {q: "Mochkil is clutching his stomach. Help?", a:["Check vitals", "Offer comfort"], correct: 1},
+      {q: "Azul sighs and clicks his keyboard. Is he busy?", a:["Very busy", "Just pretending"], correct: 0},
+      {q: "Mochkil lets out a tiny 'poot'. Did you hear that?", a:["What was that?", "Gross!"], correct: 0},
+      {q: "Mochkil says 'Nevermind, I'm fine'. Relieved?", a:["Yes", "No, stay!"], correct: 0},
+      {q: "Final: Did you survive the check-up?", a:["Barely", "Yes"], correct: 1}
     ]
   },
-  ninja: { triggers: ["ninja", "farm", "🥷🏻"], video: "azul_mochkil_ninja_farm.mp4", questions: Array(8).fill({q:"Do you follow the Ninja way?", a:["Yes", "No"], correct: 0}) },
-  jungle: { triggers: ["jungle", "wild", "🌴"], video: "azul_mochkil_jungle.mp4", questions: Array(8).fill({q:"Chop through the vines?", a:["Yes", "No"], correct: 0}) },
-  dream: { triggers: ["dream", "sweet", "😴"], video: "mochkil_sweet_dream.mp4", questions: Array(8).fill({q:"Is the floor made of cookies?", a:["Yes", "No"], correct: 0}) },
-  zealand: { triggers: ["zealand", "kiwi", "🇳🇿"], video: "azul_mochkil_new_zealand.mp4", questions: Array(8).fill({q:"Visit the Hobbit hole?", a:["Yes", "No"], correct: 0}) },
-  olive: { triggers: ["olive", "grove", "🫒"], video: "azul_mochkil_olivegrove.mp4", questions: Array(8).fill({q:"Press the olives for oil?", a:["Yes", "No"], correct: 0}) },
-  taco: { triggers: ["taco", "truck", "🌮"], video: "azul_mochkil_taco_truck.mp4", questions: Array(8).fill({q:"Order the mystery taco?", a:["Yes", "No"], correct: 0}) },
-  moon: { triggers: ["moon", "picnic", "🌌"], video: "azul_lori_moon_picnic.mp4", questions: Array(8).fill({q:"Bring the space blanket?", a:["Yes", "No"], correct: 0}) },
-  hacker: { triggers: ["hacker", "scam", "💻"], video: "azul_lori_hacker.mp4", questions: Array(8).fill({q:"Hack the scammer?", a:["Execute", "Abort"], correct: 0}) },
-  treasure: { triggers: ["treasure", "cave", "⚱️"], video: "treasure_cave.mp4", questions: Array(8).fill({q:"Open the chest?", a:["Yes", "No"], correct: 0}) },
-  pirate: { triggers: ["pirate", "ship", "🏴‍☠️"], video: "azul_mochkil_pirates.mp4", questions: Array(8).fill({q:"Sing a sea shanty?", a:["Yes", "No"], correct: 0}) },
-  space: { triggers: ["space", "voyage", "🚀"], video: "azul_mochkil_space_voyager.mp4", questions: Array(8).fill({q:"Enter the wormhole?", a:["Yes", "No"], correct: 0}) },
+  olive: {
+    triggers: ["olive", "grove", "🫒"], video: "azul_mochkil_olivegrove.mp4",
+    questions: [
+      {q: "The sun is hot in the grove. Find shade?", a:["Under a tree", "Keep walking"], correct: 0},
+      {q: "The olives are ripe. Pick a green one?", a:["Yes", "Wait for black"], correct: 0},
+      {q: "Mochkil is trying to climb a branch. Help?", a:["Boost him up", "Watch him fall"], correct: 0},
+      {q: "Azul is calculating the harvest yield.", a:["Ask for stats", "Eat an olive"], correct: 0},
+      {q: "A goat enters the grove! Shoo it?", a:["Pet the goat", "Run away"], correct: 0},
+      {q: "The oil press is ready. Start it?", a:["Turn the wheel", "Let Azul do it"], correct: 1},
+      {q: "The smell of fresh oil is amazing.", a:["Inhale deeply", "Plug nose"], correct: 0},
+      {q: "Final: Ready for the feast?", a:["Let's eat!", "I'm full"], correct: 0}
+    ]
+  },
+  moon: {
+    triggers: ["moon", "picnic", "🌌"], video: "azul_lori_moon_picnic.mp4",
+    questions: [
+      {q: "The rocket landed. Step onto the dust?", a:["One small step", "Jump!"], correct: 0},
+      {q: "Mochkil brought a basket. Open it?", a:["Cheese!", "Tacos?"], correct: 0},
+      {q: "Earth looks beautiful from here. Take a pic?", a:["Click!", "Just stare"], correct: 0},
+      {q: "Gravity is low. Try a flip?", a:["Backflip!", "Stay grounded"], correct: 0},
+      {q: "Azul is hacking the lunar rover.", a:["Go for a ride", "Stop him"], correct: 0},
+      {q: "The moon-cheese is glowing. Taste it?", a:["One bite", "No way"], correct: 0},
+      {q: "A shooting star passes by. Make a wish?", a:["I wish for snacks", "I wish for gold"], correct: 0},
+      {q: "Final: Best picnic ever?", a:["By far!", "Too dusty"], correct: 0}
+    ]
+  },
+  taco: {
+    triggers: ["taco", "truck", "🌮"], video: "azul_mochkil_taco_truck.mp4",
+    questions: [
+      {q: "The truck is parked. Approach?", a:["Fast!", "Slowly"], correct: 0},
+      {q: "The menu is written in cat-code.", a:["Ask Azul to decode", "Guess"], correct: 0},
+      {q: "Mochkil wants the Mega-Burrito.", a:["Order it", "Too big"], correct: 0},
+      {q: "The salsa is 'Atomic'. Try it?", a:["Just a drop", "Big scoop"], correct: 0},
+      {q: "Azul is hacking a discount. Success?", a:["$0.00!", "Error"], correct: 0},
+      {q: "A scammer tries to cut the line!", a:["Meow loudly", "Hiss"], correct: 0},
+      {q: "The tacos are steaming hot.", a:["Wait to cool", "Eat now!"], correct: 1},
+      {q: "Final: Was it worth the trip?", a:["Absolutely", "Maybe"], correct: 0}
+    ]
+  },
   gameover: { video: "azul_mochkil_gameover.mp4" }
 };
 
@@ -99,56 +99,39 @@ function addResponse() {
   const input = document.getElementById('promptInput');
   const text = input.value.toLowerCase().trim();
   if(!text) return;
-
   const player = document.getElementById('playerName').value || "Human";
-
   let foundKey = null;
   for(let key in stories) {
     if(stories[key].triggers && stories[key].triggers.some(t => text.includes(t))) {
-      foundKey = key;
-      break;
+      foundKey = key; break;
     }
   }
-  
-  if(foundKey) {
-    startCYOA(foundKey);
-  } else {
+  if(foundKey) { startCYOA(foundKey); } 
+  else {
     const div = document.createElement('div');
     div.className = 'response';
-    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
-      <img src="azul.png" class="character"> <strong>Azul:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}<br>
-      <img src="mochkil.png" class="character"> <strong>Mochkil:</strong> ${mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)]}`;
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br><img src="azul.png" class="character"> <strong>Azul:</strong> Sarcastic beep.<br><img src="mochkil.png" class="character"> <strong>Mochkil:</strong> Snacks?`;
     document.getElementById('responses').prepend(div);
   }
   input.value = "";
 }
 
-function startCYOA(key) {
-  currentStory = key;
-  qIndex = 0;
-  document.getElementById('responses').innerHTML = ""; 
-  showQuestion();
-}
+function startCYOA(key) { currentStory = key; qIndex = 0; document.getElementById('responses').innerHTML = ""; showQuestion(); }
 
 function showQuestion() {
-  const s = stories[currentStory];
-  const q = s.questions[qIndex];
+  const s = stories[currentStory]; const q = s.questions[qIndex];
   const div = document.createElement('div');
   div.className = 'response';
-  div.innerHTML = `<strong>${currentStory.replace('_',' ').toUpperCase()} - STEP ${qIndex+1}/8</strong><br>${q.q}<br><br>`;
-  
+  div.innerHTML = `<strong>${currentStory.toUpperCase()} - STEP ${qIndex+1}/8</strong><br>${q.q}<br><br>`;
   q.a.forEach((ans, i) => {
     const btn = document.createElement('button');
-    btn.textContent = ans;
-    btn.style.margin = "5px";
+    btn.textContent = ans; btn.style.margin = "5px";
     btn.onclick = () => {
       if(i === q.correct) {
         qIndex++;
         if(qIndex < s.questions.length) { div.remove(); showQuestion(); }
-        else { div.innerHTML = "<strong>ADVENTURE UNLOCKED!</strong>"; playVideo(s.video); }
-      } else {
-        div.innerHTML = "<strong>WRONG CHOICE!</strong>"; playVideo(stories.gameover.video);
-      }
+        else { div.innerHTML = "<strong>SUCCESS!</strong>"; playVideo(s.video); }
+      } else { div.innerHTML = "<strong>FAILED!</strong>"; playVideo(stories.gameover.video); }
     };
     div.appendChild(btn);
   });
@@ -163,7 +146,7 @@ function playVideo(src) {
 }
 
 function randomPrompt() {
-  const r = ["Dr Azul 🩺", "Ninja Farm", "Mochkil Dream", "New Zealand", "Olive Grove", "Taco Truck", "Moon Picnic", "Space Voyage", "Treasure Cave"];
+  const r = ["Dr Azul 🩺", "Olive Grove 🫒", "Moon Picnic 🌌", "Taco Truck 🌮"];
   document.getElementById('promptInput').value = r[Math.floor(Math.random()*r.length)];
 }
 </script>
