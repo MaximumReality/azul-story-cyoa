@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maximum Reality – Azul & Mochkil</title>
 <style>
-/* Fonts & body */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
@@ -20,7 +19,7 @@ body {
   position:relative;
 }
 
-/* VHS Scanline overlay with subtle scrolling */
+/* VHS Scanline overlay with subtle scrolling + flicker */
 body::after {
   content:"";
   position:fixed;
@@ -36,12 +35,18 @@ body::after {
       transparent 3px
     );
   z-index:1;
-  animation:scrollScanlines 5s linear infinite;
+  animation:scrollScanlines 5s linear infinite, flickerScanlines 4s ease-in-out infinite alternate;
 }
 
 @keyframes scrollScanlines {
   0% { background-position: 0 0; }
   100% { background-position: 0 10px; }
+}
+
+@keyframes flickerScanlines {
+  0% { opacity:0.03; }
+  50% { opacity:0.05; }
+  100% { opacity:0.03; }
 }
 
 /* Neon grid behind video with pulsing glow */
@@ -69,7 +74,7 @@ body::after {
 
 @keyframes pulseGrid {
   0% { box-shadow:0 0 12px rgba(57,255,20,0.1), 0 0 20px rgba(0,255,255,0.1); }
-  100% { box-shadow:0 0 25px rgba(57,255,20,0.2), 0 0 40px rgba(0,255,255,0.2); }
+  100% { box-shadow:0 0 25px rgba(57,255,20,0.2), 0 0 40px rgba(255,0,255,0.3); }
 }
 
 /* Drifting paws with glow pulse */
@@ -89,8 +94,8 @@ body::after {
 }
 
 @keyframes pulsePaws {
-  0% { text-shadow:0 0 4px rgba(57,255,20,0.2), 0 0 8px rgba(0,255,255,0.2); }
-  100% { text-shadow:0 0 12px rgba(57,255,20,0.4), 0 0 24px rgba(0,255,255,0.4); }
+  0% { text-shadow:0 0 4px rgba(57,255,20,0.2), 0 0 8px rgba(255,0,255,0.15); }
+  100% { text-shadow:0 0 12px rgba(57,255,20,0.4), 0 0 24px rgba(255,0,255,0.35); }
 }
 
 /* Headings & text */
@@ -106,12 +111,12 @@ p.subtitle {
   font-size:0.95rem;
 }
 
-/* Video styling */
+/* Video styling with restored magenta glow */
 .grid-background video {
   max-width:100%;
   border:3px solid #39ff14;
   border-radius:10px;
-  box-shadow:0 0 20px #ff00ff;
+  box-shadow:0 0 20px #ff00ff, 0 0 30px #ff00ff inset;
   display:block;
   position:absolute;
   top:0; left:0;
@@ -119,6 +124,12 @@ p.subtitle {
   height:100%;
   z-index:1;
   border-radius:10px;
+  animation:videoGlowPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes videoGlowPulse {
+  0% { box-shadow:0 0 15px #ff00ff, 0 0 25px #ff00ff inset; }
+  100% { box-shadow:0 0 30px #ff00ff, 0 0 50px #ff00ff inset; }
 }
 
 /* Cards with smaller font */
@@ -173,7 +184,7 @@ li {margin-bottom:6px;}
   z-index:2;
 }
 
-/* Optional subtle fixed paw in center */
+/* Central faint paw pulsing */
 body::before {
   content:"🐾";
   position:fixed;
@@ -183,6 +194,12 @@ body::before {
   transform:translate(-50%,-50%) rotate(45deg);
   opacity:0.03;
   pointer-events:none;
+  animation:pulseCentralPaw 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulseCentralPaw {
+  0% { opacity:0.03; text-shadow:0 0 2px rgba(57,255,20,0.1),0 0 4px rgba(255,0,255,0.1); }
+  100% { opacity:0.06; text-shadow:0 0 8px rgba(57,255,20,0.25),0 0 16px rgba(255,0,255,0.25); }
 }
 </style>
 </head>
