@@ -45,7 +45,7 @@ button {
 
 video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
 
-/* THE ADJUSTED SMALLER FOOTER */
+/* RE-REFINED FOOTER */
 footer {
   text-align:center; margin-top:3rem; padding:2rem; 
   border-top:1px solid #333; line-height: 1.8;
@@ -64,7 +64,7 @@ footer {
 
 <div id="chatContainer">
   <input type="text" id="playerName" placeholder="Your name...">
-  <input type="text" id="promptInput" placeholder="Try 'Azulo', 'Hacker', 'Dr Azul'...">
+  <input type="text" id="promptInput" placeholder="Try 'Azulo', 'Hacker', or use an emoji!">
   <div class="button-row">
     <button onclick="addResponse()">SEND</button>
     <button onclick="randomPrompt()">🎲 RANDOM</button>
@@ -89,7 +89,7 @@ const azulReplies = ["Is it Azulo Cereal time?", "I'm optimizing the toy surpris
 const mochkilReplies = ["I want the ninja toy!", "Crunch crunch crunch!", "Can we live in a cereal box?", "Zzz... blue milk."];
 
 const stories = {
-  hacker: { triggers: ["hacker", "coding"], video: "azul_lori_hacker.mp4", questions: [
+  hacker: { triggers: ["hacker", "coding", "💻"], video: "azul_lori_hacker.mp4", questions: [
     {q: "Azul is at the keyboard. Assist?", a: ["Hack", "Wait"], correct: 0},
     {q: "Firewall detected!", a: ["Code", "Smash"], correct: 0},
     {q: "Trace the scammer?", a: ["Yes", "No"], correct: 0},
@@ -99,7 +99,7 @@ const stories = {
     {q: "Root folder found?", a: ["Yes", "No"], correct: 0},
     {q: "Final: Hack complete?", a: ["Success!", "Fail"], correct: 0}
   ]},
-  jungle: { triggers: ["jungle"], video: "azul_mochkil_jungle.mp4", questions: [
+  jungle: { triggers: ["jungle", "🌴"], video: "azul_mochkil_jungle.mp4", questions: [
     {q: "Use machete?", a: ["Yes", "No"], correct: 0},
     {q: "Chase butterfly?", a: ["No", "Yes"], correct: 0},
     {q: "Scan leaf?", a: ["Yes", "Pick"], correct: 0},
@@ -109,7 +109,7 @@ const stories = {
     {q: "Enter glow cave?", a: ["Yes", "No"], correct: 0},
     {q: "Final: Waterfall?", a: ["Found!", "Lost"], correct: 0}
   ]},
-  pirate: { triggers: ["pirate", "ship"], video: "azul_mochkil_pirates.mp4", questions: [
+  pirate: { triggers: ["pirate", "ship", "🏴‍☠️"], video: "azul_mochkil_pirates.mp4", questions: [
     {q: "Board ship?", a: ["Aye!", "No"], correct: 0},
     {q: "Follow map?", a: ["Yes", "No"], correct: 0},
     {q: "Hat for Mochkil?", a: ["Give", "Keep"], correct: 0},
@@ -119,7 +119,7 @@ const stories = {
     {q: "Fire Cannons?", a: ["Fire!", "Run"], correct: 0},
     {q: "Final: Gold?", a: ["Claim!", "No"], correct: 0}
   ]},
-  dream: { triggers: ["dream"], video: "mochkil_sweet_dream.mp4", questions: [
+  dream: { triggers: ["dream", "😴"], video: "mochkil_sweet_dream.mp4", questions: [
     {q: "Enter dream?", a: ["Yes", "Wait"], correct: 0},
     {q: "Eat clouds?", a: ["Yes", "No"], correct: 0},
     {q: "Catch flying fish?", a: ["Yes", "No"], correct: 0},
@@ -129,7 +129,7 @@ const stories = {
     {q: "Stay purring?", a: ["Yes", "Wake"], correct: 0},
     {q: "Final: Sweet?", a: ["The Sweetest", "No"], correct: 0}
   ]},
-  ninja: { triggers: ["ninja", "farm"], video: "azul_mochkil_ninja_farm.mp4", questions: [
+  ninja: { triggers: ["ninja", "farm", "🥷"], video: "azul_mochkil_ninja_farm.mp4", questions: [
     {q: "Enter farm?", a: ["Yes", "No"], correct: 0},
     {q: "Sneak mode?", a: ["Yes", "No"], correct: 0},
     {q: "Sharpen claws?", a: ["Yes", "No"], correct: 0},
@@ -139,7 +139,7 @@ const stories = {
     {q: "Throw bomb?", a: ["Yes", "No"], correct: 0},
     {q: "Final: Ninja?", a: ["Yes", "No"], correct: 0}
   ]},
-  zealand: { triggers: ["zealand", "nz"], video: "azul_mochkil_new_zealand.mp4", questions: [
+  zealand: { triggers: ["zealand", "nz", "🇳🇿"], video: "azul_mochkil_new_zealand.mp4", questions: [
     {q: "Go south?", a: ["Yes", "No"], correct: 0},
     {q: "Pet sheep?", a: ["Yes", "No"], correct: 0},
     {q: "Visit Hobbit?", a: ["Yes", "No"], correct: 0},
@@ -149,7 +149,7 @@ const stories = {
     {q: "Swim?", a: ["No", "Yes"], correct: 0},
     {q: "Final: Paradise?", a: ["Yes", "No"], correct: 0}
   ]},
-  cave: { triggers: ["cave"], video: "treasure_cave.mp4", questions: [
+  cave: { triggers: ["cave", "⚱️"], video: "treasure_cave.mp4", questions: [
     {q: "Torch?", a: ["Yes", "No"], correct: 0},
     {q: "Duck bats?", a: ["Yes", "No"], correct: 0},
     {q: "Hack lock?", a: ["Yes", "No"], correct: 0},
@@ -159,7 +159,7 @@ const stories = {
     {q: "Enter glow?", a: ["Yes", "No"], correct: 0},
     {q: "Final: Pure?", a: ["Yes", "No"], correct: 0}
   ]},
-  dr_azul: { triggers: ["dr", "doctor"], video: "dr_azul.mp4", questions: [
+  dr_azul: { triggers: ["dr", "doctor", "🩺"], video: "dr_azul.mp4", questions: [
     {q: "Sign in?", a: ["Yes", "No"], correct: 0},
     {q: "Enter office?", a: ["Yes", "No"], correct: 0},
     {q: "Check Mochkil?", a: ["Yes", "No"], correct: 0},
@@ -169,7 +169,7 @@ const stories = {
     {q: "Sticker?", a: ["Yes", "No"], correct: 0},
     {q: "Final: Good?", a: ["Yes", "No"], correct: 0}
   ]},
-  olive: { triggers: ["olive"], video: "azul_mochkil_olivegrove.mp4", questions: [
+  olive: { triggers: ["olive", "🫒"], video: "azul_mochkil_olivegrove.mp4", questions: [
     {q: "Pick?", a: ["Yes", "No"], correct: 0},
     {q: "Stop eater?", a: ["Yes", "No"], correct: 0},
     {q: "Press?", a: ["Yes", "No"], correct: 0},
@@ -179,7 +179,7 @@ const stories = {
     {q: "Dip bread?", a: ["Yes", "No"], correct: 0},
     {q: "Final: Peace?", a: ["Yes", "No"], correct: 0}
   ]},
-  moon: { triggers: ["moon"], video: "azul_lori_moon_picnic.mp4", questions: [
+  moon: { triggers: ["moon", "🌌"], video: "azul_lori_moon_picnic.mp4", questions: [
     {q: "Dust step?", a: ["Yes", "No"], correct: 0},
     {q: "Open basket?", a: ["Yes", "No"], correct: 0},
     {q: "Photo?", a: ["Yes", "No"], correct: 0},
@@ -189,7 +189,7 @@ const stories = {
     {q: "Wish?", a: ["Yes", "No"], correct: 0},
     {q: "Final: Best?", a: ["Yes", "No"], correct: 0}
   ]},
-  taco: { triggers: ["taco"], video: "azul_mochkil_taco_truck.mp4", questions: [
+  taco: { triggers: ["taco", "🌮"], video: "azul_mochkil_taco_truck.mp4", questions: [
     {q: "Approach?", a: ["Yes", "No"], correct: 0},
     {q: "Ask Azul?", a: ["Yes", "No"], correct: 0},
     {q: "Order big?", a: ["Yes", "No"], correct: 0},
@@ -267,7 +267,7 @@ function playVideo(src) {
   const v = document.createElement('video');
   v.src = src; v.controls = true; v.setAttribute('playsinline', '');
   document.getElementById('videosContainer').prepend(v);
-  v.play();
+  v.play().catch(e => console.log("Video Play Error:", e));
 }
 
 function randomPrompt() {
