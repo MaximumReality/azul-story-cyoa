@@ -119,7 +119,7 @@ body::before {
 video {
   display:none;
   margin:1rem auto;
-  max-width:80%;
+  max-width:90%;
   border:3px solid #39ff14;
   border-radius:10px;
   box-shadow:0 0 20px #ff00ff;
@@ -186,15 +186,22 @@ const randomPrompts = [
   "Azul floats upside-down, what is he thinking? 🌀",
   "Secret treasure hidden nearby, do we investigate? 🏴‍☠️",
   "Strange sounds in the cave, do we follow them? 🕯️",
-  "Luna's birthday party, any surprises? 🎉",
-  
-  // New adventures
-  "Visit Dr. Azul today 🩺",
-  "Explore the treasure cave 🏰",
-  "Birthday cake chaos 🎂",
-  "New Zealand adventure 🇳🇿",
-  "Ninja farm training 🥷🌾"
+  "Luna's birthday party, any surprises? 🎉"
 ];
+
+// Map prompts to story keys
+const promptToStory = {
+  "Should we visit Dr. Azul today? 🩺": "dr_azul",
+  "Treasure cave exploration! 🏰": "treasure_cave",
+  "Birthday cake party incoming! 🎂": "birthday_cake",
+  "Let's go to New Zealand! 🥝": "new_zealand",
+  "Ninja training at the farm! 🥷🌾": "ninja_farm",
+  "Pirates Adventure! 🏴‍☠️": "pirate",
+  "Space voyage time! 🚀": "space",
+  "Taco truck time! 🌮": "taco",
+  "Moon picnic adventure! 🌕": "moon",
+  "Hacker competition begins! 💻": "hacker"
+};
 
 // Typing indicator
 const typingIndicator = document.getElementById('typingIndicator');
@@ -210,9 +217,80 @@ function showTypingIndicator(show){
   }
 }
 
-// Story and questions
+// Story definitions
 const stories = {
+  dr_azul: {
+    keywords: ["dr azul", "visit dr azul", "doctor azul", "dr_azul"],
+    title: "Visit Dr. Azul 🩺",
+    questions:[
+      {q:"Sit in the chair or stand?",a:["Sit","Stand"],correct:0},
+      {q:"Mochkil's belly problem?",a:["Ate too much","Just tired"],correct:0},
+      {q:"Azul types patient notes?",a:["Yes","No","Watch closely"],correct:0},
+      {q:"Offer Mochkil snacks?",a:["Yes","No"],correct:0},
+      {q:"Mochkil apologizes?",a:["Oops!","Never","Maybe"],correct:0},
+      {q:"Time to leave?",a:["Yes","No"],correct:0}
+    ],
+    video:"dr_azul.mp4",
+    vtt:""
+  },
+  treasure_cave: {
+    keywords: ["treasure cave","cave","explore cave"],
+    title:"Treasure Cave 🏰",
+    questions:[
+      {q:"Enter the cave?",a:["Yes","No"],correct:0},
+      {q:"Follow the tunnel or turn back?",a:["Follow","Turn back"],correct:0},
+      {q:"Pick up gold coins?",a:["Yes","No"],correct:0},
+      {q:"Open treasure chest?",a:["Yes","No"],correct:0},
+      {q:"Sneak quietly?",a:["Yes","No"],correct:0},
+      {q:"Leave the cave?",a:["Yes","No"],correct:0}
+    ],
+    video:"treasure_cave.mp4",
+    vtt:""
+  },
+  birthday_cake: {
+    keywords: ["birthday cake","cake","mochkil eats cake"],
+    title:"Birthday Cake Chaos 🎂",
+    questions:[
+      {q:"Mochkil eats cake?",a:["Yes","No"],correct:0},
+      {q:"Azul prepared a spare?",a:["Yes","No"],correct:0},
+      {q:"Share cake?",a:["Yes","No"],correct:0},
+      {q:"Clean up?",a:["Yes","No"],correct:0},
+      {q:"Any leftovers?",a:["Yes","No"],correct:0},
+      {q:"Time to celebrate?",a:["Yes","No"],correct:0}
+    ],
+    video:"birthday_cake.mp4",
+    vtt:""
+  },
+  new_zealand: {
+    keywords: ["new zealand","nz","kiwi adventure"],
+    title:"New Zealand Adventure 🇳🇿",
+    questions:[
+      {q:"Visit farm?",a:["Yes","No"],correct:0},
+      {q:"Feed animals?",a:["Yes","No"],correct:0},
+      {q:"Take photos?",a:["Yes","No"],correct:0},
+      {q:"Climb hills?",a:["Yes","No"],correct:0},
+      {q:"Watch sunset?",a:["Yes","No"],correct:0},
+      {q:"Buy souvenirs?",a:["Yes","No"],correct:0}
+    ],
+    video:"azul_mochkil_new_zealand.mp4",
+    vtt:""
+  },
+  ninja_farm: {
+    keywords: ["ninja farm","farm","training","ninja"],
+    title:"Ninja Farm Training 🥷🌾",
+    questions:[
+      {q:"Practice jumping?",a:["Yes","No"],correct:0},
+      {q:"Stealth challenge?",a:["Yes","No"],correct:0},
+      {q:"Feed Mochkil?",a:["Yes","No"],correct:0},
+      {q:"Play with Azul?",a:["Yes","No"],correct:0},
+      {q:"Complete obstacle course?",a:["Yes","No"],correct:0},
+      {q:"Time to rest?",a:["Yes","No"],correct:0}
+    ],
+    video:"azul_mochkil_ninja_farm.mp4",
+    vtt:"azul_mochkil_ninja_farm.vtt"
+  },
   taco:{
+    keywords:["taco","taco truck","taco adventure"],
     title: "Taco Adventure 🌮",
     questions:[
       {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"],correct:0},
@@ -228,6 +306,7 @@ const stories = {
     vtt:"azul_mochkil_taco_truck.vtt"
   },
   pirate:{
+    keywords:["pirate","pirate adventure","ship","pirates"],
     title: "Pirate Adventure 🏴‍☠️",
     questions:[
       {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"],correct:0},
@@ -243,6 +322,7 @@ const stories = {
     vtt:"azul_mochkil_pirates.vtt"
   },
   space:{
+    keywords:["space","spaceship","voyage","space adventure"],
     title:"Space Voyage 🚀",
     questions:[
       {q:"Launch the spaceship?",a:["Yes","No","Hack navigation"],correct:0},
@@ -258,7 +338,8 @@ const stories = {
     vtt:"azul_mochkil_space_voyager.vtt"
   },
   moon:{
-    title:"Moon Picnic 🌌",
+    keywords:["moon","moon picnic","picnic","moon adventure"],
+    title:"Moon Picnic 🌕",
     questions:[
       {q:"Do you enjoy the picnic?",a:["Yes","Float away","Ignore"],correct:0},
       {q:"Pick a snack:",a:["Moon cheese","Space fruit","Chocolate"],correct:1},
@@ -272,6 +353,7 @@ const stories = {
     vtt:"azul_lori_moon_picnic.vtt"
   },
   hacker:{
+    keywords:["hacker","hack","competition"],
     title:"Hacker Competition 💻",
     questions:[
       {q:"Do you hack the scammers?",a:["Yes","No","Try later"],correct:0},
@@ -284,91 +366,10 @@ const stories = {
     ],
     video:"azul_lori_hacker.mp4",
     vtt:"azul_lori_hacker.vtt"
-  },
-
-  // NEW ADVENTURES
-  dr_azul:{
-    title:"Dr. Azul Visit 🩺",
-    questions:[
-      {q:"How do you greet Dr. Azul?", a:["Hello","Hi","Good day"], correct:0},
-      {q:"Do you tell him your problem?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Eat more snacks?", a:["Yes","No","Surprise"], correct:0},
-      {q:"Ask for advice?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Leave the office?", a:["Yes","No","Sneak out"], correct:0},
-      {q:"Say thank you?", a:["Yes","No","Maybe"], correct:0}
-    ],
-    video:"dr_azul.mp4",
-    vtt:""
-  },
-  treasure_cave:{
-    title:"Treasure Cave 🏰",
-    questions:[
-      {q:"Do you enter the cave?", a:["Yes","No","Wait"], correct:0},
-      {q:"Pick a torch?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Go left or right?", a:["Left","Right","Straight"], correct:1},
-      {q:"Take a gold coin?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Open a treasure box?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Shout 'Ali Baba'?", a:["Yes","No","Maybe"], correct:0}
-    ],
-    video:"treasure_cave.mp4",
-    vtt:""
-  },
-  birthday_cake:{
-    title:"Birthday Cake Chaos 🎂",
-    questions:[
-      {q:"Who eats the cake first?", a:["Mochkil","Azul","You"], correct:0},
-      {q:"Share with friends?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Blow out candles?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Sing Happy Birthday?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Clean up mess?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Eat leftovers?", a:["Yes","No","Maybe"], correct:0}
-    ],
-    video:"birthday_cake.mp4",
-    vtt:""
-  },
-  new_zealand:{
-    title:"New Zealand Adventure 🇳🇿",
-    questions:[
-      {q:"Explore the mountains?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Ride a sheep?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Visit a kiwi farm?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Take photos?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Eat kiwi fruit?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Camp overnight?", a:["Yes","No","Maybe"], correct:0}
-    ],
-    video:"azul_mochkil_new_zealand.mp4",
-    vtt:""
-  },
-  ninja_farm:{
-    title:"Ninja Farm 🥷🌾",
-    questions:[
-      {q:"Practice ninja moves?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Hide from Mochkil?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Catch vegetables?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Feed animals?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Climb the barn?", a:["Yes","No","Maybe"], correct:0},
-      {q:"Jump over fences?", a:["Yes","No","Maybe"], correct:0}
-    ],
-    video:"azul_mochkil_ninja_farm.mp4",
-    vtt:"azul_mochkil_ninja_farm.vtt"
   }
 };
 
-// Map friendly keywords to story keys
-const storyKeywords = {
-  "taco":"taco",
-  "pirate":"pirate",
-  "space":"space",
-  "moon":"moon",
-  "hacker":"hacker",
-  "dr azul":"dr_azul",
-  "birthday cake":"birthday_cake",
-  "treasure cave":"treasure_cave",
-  "new zealand":"new_zealand",
-  "ninja farm":"ninja_farm"
-};
-
-// Current state
+// Game state
 let storyProgress = null;
 let questionIndex = 0;
 const videosContainer = document.getElementById('videosContainer');
@@ -385,22 +386,21 @@ function addResponse(){
     const mochkilReply = mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)];
     const div = document.createElement('div');
     div.className='response';
-    div.innerHTML = `<strong>You:</strong> ${userPrompt}<br>
-      <img src="azul.png" class="character"> <strong>Azul 🧪:</strong> ${azulReply}<br>
-      <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}`;
+    div.innerHTML=`<strong>You:</strong> ${userPrompt}<br>
+    <img src="azul.png" class="character"> <strong>Azul 🧪:</strong> ${azulReply}<br>
+    <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}`;
     document.getElementById('responses').prepend(div);
 
-   // Check keyword to start adventure (works for typed or random prompts)
-const keyword = userPrompt.toLowerCase();
-for(const key in stories){
-  if(keyword.includes(key)){
-    // Start story if not already in progress
-    if(!storyProgress) {
-      startStory(key);
+    // Keyword detection for typing
+    const inputText = userPrompt.toLowerCase();
+    for(const key in stories){
+      const story = stories[key];
+      if(story.keywords.some(k => inputText.includes(k))){
+        startStory(key);
+        break;
+      }
     }
-    break;
-  }
-}
+
     input.value='';
   },1000);
 }
@@ -410,13 +410,9 @@ function randomPrompt(){
   const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
   document.getElementById('promptInput').value = prompt;
 
-  // Automatically trigger story if prompt matches a keyword
-  const keyword = prompt.toLowerCase();
-  for(const key in stories){
-    if(keyword.includes(key)){
-      if(!storyProgress) startStory(key);
-      break;
-    }
+  // Start mapped story if exists
+  if(promptToStory[prompt]){
+    startStory(promptToStory[prompt]);
   }
 }
 
@@ -439,7 +435,7 @@ function showNextQuestion(){
   const q = story.questions[questionIndex];
   const div = document.createElement('div');
   div.className='response';
-  div.innerHTML = `<strong>Question ${questionIndex+1}:</strong> ${q.q}`;
+  div.innerHTML=`<strong>Question ${questionIndex+1}:</strong> ${q.q}`;
   const btnContainer = document.createElement('div');
   q.a.forEach((ans,i)=>{
     const btn = document.createElement('button');
