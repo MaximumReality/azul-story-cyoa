@@ -51,7 +51,7 @@ body::after {
   max-width:90%;
   margin:1rem auto 2rem;
   z-index:0;
-  height:320px; /* approximate video height */
+  height:320px;
   background:
     linear-gradient(0deg, rgba(57,255,20,0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(57,255,20,0.05) 1px, transparent 1px);
@@ -72,20 +72,25 @@ body::after {
   100% { box-shadow:0 0 25px rgba(57,255,20,0.2), 0 0 40px rgba(0,255,255,0.2); }
 }
 
-/* Drifting paws */
+/* Drifting paws with glow pulse */
 .paw {
   position:fixed;
   font-size:2rem;
-  color:rgba(255,255,255,0.03);
+  color:rgba(57,255,20,0.05);
   top:0; left:0;
   pointer-events:none;
-  animation:floatPaws 20s linear infinite;
+  animation:floatPaws 20s linear infinite, pulsePaws 4s ease-in-out infinite alternate;
 }
 
 @keyframes floatPaws {
   0% { transform: translate(0,0) rotate(0deg); }
   50% { transform: translate(80vw, 100vh) rotate(180deg); }
   100% { transform: translate(0,0) rotate(360deg); }
+}
+
+@keyframes pulsePaws {
+  0% { text-shadow:0 0 4px rgba(57,255,20,0.2), 0 0 8px rgba(0,255,255,0.2); }
+  100% { text-shadow:0 0 12px rgba(57,255,20,0.4), 0 0 24px rgba(0,255,255,0.4); }
 }
 
 /* Headings & text */
@@ -120,20 +125,20 @@ p.subtitle {
 .card {
   background: rgba(255,255,255,0.08);
   border-radius:16px;
-  padding:16px 20px; /* reduced padding */
+  padding:16px 20px;
   margin:16px auto;
   max-width:720px;
   text-align:left;
   box-shadow:0 0 12px rgba(57,255,20,0.2), 0 0 20px rgba(255,0,255,0.15);
   position:relative;
   z-index:2;
-  font-size:0.75rem; /* smaller text */
+  font-size:0.75rem;
   line-height:1.3rem;
 }
 
 .card h2 {
   margin-top:0;
-  font-size:1rem; /* smaller heading */
+  font-size:1rem;
 }
 
 ul {padding-left:20px;}
