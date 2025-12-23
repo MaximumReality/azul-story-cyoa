@@ -36,7 +36,6 @@ button {
   animation:fadeIn 0.4s; line-height: 1.6;
 }
 
-/* HARD-LOCKED SPRITE CSS */
 .sprite-box { display: flex; align-items: center; margin: 10px 0; }
 .sprite-img { 
   width: 45px !important; 
@@ -66,7 +65,7 @@ footer {
 
 <div id="chatContainer">
   <input type="text" id="playerName" placeholder="Your name...">
-  <input type="text" id="promptInput" placeholder="Try 'Hacker', 'Jungle', 'Dr Azul'...">
+  <input type="text" id="promptInput" placeholder="Try 'Azulo's', 'Hacker', or 'Jungle'...">
   <div class="button-row">
     <button onclick="addResponse()">SEND</button>
     <button onclick="randomPrompt()">🎲 RANDOM</button>
@@ -83,121 +82,87 @@ footer {
 </footer>
 
 <script>
-const azulReplies = ["Sarcastic comment loading...", "I'm hacking the system!", "Walking is for humans. I float.", "Bet you didn't expect THAT."];
+const azulReplies = ["Sarcastic comment loading...", "I'm hacking the system!", "Walking is for humans.", "Bet you didn't expect THAT."];
 const mochkilReplies = ["Is it snack time?", "I can eat that.", "Let's be ninjas!", "Bored... feed me?"];
 
+/* ADVENTURES WITH 8 STEPS */
 const stories = {
-  hacker: { triggers: ["hacker", "💻", "scam", "coding"], video: "azul_lori_hacker.mp4", questions: [
-    {q: "Azul is at the keyboard. Help him hack?", a: ["Start Typing", "Just watch"], correct: 0},
-    {q: "The firewall is 10 layers deep!", a: ["Brute Force", "Find back door"], correct: 1},
-    {q: "A scammer is calling Lori.", a: ["Trace the call", "Block them"], correct: 0},
-    {q: "Lori needs a password. Suggest one?", a: ["12345", "KibbleLover99"], correct: 1},
-    {q: "The binary code is scrolling fast!", a: ["Read the Matrix", "Close eyes"], correct: 0},
-    {q: "Azul finds the location.", a: ["Send cat-bots", "Call police"], correct: 0},
-    {q: "System overheating!", a: ["Fan it", "Keep hacking"], correct: 1},
-    {q: "Final: Did you stop the scam?", a: ["System Hacked!", "Failed"], correct: 0}
+  hacker: { triggers: ["hacker", "💻", "scam"], video: "azul_lori_hacker.mp4", questions: [
+    {q: "Help Azul hack?", a: ["Type fast", "Watch"], correct: 0},
+    {q: "Firewall depth?", a: ["10 layers", "100 layers"], correct: 0},
+    {q: "Scammer calling!", a: ["Trace it", "Ignore"], correct: 0},
+    {q: "Lori's password?", a: ["12345", "Kibble99"], correct: 1},
+    {q: "Binary scrolling!", a: ["Read it", "Dizzy"], correct: 0},
+    {q: "Found them!", a: ["Send cat-bots", "Call police"], correct: 0},
+    {q: "Overheating!", a: ["Fan it", "Ice pack"], correct: 0},
+    {q: "Final: Stopped them?", a: ["Yes!", "No"], correct: 0}
   ]},
   jungle: { triggers: ["jungle", "🌴"], video: "azul_mochkil_jungle.mp4", questions: [
-    {q: "Jungle is thick. Machete?", a: ["Yes", "No"], correct: 0},
-    {q: "Chase butterfly?", a: ["Yes", "Stay"], correct: 1},
-    {q: "Flower scan?", a: ["Yes", "Pick it"], correct: 0},
-    {q: "Monkey stole hat!", a: ["Climb", "Ignore"], correct: 0},
-    {q: "Piranhas!", a: ["Raft", "Swim"], correct: 0},
-    {q: "Cat statue?", a: ["Bow", "Ignore"], correct: 0},
-    {q: "Glowing floor?", a: ["Follow", "Return"], correct: 0},
-    {q: "Final: Waterfall?", a: ["Yes", "No"], correct: 0}
+    {q: "Machete?", a: ["Yes", "No"], correct: 0}, {q: "Butterfly?", a: ["Chase", "Stay"], correct: 1},
+    {q: "Flower?", a: ["Scan", "Pick"], correct: 0}, {q: "Monkey?", a: ["Climb", "Ignore"], correct: 0},
+    {q: "Piranhas!", a: ["Raft", "Swim"], correct: 0}, {q: "Statue?", a: ["Bow", "Ignore"], correct: 0},
+    {q: "Glowing?", a: ["Follow", "Return"], correct: 0}, {q: "Waterfall?", a: ["Yes", "No"], correct: 0}
   ]},
   dream: { triggers: ["dream", "😴"], video: "mochkil_sweet_dream.mp4", questions: [
-    {q: "Enter dream?", a: ["Yes", "No"], correct: 0},
-    {q: "Marshmallows?", a: ["Eat", "Fly"], correct: 0},
-    {q: "Flying fish?", a: ["Catch", "Watch"], correct: 0},
-    {q: "Dream Guardian?", a: ["Ask", "Meow"], correct: 0},
-    {q: "Kibble castle?", a: ["Enter", "Eat it"], correct: 0},
-    {q: "Yarn moon?", a: ["Unravel", "Leave"], correct: 0},
-    {q: "Purring?", a: ["Stay", "Wake"], correct: 0},
-    {q: "Final: Sweet?", a: ["Yes", "No"], correct: 0}
+    {q: "Enter dream?", a: ["Yes", "No"], correct: 0}, {q: "Marshmallows?", a: ["Eat", "Fly"], correct: 0},
+    {q: "Flying fish?", a: ["Catch", "Watch"], correct: 0}, {q: "Guardian?", a: ["Ask", "Meow"], correct: 0},
+    {q: "Castle?", a: ["Enter", "Eat"], correct: 0}, {q: "Yarn?", a: ["Unravel", "Leave"], correct: 0},
+    {q: "Purring?", a: ["Stay", "Wake"], correct: 0}, {q: "Sweet?", a: ["Yes", "No"], correct: 0}
   ]},
-  ninja: { triggers: ["ninja", "🥷🏻", "farm"], video: "azul_mochkil_ninja_farm.mp4", questions: [
-    {q: "Foggy farm. Enter?", a: ["Yes", "Wait"], correct: 0},
-    {q: "Stealth mode?", a: ["Hide", "Noise"], correct: 0},
-    {q: "Sharpen claws?", a: ["Join", "Watch"], correct: 0},
-    {q: "Secret scroll?", a: ["Read", "Eat"], correct: 0},
-    {q: "Master ninja?", a: ["Bow", "Hiss"], correct: 0},
-    {q: "Rice paper walk?", a: ["Light", "Run"], correct: 0},
-    {q: "Smoke bombs?", a: ["Deploy", "Save"], correct: 0},
-    {q: "Final: Ninja?", a: ["Yes", "No"], correct: 0}
+  ninja: { triggers: ["ninja", "🥷🏻"], video: "azul_mochkil_ninja_farm.mp4", questions: [
+    {q: "Enter farm?", a: ["Yes", "Wait"], correct: 0}, {q: "Stealth?", a: ["Hide", "Noise"], correct: 0},
+    {q: "Claws?", a: ["Join", "Watch"], correct: 0}, {q: "Scroll?", a: ["Read", "Eat"], correct: 0},
+    {q: "Master?", a: ["Bow", "Hiss"], correct: 0}, {q: "Rice paper?", a: ["Light", "Run"], correct: 0},
+    {q: "Smoke?", a: ["Deploy", "Save"], correct: 0}, {q: "Ninja?", a: ["Yes", "No"], correct: 0}
   ]},
   pirate: { triggers: ["pirate", "🏴‍☠️"], video: "azul_mochkil_pirates.mp4", questions: [
-    {q: "Board ship?", a: ["Aye!", "No"], correct: 0},
-    {q: "Map print?", a: ["Follow", "Turn"], correct: 0},
-    {q: "Pirate hat?", a: ["Give", "Keep"], correct: 0},
-    {q: "Storm?", a: ["Sails", "Hide"], correct: 0},
-    {q: "Dig treasure?", a: ["Dig", "Wait"], correct: 0},
-    {q: "Trust Navigator?", a: ["Yes", "No"], correct: 0},
-    {q: "Cannons?", a: ["Fire", "Wait"], correct: 0},
-    {q: "Final: Gold?", a: ["Yes", "No"], correct: 0}
+    {q: "Board?", a: ["Aye!", "No"], correct: 0}, {q: "Map?", a: ["Follow", "Turn"], correct: 0},
+    {q: "Hat?", a: ["Give", "Keep"], correct: 0}, {q: "Storm?", a: ["Sails", "Hide"], correct: 0},
+    {q: "Dig?", a: ["Dig", "Wait"], correct: 0}, {q: "Trust?", a: ["Yes", "No"], correct: 0},
+    {q: "Fire?", a: ["Fire", "Wait"], correct: 0}, {q: "Gold?", a: ["Yes", "No"], correct: 0}
   ]},
   zealand: { triggers: ["zealand", "kiwi"], video: "azul_mochkil_new_zealand.mp4", questions: [
-    {q: "Go south?", a: ["Yes", "No"], correct: 0},
-    {q: "Sheep?", a: ["Pet", "Honk"], correct: 0},
-    {q: "Hobbit Hole?", a: ["Visit", "No"], correct: 0},
-    {q: "Bungee?", a: ["Join", "Watch"], correct: 1},
-    {q: "Mountains?", a: ["Ski", "Stay warm"], correct: 0},
-    {q: "Kiwi bird?", a: ["Shh", "Light"], correct: 0},
-    {q: "Ocean?", a: ["Surf", "Dip"], correct: 0},
-    {q: "Final: NZ?", a: ["Yes", "No"], correct: 0}
+    {q: "South?", a: ["Yes", "No"], correct: 0}, {q: "Sheep?", a: ["Pet", "Honk"], correct: 0},
+    {q: "Hobbit?", a: ["Visit", "No"], correct: 0}, {q: "Bungee?", a: ["Join", "Watch"], correct: 1},
+    {q: "Ski?", a: ["Yes", "No"], correct: 0}, {q: "Kiwi bird?", a: ["Shh", "Light"], correct: 0},
+    {q: "Surf?", a: ["Yes", "Dip"], correct: 0}, {q: "NZ?", a: ["Yes", "No"], correct: 0}
   ]},
   cave: { triggers: ["cave", "⚱️"], video: "treasure_cave.mp4", questions: [
-    {q: "Torch?", a: ["Yes", "No"], correct: 0},
-    {q: "Bats?", a: ["Duck", "Look"], correct: 0},
-    {q: "Keypad?", a: ["Hack", "Smash"], correct: 0},
-    {q: "Shaking?", a: ["Keep moving", "Run"], correct: 0},
-    {q: "Gold bowl?", a: ["Kibble", "Take"], correct: 0},
-    {q: "Riddle?", a: ["Solve", "Guess"], correct: 0},
-    {q: "Glowing?", a: ["Slowly", "Rush"], correct: 0},
-    {q: "Final: Gold?", a: ["Pure", "Fake"], correct: 0}
+    {q: "Torch?", a: ["Yes", "No"], correct: 0}, {q: "Bats?", a: ["Duck", "Look"], correct: 0},
+    {q: "Keypad?", a: ["Hack", "Smash"], correct: 0}, {q: "Shake?", a: ["Move", "Run"], correct: 0},
+    {q: "Bowl?", a: ["Kibble", "Take"], correct: 0}, {q: "Riddle?", a: ["Solve", "Guess"], correct: 0},
+    {q: "Glowing?", a: ["Slowly", "Rush"], correct: 0}, {q: "Gold?", a: ["Pure", "Fake"], correct: 0}
   ]},
   dr_azul: { triggers: ["dr", "doctor", "🩺"], video: "dr_azul.mp4", questions: [
-    {q: "Check in?", a: ["Yes", "No"], correct: 0},
-    {q: "Enter office?", a: ["Yes", "Run"], correct: 0},
-    {q: "Mochkil sick?", a: ["Check tummy", "Treat"], correct: 0},
-    {q: "Cold stethoscope?", a: ["Brave", "Jump"], correct: 0},
-    {q: "Script?", a: ["Read", "Wait"], correct: 1},
-    {q: "Poot?", a: ["Wait", "Laugh"], correct: 0},
-    {q: "Done?", a: ["Sticker", "Leave"], correct: 0},
-    {q: "Final: Healthy?", a: ["Yes", "No"], correct: 0}
+    {q: "Nurse?", a: ["Check in", "No"], correct: 0}, {q: "Office?", a: ["Enter", "Run"], correct: 0},
+    {q: "Sick?", a: ["Tummy", "Treat"], correct: 0}, {q: "Cold?", a: ["Brave", "Jump"], correct: 0},
+    {q: "Script?", a: ["Read", "Wait"], correct: 1}, {q: "Poot?", a: ["Wait", "Laugh"], correct: 0},
+    {q: "Done?", a: ["Sticker", "Leave"], correct: 0}, {q: "Healthy?", a: ["Yes", "No"], correct: 0}
   ]},
   olive: { triggers: ["olive", "🫒"], video: "azul_mochkil_olivegrove.mp4", questions: [
-    {q: "Pick olives?", a: ["Yes", "No"], correct: 0},
-    {q: "Stop Mochkil?", a: ["Yes", "No"], correct: 0},
-    {q: "Press oil?", a: ["Yes", "No"], correct: 0},
-    {q: "Goat?", a: ["Pet", "Run"], correct: 0},
-    {q: "Respect trees?", a: ["Yes", "No"], correct: 0},
-    {q: "Stay for sunset?", a: ["Yes", "No"], correct: 0},
-    {q: "Fresh bread?", a: ["Dip", "Plain"], correct: 0},
-    {q: "Final: Peace?", a: ["Yes", "No"], correct: 0}
+    {q: "Pick?", a: ["Yes", "No"], correct: 0}, {q: "Mochkil?", a: ["Stop", "Let"], correct: 0},
+    {q: "Press?", a: ["Yes", "No"], correct: 0}, {q: "Goat?", a: ["Pet", "Run"], correct: 0},
+    {q: "Trees?", a: ["Respect", "Climb"], correct: 0}, {q: "Sunset?", a: ["Stay", "Leave"], correct: 0},
+    {q: "Bread?", a: ["Dip", "Plain"], correct: 0}, {q: "Peace?", a: ["Yes", "No"], correct: 0}
   ]},
   moon: { triggers: ["moon", "picnic"], video: "azul_lori_moon_picnic.mp4", questions: [
-    {q: "Dust step?", a: ["Step", "Jump"], correct: 0},
-    {q: "Open basket?", a: ["Yes", "Wait"], correct: 0},
-    {q: "Photo?", a: ["Yes", "Stare"], correct: 0},
-    {q: "Low grav flip?", a: ["Flip", "Stay"], correct: 0},
-    {q: "Rover hack?", a: ["Ride", "Stop"], correct: 0},
-    {q: "Moon cheese?", a: ["Taste", "No"], correct: 0},
-    {q: "Wish?", a: ["Yes", "No"], correct: 0},
-    {q: "Final: Picnic?", a: ["Yes", "No"], correct: 0}
+    {q: "Dust?", a: ["Step", "Jump"], correct: 0}, {q: "Basket?", a: ["Open", "Wait"], correct: 0},
+    {q: "Photo?", a: ["Yes", "Stare"], correct: 0}, {q: "Gravity?", a: ["Flip", "Stay"], correct: 0},
+    {q: "Rover?", a: ["Ride", "Stop"], correct: 0}, {q: "Cheese?", a: ["Taste", "No"], correct: 0},
+    {q: "Wish?", a: ["Yes", "No"], correct: 0}, {q: "Picnic?", a: ["Yes", "No"], correct: 0}
   ]},
   taco: { triggers: ["taco", "🌮"], video: "azul_mochkil_taco_truck.mp4", questions: [
-    {q: "Approach?", a: ["Fast", "Slow"], correct: 0},
-    {q: "Code menu?", a: ["Ask Azul", "Guess"], correct: 0},
-    {q: "Order?", a: ["Burrito", "Taco"], correct: 0},
-    {q: "Atomic?", a: ["Drop", "Scoop"], correct: 0},
-    {q: "Hack discount?", a: ["Yes", "No"], correct: 0},
-    {q: "Cut line?", a: ["Hiss", "Meow"], correct: 0},
-    {q: "Hot!", a: ["Wait", "Eat"], correct: 1},
-    {q: "Final: Worth it?", a: ["Yes", "No"], correct: 0}
+    {q: "Approach?", a: ["Fast", "Slow"], correct: 0}, {q: "Menu?", a: ["Azul", "Guess"], correct: 0},
+    {q: "Order?", a: ["Burrito", "Taco"], correct: 0}, {q: "Atomic?", a: ["Drop", "Scoop"], correct: 0},
+    {q: "Hack?", a: ["Yes", "No"], correct: 0}, {q: "Cut?", a: ["Hiss", "Meow"], correct: 0},
+    {q: "Hot!", a: ["Wait", "Eat"], correct: 1}, {q: "Worth it?", a: ["Yes", "No"], correct: 0}
   ]}
 };
+
+/* INSTANT VIDEO TRIGGERS (Commercials) */
+const instantVideos = [
+  { triggers: ["azulo", "commercial", "cereal", "ads"], video: "azulos_commercial.mp4" }
+];
 
 let currentStory = null;
 let qIndex = 0;
@@ -208,6 +173,16 @@ function addResponse() {
   if(!text) return;
   const player = document.getElementById('playerName').value || "You";
   
+  // Check for Instant Commercials first
+  let instant = instantVideos.find(v => v.triggers.some(t => text.includes(t)));
+  if(instant) {
+    document.getElementById('responses').innerHTML = '<div class="response"><strong>COMMERCIAL BREAK!</strong></div>';
+    playVideo(instant.video);
+    input.value = "";
+    return;
+  }
+
+  // Check for Adventure Quests
   let foundKey = null;
   for(let key in stories) {
     if(stories[key].triggers && stories[key].triggers.some(t => text.includes(t))) {
@@ -264,7 +239,7 @@ function playVideo(src) {
 }
 
 function randomPrompt() {
-  const r = ["Hacker", "Jungle", "Dream", "Ninja", "Pirate", "New Zealand", "Cave", "Dr Azul", "Olive Grove", "Moon Picnic", "Taco Truck"];
+  const r = ["Azulo's", "Hacker", "Jungle", "Dream", "Ninja", "Pirate", "New Zealand", "Cave", "Dr Azul", "Olive Grove", "Moon Picnic", "Taco Truck"];
   document.getElementById('promptInput').value = r[Math.floor(Math.random()*r.length)];
 }
 </script>
