@@ -15,156 +15,29 @@ body {
   min-height:100vh;
 }
 
-h1 {
-  color:#39ff14;
-  text-shadow:0 0 10px #39ff14;
-  text-align:center;
-  margin-bottom:0.5rem;
-}
+h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; margin-bottom:0.5rem; }
+p { text-align:center; color:#aaa; margin-bottom:2rem; }
 
-p {
-  text-align:center;
-  color:#aaa;
-  margin-bottom:2rem;
-}
+#chatContainer { max-width:700px; margin:0 auto 2rem; display:flex; flex-direction:column; gap:1rem; }
+input[type="text"] { font-family:monospace; font-size:1rem; padding:0.5rem; border-radius:5px; border:none; width:100%; box-sizing:border-box; }
+button { font-family:monospace; font-size:1rem; padding:0.5rem 1rem; margin-top:0.5rem; background:#222; color:#39ff14; border:2px solid #39ff14; border-radius:5px; cursor:pointer; transition:0.2s; }
+button:hover { background:#39ff14; color:#000; }
 
-#chatContainer {
-  max-width:700px;
-  margin:0 auto 2rem;
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
-}
+#responses { margin-top:1rem; display:flex; flex-direction:column-reverse; gap:1rem; }
+.response { padding:0.5rem 1rem; border-radius:10px; background:#111; box-shadow:0 0 10px #39ff14,0 0 20px #ff00ff; animation:fadeIn 0.5s; display:flex; align-items:center; gap:0.5rem; }
+.response img { width:40px; border:2px solid #39ff14; border-radius:50%; box-shadow:0 0 10px #ff00ff; }
 
-input[type="text"] {
-  font-family:monospace;
-  font-size:1rem;
-  padding:0.5rem;
-  border-radius:5px;
-  border:none;
-  width:100%;
-  box-sizing:border-box;
-}
+#typingIndicator { text-align:center; font-style:italic; color:#39ff14; display:none; }
 
-button {
-  font-family:monospace;
-  font-size:1rem;
-  padding:0.5rem 1rem;
-  margin-top:0.5rem;
-  background:#222;
-  color:#39ff14;
-  border:2px solid #39ff14;
-  border-radius:5px;
-  cursor:pointer;
-  transition:0.2s;
-}
+@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+video { display:none; margin:1rem auto; max-width:90%; border:3px solid #39ff14; border-radius:10px; box-shadow:0 0 20px #ff00ff; }
 
-button:hover {
-  background:#39ff14;
-  color:#000;
-}
+.neon-link { color:#39ff14; text-decoration:none; margin:0 0.5rem; text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff,0 0 20px #39ff14,0 0 40px #ff00ff; animation:glowCycle 2s infinite alternate; }
+@keyframes glowCycle { 0% {text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff,0 0 20px #39ff14,0 0 40px #ff00ff;} 50% {text-shadow:0 0 10px #ff00ff,0 0 20px #39ff14,0 0 30px #ff00ff,0 0 50px #39ff14;} 100% {text-shadow:0 0 5px #39ff14,0 0 10px #ff00ff,0 0 20px #39ff14,0 0 40px #ff00ff;} }
 
-#responses {
-  margin-top:1rem;
-  display:flex;
-  flex-direction:column-reverse;
-  gap:1rem;
-}
-
-.response {
-  padding:0.5rem 1rem;
-  border-radius:10px;
-  background:#111;
-  box-shadow:0 0 10px #39ff14, 0 0 20px #ff00ff;
-  animation:fadeIn 0.5s;
-}
-
-.response strong {
-  color:#39ff14;
-  text-shadow: 0 0 5px #ff00ff;
-}
-
-img.character {
-  width:60px;
-  vertical-align:middle;
-  margin-right:0.5rem;
-  border:2px solid #39ff14;
-  border-radius:50%;
-  box-shadow:0 0 10px #ff00ff;
-}
-
-#typingIndicator {
-  text-align:center;
-  font-style:italic;
-  color:#39ff14;
-  display:none;
-}
-
-@keyframes fadeIn {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1; transform:translateY(0);}
-}
-
-body::before {
-  content:"🐾";
-  position:fixed;
-  font-size:3rem;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) rotate(45deg);
-  opacity:0.03;
-  pointer-events:none;
-}
-
-video {
-  display:none;
-  margin:1rem auto;
-  max-width:90%;
-  border:3px solid #39ff14;
-  border-radius:10px;
-  box-shadow:0 0 20px #ff00ff;
-}
-
-.neon-link {
-  color:#39ff14;
-  text-decoration:none;
-  margin:0 0.5rem;
-  text-shadow:
-    0 0 5px #39ff14,
-    0 0 10px #ff00ff,
-    0 0 20px #39ff14,
-    0 0 40px #ff00ff;
-  animation: glowCycle 2s infinite alternate;
-}
-
-@keyframes glowCycle {
-  0% { text-shadow: 0 0 5px #39ff14, 0 0 10px #ff00ff, 0 0 20px #39ff14, 0 0 40px #ff00ff; }
-  50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #39ff14, 0 0 30px #ff00ff, 0 0 50px #39ff14; }
-  100% { text-shadow: 0 0 5px #39ff14, 0 0 10px #ff00ff, 0 0 20px #39ff14, 0 0 40px #ff00ff; }
-}
-
-#pawContainer {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.paw {
-  position:absolute;
-  font-size:1.5rem;
-  opacity:0.05;
-  animation: floatPaw linear infinite;
-}
-
-@keyframes floatPaw {
-  0% { transform: translateY(100%) rotate(0deg); opacity:0.05; }
-  50% { opacity:0.1; }
-  100% { transform: translateY(-50%) rotate(360deg); opacity:0.05; }
-}
+#pawContainer { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+.paw { position:absolute; font-size:1.5rem; opacity:0.05; animation:floatPaw linear infinite; }
+@keyframes floatPaw { 0% { transform:translateY(100%) rotate(0deg); opacity:0.05;} 50% { opacity:0.1; } 100% { transform:translateY(-50%) rotate(360deg); opacity:0.05; } }
 </style>
 </head>
 <body>
@@ -213,29 +86,12 @@ function showTypingIndicator(show){
 }
 
 // Character replies
-const azulReplies = [
-  "Oh, sure… like I haven’t seen this before 😏",
-  "Adventure calls! Hope you can keep up 🚀",
-  "Sarcastic comment loaded… but I’ll save it for the dramatic moment 😎",
-  "Hacking the scammers again… you’re welcome 💻",
-  "Floating upside-down because walking is boring 🌀",
-  "Keep your eyes peeled — surprises ahead ✨",
-  "Bet you didn’t expect THAT in Maximum Reality! 🧪"
-];
+const characters = {
+  azul: 'https://maximumreality.github.io/azul-story-cyoa/azul.png',
+  mochkil: 'https://maximumreality.github.io/azul-story-cyoa/mochkil.png'
+};
 
-const mochkilReplies = [
-  "Is it snack time yet? 🍪",
-  "I’ll eat everything in sight… maybe later 😋",
-  "Bored… let’s play ninjas! 🥷🏻",
-  "Oops! Did I break something again? 🙃",
-  "Food… everywhere… my dream world 🍩",
-  "Can I eat that? Can I? Can I? 🐟",
-  "Wait… what are we doing? Oh cool! 🐾"
-];
-
-// ============================
 // Random prompts
-// ============================
 const randomPrompts = [
   "What is Mochkil dreaming today? 🍪",
   "What hack is Azul working on? 🧪",
@@ -255,123 +111,124 @@ const randomPrompts = [
   "Secret treasure hidden nearby, do we investigate? 🏴‍☠️",
   "Strange sounds in the cave, do we follow them? 🕯️",
   "Luna's birthday party, any surprises? 🎉",
+  "Visit Dr. Azul today 🩺",
+  "Explore the treasure cave 🏰",
+  "Birthday cake chaos 🎂",
+  "New Zealand adventure 🇳🇿",
+  "Ninja farm training 🥷🌾",
   "Jungle adventure! 🌴",
   "Olive grove exploration! 🌿",
   "Video game challenge! 🎮"
 ];
 
+// Story definitions
+const stories = {
+  taco:{video:"azul_mochkil_taco_truck.mp4", vtt:"azul_mochkil_taco_truck.vtt"},
+  pirate:{video:"azul_mochkil_pirates.mp4", vtt:"azul_mochkil_pirates.vtt"},
+  space:{video:"azul_mochkil_space_voyager.mp4", vtt:"azul_mochkil_space_voyager.vtt"},
+  moon:{video:"azul_lori_moon_picnic.mp4", vtt:"azul_lori_moon_picnic.vtt"},
+  hacker:{video:"azul_lori_hacker.mp4", vtt:"azul_lori_hacker.vtt"},
+  dr_azul:{video:"dr_azul.mp4", vtt:null},
+  birthday_cake:{video:"birthday_cake.mp4", vtt:null},
+  treasure_cave:{video:"treasure_cave.mp4", vtt:null},
+  new_zealand:{video:"azul_mochkil_new_zealand.mp4", vtt:null},
+  ninja_farm:{video:"azul_mochkil_ninja_farm.mp4", vtt:"azul_mochkil_ninja_farm.vtt"},
+  jungle:{video:"azul_mochkil_jungle.mp4", vtt:null},
+  olive_grove:{video:"azul_mochkil_olivegrove.mp4", vtt:null},
+  gameover:{video:"azul_mochkil_gameover.mp4", vtt:null},
+  azulo1:{video:"azulo1.mp4", secret:true}, azulo2:{video:"azulo2.mp4", secret:true},
+  azulo3:{video:"azulo3.mp4", secret:true}, azulo4:{video:"azulo4.mp4", secret:true},
+  azulo5:{video:"azulo5.mp4", secret:true}, azulo6:{video:"azulo6.mp4", secret:true},
+  azulo7:{video:"azulo7.mp4", secret:true}
+};
+
+// Prompt mapping
+const promptMap = {
+  taco:"taco", pirate:"pirate", space:"space", moon:"moon", hacker:"hacker",
+  "dr azul":"dr_azul", "birthday cake":"birthday_cake", "treasure cave":"treasure_cave",
+  "new zealand":"new_zealand", "ninja farm":"ninja_farm", jungle:"jungle",
+  "olive grove":"olive_grove", "video game":"gameover"
+};
+
 // ============================
-// Story objects
-// (same as your previous version, including taco, pirate, space, moon, hacker, dr_azul, birthday, treasure_cave, new_zealand, ninja_farm, jungle, olive_grove, gameover, azulo1-7)
+// FUNCTIONS
 // ============================
 
-// (for brevity, I won't repeat the entire story objects here — assume all your previous story objects are included exactly as in your last version)
-
-// ============================
-// Secret unlock logic
-// ============================
-function attemptSecretUnlock() {
-  const chance = Math.random();
-  if(chance < 0.05){ // 5% chance to unlock a random Azulo commercial
-    const secretKeys = Object.keys(stories).filter(k=>stories[k].secret);
-    const key = secretKeys[Math.floor(Math.random()*secretKeys.length)];
-    unlockVideo(key);
-    console.log("Secret unlocked:", key);
-  }
-}
-
-// Function to unlock video
-function unlockVideo(storyKey){
-  const story = stories[storyKey];
-  if(!story) return;
-  if(document.getElementById(storyKey)) return;
-
+// Unlock video
+function unlockVideo(key){
+  const story = stories[key];
+  if(!story || document.getElementById(key)) return;
   const video = document.createElement('video');
-  video.id = storyKey;
-  video.controls = true;
-  video.src = story.video;
+  video.id=key; video.controls=true; video.src=story.video; video.style.display='block';
   if(story.vtt){
-    const track = document.createElement('track');
-    track.kind='subtitles';
-    track.label='Español / English';
-    track.srclang='en';
-    track.src=story.vtt;
-    track.default=true;
+    const track=document.createElement('track');
+    track.kind='subtitles'; track.label='Español / English'; track.srclang='en';
+    track.src=story.vtt; track.default=true;
     video.appendChild(track);
   }
   document.getElementById('videosContainer').appendChild(video);
-  video.style.display='block';
+  video.play().catch(()=>{});
+  if(navigator.vibrate) navigator.vibrate(100);
 }
 
-// ============================
-// Input / prompt handling
-// ============================
+// Create response
+function createResponse(sender,text){
+  const div=document.createElement('div'); div.className='response';
+  const img=document.createElement('img');
+  img.src = sender==="Azul"? characters.azul : sender==="Mochkil"? characters.mochkil : "";
+  if(img.src) div.appendChild(img);
+  const span=document.createElement('span'); span.innerHTML=`<strong>${sender}:</strong> ${text}`;
+  div.appendChild(span);
+  document.getElementById('responses').prepend(div);
+}
+
+// Show random prompt
+function randomPrompt(){
+  const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
+  createResponse('Prompt',prompt);
+  checkPrompt(prompt.toLowerCase());
+}
+
+// Send typed response
 function addResponse(){
-  const input = document.getElementById('promptInput');
-  const text = input.value.trim();
+  const input=document.getElementById('promptInput'); const text=input.value.trim();
   if(!text) return;
-  createResponse('You', text);
+  createResponse('You',text);
   checkPrompt(text.toLowerCase());
   input.value='';
 }
 
-function randomPrompt(){
-  const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
-  createResponse('Prompt', prompt);
-  // convert prompt to lowercase and remove emoji/punctuation for matching
-  const cleanPrompt = prompt.toLowerCase().replace(/[^\w\s]/gi,'');
-  checkPrompt(cleanPrompt);
-}
-
-function createResponse(sender,text){
-  const div = document.createElement('div');
-  div.className='response';
-  div.innerHTML=`<strong>${sender}:</strong> ${text}`;
-  document.getElementById('responses').prepend(div);
-}
-
-// ============================
-// Prompt map for unlocks
-// ============================
-const promptMap = {
-  "taco":"taco",
-  "pirates adventure":"pirate",
-  "space voyage":"space",
-  "moon picnic":"moon",
-  "hacker competition":"hacker",
-  "visit dr azul":"dr_azul",
-  "birthday cake":"birthday",
-  "treasure cave":"treasure_cave",
-  "new zealand":"new_zealand",
-  "ninja training":"ninja_farm",
-  "jungle adventure":"jungle",
-  "olive grove":"olive_grove",
-  "video game challenge":"gameover"
-};
-
+// Check typed/random prompt
 function checkPrompt(text){
   for(const key in promptMap){
     if(text.includes(key)){
       unlockVideo(promptMap[key]);
       attemptSecretUnlock();
+      createResponse('Azul','Adventure unlocked!'); createResponse('Mochkil','Yay! Let\'s go!');
       break;
     }
   }
 }
 
-// ============================
+// Secret unlock logic
+function attemptSecretUnlock(){
+  if(Math.random()<0.05){
+    const secretKeys=Object.keys(stories).filter(k=>stories[k].secret);
+    const key=secretKeys[Math.floor(Math.random()*secretKeys.length)];
+    unlockVideo(key);
+    createResponse('Azul','Shh… secret unlocked!'); createResponse('Mochkil','Surprise!');
+  }
+}
+
 // Paw prints animation
-// ============================
-const pawContainer = document.getElementById('pawContainer');
-const pawCount = 15;
-for(let i=0;i<pawCount;i++){
-  const paw = document.createElement('div');
-  paw.className='paw';
-  paw.textContent='🐾';
-  paw.style.left = Math.random()*100 + '%';
-  paw.style.fontSize = 10 + Math.random()*20 + 'px';
-  paw.style.animationDuration = 10 + Math.random()*10 + 's';
-  paw.style.animationDelay = Math.random()*5 + 's';
+const pawContainer=document.getElementById('pawContainer');
+for(let i=0;i<15;i++){
+  const paw=document.createElement('div');
+  paw.className='paw'; paw.textContent='🐾';
+  paw.style.left=Math.random()*100+'%';
+  paw.style.fontSize=10+Math.random()*20+'px';
+  paw.style.animationDuration=10+Math.random()*10+'s';
+  paw.style.animationDelay=Math.random()*5+'s';
   pawContainer.appendChild(paw);
 }
 </script>
