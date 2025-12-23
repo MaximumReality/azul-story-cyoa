@@ -3,42 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Chat with Azul & Mochkil 🐱🐈‍⬛</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<h1>Chat with Azul & Mochkil 🐱🐈‍⬛</h1>
-<p>Ask a question or start an adventure!</p>
-
-<div id="chatContainer">
-  <input type="text" id="playerName" placeholder="Enter your name (optional)">
-  <input type="text" id="promptInput" placeholder="Type your story prompt here...">
-  <div>
-    <button onclick="addResponse()">Send</button>
-    <button onclick="randomPrompt()">🎲 Random Prompt</button>
-  </div>
-  <div id="typingIndicator">💬 Azul & Mochkil are thinking...</div>
-</div>
-
-<div id="responses"></div>
-
-<h2>Unlocked Adventures</h2>
-<div id="videosContainer"></div>
-
-<footer style="position:relative; text-align:center; margin-top:2rem; padding:2rem 1rem; border-top:2px solid #39ff14; color:#39ff14; font-family:'Press Start 2P', monospace; overflow:hidden;">
-  <p>💖 Support & Follow Maximum Reality 💖</p>
-  <p>
-    <a href="https://maximum-reality-shop.fourthwall.com/" target="_blank" class="neon-link">Shop</a> |
-    <a href="https://buymeacoffee.com/MaximumReality" target="_blank" class="neon-link">Buy Me a Coffee</a> |
-    <a href="https://www.youtube.com/@maximumrealityLori" target="_blank" class="neon-link">YouTube</a>
-  </p>
-  <p style="font-size:0.8rem; color:#aaa; margin-top:0.5rem;">© 2025 Maximum Reality. All rights reserved.</p>
-  <div id="pawContainer"></div>
-</footer>
-
-<script src="replies.js"></script>
-<script src="stories.js"></script>
-<script src="functions.js"></script>
+<style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
@@ -119,7 +84,7 @@ button:hover {
   text-shadow: 0 0 5px #ff00ff;
 }
 
-img.character {
+.character {
   width:60px;
   vertical-align:middle;
   margin-right:0.5rem;
@@ -159,7 +124,57 @@ video {
   border-radius:10px;
   box-shadow:0 0 20px #ff00ff;
 }
-  const azulReplies = [
+
+footer {
+  position:relative;
+  text-align:center;
+  margin-top:2rem;
+  padding:2rem 1rem;
+  border-top:2px solid #39ff14;
+  color:#39ff14;
+  font-family:'Press Start 2P', monospace;
+  overflow:hidden;
+}
+footer .neon-link { color:#39ff14; text-decoration:none; }
+footer .neon-link:hover { color:#ff00ff; }
+
+</style>
+</head>
+<body>
+
+<h1>Chat with Azul & Mochkil 🐱🐈‍⬛</h1>
+<p>Enter your name (optional) and start an adventure!</p>
+
+<div id="chatContainer">
+  <input type="text" id="nameInput" placeholder="Enter your name...">
+  <input type="text" id="promptInput" placeholder="Type your story prompt here...">
+  <div>
+    <button onclick="addResponse()">Send</button>
+    <button onclick="randomPrompt()">🎲 Random Prompt</button>
+  </div>
+  <div id="typingIndicator">💬 Azul & Mochkil are thinking...</div>
+</div>
+
+<div id="responses"></div>
+
+<h2>Unlocked Adventures</h2>
+<div id="videosContainer"></div>
+
+<footer>
+  <p>💖 Support & Follow Maximum Reality 💖</p>
+  <p>
+    <a href="https://maximum-reality-shop.fourthwall.com/" target="_blank" class="neon-link">Shop</a> |
+    <a href="https://buymeacoffee.com/MaximumReality" target="_blank" class="neon-link">Buy Me a Coffee</a> |
+    <a href="https://www.youtube.com/@maximumrealityLori" target="_blank" class="neon-link">YouTube</a>
+  </p>
+  <p style="font-size:0.8rem; color:#aaa; margin-top:0.5rem;">© 2025 Maximum Reality. All rights reserved.</p>
+  <div id="pawContainer"></div>
+</footer>
+
+<script src="stories.js"></script>
+<script>
+// Replies
+const azulReplies = [
   "Oh, sure… like I haven’t seen this before 😏",
   "Adventure calls! Hope you can keep up 🚀",
   "Sarcastic comment loaded… but I’ll save it for the dramatic moment 😎",
@@ -179,57 +194,21 @@ const mochkilReplies = [
   "Wait… what are we doing? Oh cool! 🐾"
 ];
 
+// Random prompts
 const randomPrompts = [
   "What is Mochkil dreaming today? 🍪",
   "What hack is Azul working on? 🧪",
   "What's happening in Maximum Reality right now? 🌌",
   "Pirates Adventure! 🏴‍☠️",
   "Space voyage time! 🚀",
-  "Dr Azul appointment 🩺"
+  "Go to the jungle 🌴",
+  "Visit the olive grove 🌿",
+  "Treasure cave adventure ⚱️"
 ];
 
-const azuloCommercials = [
-  "azulo_commercial1.mp4",
-  "azulo_commercial2.mp4",
-  "azulo_commercial3.mp4"
-];
-  const stories = {
-  taco:{ title:"Taco Adventure 🌮", video:"azul_mochkil_taco_truck.mp4", vtt:"azul_mochkil_taco_truck.vtt",
-    questions:[
-      {q:"You see a taco truck. What do you do?", a:["Order one yourself","Let Mochkil order","Walk past it"]},
-      {q:"What topping do you choose?", a:["Chicken","Beef","Mystery taco"]},
-      {q:"Do you want salsa on it?", a:["Yes!","No","Extra spicy"]},
-      {q:"Choose a side:", a:["Churros","Fries","Nothing"]},
-      {q:"Drink preference?", a:["Soda","Water","Juice"]},
-      {q:"Where do you eat it?", a:["Bench","Street","On a roof"]},
-      {q:"Is Mochkil trying to sneak a bite?", a:["Yes","No","Maybe"]},
-      {q:"Do you share your taco?", a:["Yes","No","With Azul"]}
-    ]
-  },
-  pirate:{ title:"Pirate Adventure 🏴‍☠️", video:"azul_mochkil_pirates.mp4", vtt:"azul_mochkil_pirates.vtt",
-    questions:[
-      {q:"Do you board the pirate ship?", a:["Yes","Sneak aboard","Ignore"]},
-      {q:"Pick a pirate role:", a:["Captain","Cook","Deckhand"]},
-      {q:"Weapon of choice?", a:["Sword","Cannon","Map"]},
-      {q:"Treasure preference?", a:["Gold","Gems","Map"]},
-      {q:"Do you sing a sea shanty?", a:["Yes","No","Maybe"]},
-      {q:"Hide or fight?", a:["Hide","Fight","Negotiate"]},
-      {q:"Ship color?", a:["Black","Red","White"]},
-      {q:"Parrot companion?", a:["Yes","No","Mochkil"]}
-    ]
-  },
-  dr_azul:{ title:"Dr Azul Visit 🩺", video:"dr_azul.mp4", vtt:"dr_azul.vtt",
-    questions:[
-      {q:"Mochkil complains of a tummy ache. What do you do?", a:["Wait patiently","Offer a snack","Panic"]},
-      {q:"Mochkil farts loudly. How do you react?", a:["Sigh and update file","Laugh","Ignore"]},
-      {q:"Next check-up step?", a:["Record symptoms","Give medicine","Float away"]},
-    ]
-  },
-  // Add all other adventures here: space, jungle, olive grove, moon picnic, hacker, etc.
-};
-  const typingIndicator = document.getElementById('typingIndicator');
+// Typing indicator
+const typingIndicator = document.getElementById('typingIndicator');
 let typingInterval;
-
 function showTypingIndicator(show){
   if(show){
     typingIndicator.style.display='block';
@@ -241,78 +220,72 @@ function showTypingIndicator(show){
   }
 }
 
-let storyProgress=null;
-let questionIndex=0;
+// Story state
+let storyProgress = null;
+let questionIndex = 0;
 const videosContainer = document.getElementById('videosContainer');
 
+// Add chat responses
 function addResponse(){
   const input = document.getElementById('promptInput');
   if(input.value.trim()==='') return;
-  const nameInput=document.getElementById('playerName').value || "you";
+  const playerName = document.getElementById('nameInput').value.trim() || "you";
   const userPrompt = input.value;
   showTypingIndicator(true);
-
   setTimeout(()=>{
     showTypingIndicator(false);
-
     const azulReply = azulReplies[Math.floor(Math.random()*azulReplies.length)];
     const mochkilReply = mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)];
-
     const div = document.createElement('div');
     div.className='response';
-    div.innerHTML=`
-      <strong>${nameInput}:</strong> ${userPrompt}<br>
+    div.innerHTML=`<strong>${playerName}:</strong> ${userPrompt}<br>
       <img src="azul.png" class="character"> <strong>Azul 🧪:</strong> ${azulReply}<br>
-      <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}
-    `;
+      <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}`;
     document.getElementById('responses').prepend(div);
 
-    // Check for story triggers (keywords or emojis)
+    // Check keyword or emoji trigger
+    const keyword = userPrompt.toLowerCase();
     for(const key in stories){
-      if(userPrompt.toLowerCase().includes(key) || userPrompt.includes(stories[key].emoji || '')){
+      if(keyword.includes(key) || userPrompt.includes(stories[key].emoji)){
         startStory(key);
         break;
       }
     }
-
-    // Chance to show Azulo commercial
-    if(Math.random()<0.1){
-      const commercial = azuloCommercials[Math.floor(Math.random()*azuloCommercials.length)];
-      unlockVideo(commercial);
-    }
-
     input.value='';
   },1000);
 }
 
+// Random prompt
 function randomPrompt(){
   const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
   document.getElementById('promptInput').value = prompt;
 }
 
+// Start story
 function startStory(storyKey){
   storyProgress = storyKey;
-  questionIndex=0;
+  questionIndex = 0;
   showNextQuestion();
 }
 
+// Show next question
 function showNextQuestion(){
   if(!storyProgress) return;
-  const story=stories[storyProgress];
-  if(questionIndex>=story.questions.length){
+  const story = stories[storyProgress];
+  if(questionIndex >= story.questions.length){
     unlockVideo(story.video, story.vtt);
     storyProgress=null;
     return;
   }
-  const q=story.questions[questionIndex];
-  const div=document.createElement('div');
+  const q = story.questions[questionIndex];
+  const div = document.createElement('div');
   div.className='response';
   div.innerHTML=`<strong>Question ${questionIndex+1}:</strong> ${q.q}`;
-  const btnContainer=document.createElement('div');
+  const btnContainer = document.createElement('div');
   q.a.forEach(ans=>{
-    const btn=document.createElement('button');
-    btn.textContent=ans;
-    btn.onclick=()=>{
+    const btn = document.createElement('button');
+    btn.textContent = ans;
+    btn.onclick = ()=>{
       questionIndex++;
       btnContainer.remove();
       showNextQuestion();
@@ -323,15 +296,15 @@ function showNextQuestion(){
   document.getElementById('responses').prepend(div);
 }
 
-function unlockVideo(src,vtt=null){
-  const video=document.createElement('video');
+// Unlock video
+function unlockVideo(src,vtt){
+  const video = document.createElement('video');
   video.controls=true;
   video.style.display='block';
   const sourceElem=document.createElement('source');
   sourceElem.src=src;
   sourceElem.type='video/mp4';
   video.appendChild(sourceElem);
-
   if(vtt){
     const track=document.createElement('track');
     track.kind='subtitles';
@@ -341,133 +314,23 @@ function unlockVideo(src,vtt=null){
     track.default=true;
     video.appendChild(track);
   }
-
-  videosContainer.appendChild(video);
+  document.getElementById('videosContainer').appendChild(video);
   video.play().catch(()=>{});
   if(navigator.vibrate) navigator.vibrate(100);
-}const stories = {
-  taco:{ 
-    title:"Taco Adventure 🌮", video:"azul_mochkil_taco_truck.mp4", vtt:"azul_mochkil_taco_truck.vtt",
-    emoji:"🌮",
-    questions:[
-      {q:"You see a taco truck. What do you do?", a:["Order one yourself","Let Mochkil order","Walk past it"]},
-      {q:"What topping do you choose?", a:["Chicken","Beef","Mystery taco"]},
-      {q:"Do you want salsa on it?", a:["Yes!","No","Extra spicy"]},
-      {q:"Choose a side:", a:["Churros","Fries","Nothing"]},
-      {q:"Drink preference?", a:["Soda","Water","Juice"]},
-      {q:"Where do you eat it?", a:["Bench","Street","On a roof"]},
-      {q:"Is Mochkil trying to sneak a bite?", a:["Yes","No","Maybe"]},
-      {q:"Do you share your taco?", a:["Yes","No","With Azul"]}
-    ]
-  },
 
-  pirate:{ 
-    title:"Pirate Adventure 🏴‍☠️", video:"azul_mochkil_pirates.mp4", vtt:"azul_mochkil_pirates.vtt",
-    emoji:"🏴‍☠️",
-    questions:[
-      {q:"Do you board the pirate ship?", a:["Yes","Sneak aboard","Ignore"]},
-      {q:"Pick a pirate role:", a:["Captain","Cook","Deckhand"]},
-      {q:"Weapon of choice?", a:["Sword","Cannon","Map"]},
-      {q:"Treasure preference?", a:["Gold","Gems","Map"]},
-      {q:"Do you sing a sea shanty?", a:["Yes","No","Maybe"]},
-      {q:"Hide or fight?", a:["Hide","Fight","Negotiate"]},
-      {q:"Ship color?", a:["Black","Red","White"]},
-      {q:"Parrot companion?", a:["Yes","No","Mochkil"]}
-    ]
-  },
-
-  space:{ 
-    title:"Space Voyage 🚀", video:"azul_mochkil_space_voyager.mp4", vtt:"azul_mochkil_space_voyager.vtt",
-    emoji:"🚀",
-    questions:[
-      {q:"Launch the spaceship?", a:["Yes","No","Hack navigation"]},
-      {q:"Destination?", a:["Moon","Mars","Mystery planet"]},
-      {q:"Fuel check?", a:["Full","Half","Empty"]},
-      {q:"Co-pilot?", a:["Azul","Mochkil","You"]},
-      {q:"Alien greeting?", a:["Wave","Laser","Hide"]},
-      {q:"Collect samples?", a:["Yes","No","Just look"]},
-      {q:"Zero gravity meal?", a:["Freeze-dried","Pizza","Tacos"]},
-      {q:"Do you float upside-down?", a:["Yes","No","Maybe"]}
-    ]
-  },
-
-  moon:{ 
-    title:"Moon Picnic 🌌", video:"azul_lori_moon_picnic.mp4", vtt:"azul_lori_moon_picnic.vtt",
-    emoji:"🌌",
-    questions:[
-      {q:"Do you enjoy the picnic?", a:["Yes","Float away","Ignore"]},
-      {q:"Pick a snack:", a:["Moon cheese","Space fruit","Chocolate"]},
-      {q:"Seat location?", a:["Crater","Rover","Blanket"]},
-      {q:"Bring a blanket?", a:["Yes","No","Use suit"]},
-      {q:"Look at stars?", a:["Yes","No","Maybe"]},
-      {q:"Who floats away?", a:["You","Mochkil","Azul"]},
-      {q:"Take photos?", a:["Yes","No","Draw"]}
-    ]
-  },
-
-  hacker:{ 
-    title:"Hacker Competition 💻", video:"azul_lori_hacker.mp4", vtt:"azul_lori_hacker.vtt",
-    emoji:"💻",
-    questions:[
-      {q:"Do you hack the scammers?", a:["Yes","No","Try later"]},
-      {q:"Keyboard preference?", a:["Mechanical","Soft","Virtual"]},
-      {q:"Which software?", a:["Custom","Standard","Mystery"]},
-      {q:"Co-hacker?", a:["Azul","Mochkil","No one"]},
-      {q:"Level of stealth?", a:["High","Medium","Low"]},
-      {q:"Victory celebration?", a:["Yes","No","Maybe"]},
-      {q:"Public or private?", a:["Private","Public","Secret"]}
-    ]
-  },
-
-  dr_azul:{ 
-    title:"Dr Azul Visit 🩺", video:"dr_azul.mp4", vtt:"dr_azul.vtt",
-    emoji:"🩺",
-    questions:[
-      {q:"Mochkil complains of a tummy ache. What do you do?", a:["Wait patiently","Offer a snack","Panic"]},
-      {q:"Mochkil farts loudly. How do you react?", a:["Sigh and update file","Laugh","Ignore"]},
-      {q:"Next check-up step?", a:["Record symptoms","Give medicine","Float away"]}
-    ]
-  },
-
-  jungle:{
-    title:"Jungle Exploration 🌴", video:"jungle_adventure.mp4", vtt:"jungle_adventure.vtt",
-    emoji:"🌴",
-    questions:[
-      {q:"Do you enter the jungle?", a:["Yes","No","Sneak"]},
-      {q:"Pick a path:", a:["River","Trail","Canopy"]},
-      {q:"Encounter an animal?", a:["Observe","Feed","Run"]},
-      {q:"Find treasure?", a:["Yes","No","Ignore"]},
-      {q:"Rest location?", a:["Hammock","Ground","Tree"]},
-      {q:"Nightfall activity?", a:["Campfire","Hide","Sing"]}
-    ]
-  },
-
-  olive_grove:{
-    title:"Olive Grove Adventure 🌿", video:"olive_grove.mp4", vtt:"olive_grove.vtt",
-    emoji:"🌿",
-    questions:[
-      {q:"Do you pick olives?", a:["Yes","No","Give to Mochkil"]},
-      {q:"Taste one?", a:["Yes","No","Offer to Azul"]},
-      {q:"Make olive oil?", a:["Yes","No","Ask for help"]},
-      {q:"Sit under tree?", a:["Yes","No","Lie down"]},
-      {q:"Spot a bird?", a:["Observe","Chase","Ignore"]}
-    ]
-  },
-
-  treasure_cave:{
-    title:"Treasure Cave ⚱️", video:"treasure_cave.mp4", vtt:"treasure_cave.vtt",
-    emoji:"⚱️",
-    questions:[
-      {q:"Do you enter the cave?", a:["Yes","No","Peek"]},
-      {q:"Pick a torch?", a:["Red","Blue","Green"]},
-      {q:"Move left or right?", a:["Left","Right","Straight"]},
-      {q:"Find a treasure chest?", a:["Open","Ignore","Shake"]},
-      {q:"Take treasure?", a:["Yes","No","Ask Mochkil"]},
-      {q:"Escape route?", a:["Back","Through tunnel","Fly"]}
-    ]
+  // Rare random Azulo commercials
+  if(Math.random()<0.1){ //10% chance
+    const adVideo=document.createElement('video');
+    adVideo.controls=true;
+    adVideo.style.display='block';
+    const adSource=document.createElement('source');
+    adSource.src='azulo_commercial.mp4';
+    adSource.type='video/mp4';
+    adVideo.appendChild(adSource);
+    document.getElementById('videosContainer').appendChild(adVideo);
+    adVideo.play().catch(()=>{});
   }
-};
-      
-      
+}
+</script>
 </body>
 </html>
