@@ -421,7 +421,55 @@ function checkStoryTrigger(text){
     }
   }
 }
+function unlockStory(key){
+  if(!document.getElementById(key)){
+    const story = stories[key];
 
+    // Title
+    const title = document.createElement('p');
+    title.style.textAlign = 'center';
+    title.style.color = '#39ff14';
+    title.innerText = story.title;
+    videosContainer.appendChild(title);
+
+    // Video element
+    const video = document.createElement('video');
+    video.id = key;
+    video.controls = true;
+    video.style.display = 'block';
+    video.style.margin = '1rem auto';
+    video.style.maxWidth = '90%';
+    video.style.border = '3px solid #39ff14';
+    video.style.borderRadius = '10px';
+    video.style.boxShadow = '0 0 20px #ff00ff';
+
+    // Source
+    const source = document.createElement('source');
+    source.src = story.video;
+    source.type = 'video/mp4';
+    video.appendChild(source);
+
+    // Subtitles if available
+    if(story.vtt){
+      const track = document.createElement('track');
+      track.kind = 'subtitles';
+      track.label = 'Español / English';
+      track.srclang = 'en';
+      track.src = story.vtt;
+      track.default = true;
+      video.appendChild(track);
+    }
+
+    videosContainer.appendChild(video);
+
+    // Try to play
+    video.play().catch(() => {
+      console.log('Autoplay blocked, click play manually.');
+    });
+
+    video.scrollIntoView({behavior: "smooth"});
+  }
+}
 // Unlock story video
 function unlockStory(key){
   if(!document.getElementById(key)){
