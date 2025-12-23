@@ -13,6 +13,13 @@ body {
   padding:2rem;
   margin:0;
   min-height:100vh;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.02) 0,
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 3px
+  );
 }
 
 h1 {
@@ -20,12 +27,14 @@ h1 {
   text-shadow:0 0 10px #39ff14;
   text-align:center;
   margin-bottom:0.5rem;
+  font-size:2rem;
 }
 
 p {
   text-align:center;
   color:#aaa;
   margin-bottom:2rem;
+  font-size:1rem;
 }
 
 #chatContainer {
@@ -100,9 +109,26 @@ img.character {
   display:none;
 }
 
+video {
+  display:none;
+  margin:1rem auto;
+  max-width:80%;
+  border:3px solid #39ff14;
+  border-radius:10px;
+  box-shadow:0 0 20px #ff00ff;
+  animation:videoGlow 2s infinite alternate;
+}
+
+/* VHS-like scanlines and glow animation */
 @keyframes fadeIn {
   from {opacity:0; transform:translateY(10px);}
   to {opacity:1; transform:translateY(0);}
+}
+
+@keyframes videoGlow {
+  0% {box-shadow:0 0 10px #39ff14, 0 0 20px #ff00ff;}
+  50% {box-shadow:0 0 20px #39ff14, 0 0 30px #ff00ff;}
+  100% {box-shadow:0 0 10px #39ff14, 0 0 20px #ff00ff;}
 }
 
 body::before {
@@ -114,15 +140,6 @@ body::before {
   transform:translate(-50%,-50%) rotate(45deg);
   opacity:0.03;
   pointer-events:none;
-}
-
-video {
-  display:none;
-  margin:1rem auto;
-  max-width:90%;
-  border:3px solid #39ff14;
-  border-radius:10px;
-  box-shadow:0 0 20px #ff00ff;
 }
 </style>
 </head>
@@ -167,7 +184,6 @@ const mochkilReplies = [
   "Wait… what are we doing? Oh cool! 🐾"
 ];
 
-// Random prompts
 const randomPrompts = [
   "What is Mochkil dreaming today? 🍪",
   "What hack is Azul working on? 🧪",
@@ -179,7 +195,6 @@ const randomPrompts = [
 // Typing indicator
 const typingIndicator = document.getElementById('typingIndicator');
 let typingInterval;
-
 function showTypingIndicator(show){
   if(show){
     typingIndicator.style.display='block';
@@ -192,14 +207,14 @@ function showTypingIndicator(show){
 }
 
 // Story state
-let currentStory=null;
-let currentNode=null;
+let storyProgress=null;
+let questionIndex=0;
 const videosContainer = document.getElementById('videosContainer');
 
-// Story and questions (hardcoded 6–8 questions per adventure, 100 total)
+// Stories
 const stories = {
   taco:{
-    title: "Taco Adventure 🌮",
+    title:"Taco Adventure 🌮",
     questions:[
       {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"],correct:0},
       {q:"What topping do you choose?",a:["Chicken","Beef","Mystery taco"],correct:2},
@@ -208,13 +223,13 @@ const stories = {
       {q:"Drink preference?",a:["Soda","Water","Juice"],correct:2},
       {q:"Where do you eat it?",a:["Bench","Street","On a roof"],correct:0},
       {q:"Is Mochkil trying to sneak a bite?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0},
+      {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0}
     ],
     video:"azul_mochkil_taco_truck.mp4",
     vtt:"azul_mochkil_taco_truck.vtt"
   },
   pirate:{
-    title: "Pirate Adventure 🏴‍☠️",
+    title:"Pirate Adventure 🏴‍☠️",
     questions:[
       {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"],correct:0},
       {q:"Pick a pirate role:",a:["Captain","Cook","Deckhand"],correct:0},
@@ -270,14 +285,39 @@ const stories = {
     ],
     video:"azul_lori_hacker.mp4",
     vtt:"azul_lori_hacker.vtt"
+  },
+  drAzul:{
+    title:"Visit to Dr. Azul 🧪🏥",
+    questions:[
+      {q:"Mochkil says, 'My belly hurts!' What should he do?",a:["Apologize for eating too much","Hide under the chair","Eat more snacks"],branchVideos:[null,null,"birthday_cake.mp4"]},
+      {q:"Dr. Azul sighs and starts typing. What do you do?",a:["Ask for a prescription","Float upside-down for fun","Watch quietly"],branchVideos:[null,null,null]},
+      {q:"Mochkil notices a floating beaker. What should he do?",a:["Touch it","Ignore it","Ask Azul about it"],branchVideos:[null,null,null]},
+      {q:"Dr. Azul looks at Mochkil. How should he respond?",a:["Calm explanation","Weary sigh","Throw confetti"],branchVideos:[null,null,null]},
+      {q:"Mochkil is curious about Azul's files. What next?",a:["Peek at files","Ask politely","Float around the room"],branchVideos:[null,null,null]},
+      {q:"Time to leave the office. Where to next?",a:["Forest adventure","Lab experiment","Nap time"],branchVideos:[null,null,null]}
+    ],
+    video:"dr_azul.mp4",
+    vtt:""
+  },
+  treasureCave:{
+    title:"Treasure Cave Adventure 🏔️💰",
+    questions:[
+      {q:"You enter a dark cave. What do you do first?",a:["Light a torch","Shout to see if anyone is there","Tiptoe quietly"],branchVideos:[null,null,null]},
+      {q:"You hear a dripping sound. Investigate?",a:["Yes, follow it","No, keep going straight","Sit and listen"],branchVideos:[null,null,null]},
+      {q:"A narrow passage appears. How do you proceed?",a:["Crawl through","Jump over it","Turn back"],branchVideos:[null,null,null]},
+      {q:"You smell something shiny. Check it?",a:["Yes, inspect closely","Ignore it","Mark the spot on your map"],branchVideos:[null,null,null]},
+      {q:"A mysterious glimmer is ahead. Approach carefully?",a:["Yes, sneak forward","Run toward it","Call Azul for advice"],branchVideos:[null,null,null]},
+      {q:"You turn the corner… what do you see?",a:["A huge treasure chamber!","Just more rocks","A hidden passage"],branchVideos:[null,null,null]}
+    ],
+    video:"treasure_cave.mp4",
+    vtt:""
   }
 };
 
 // Current state
-let storyProgress = null;
-let questionIndex = 0;
+let storyProgress=null;
+let questionIndex=0;
 
-// Add chat responses
 function addResponse(){
   const input = document.getElementById('promptInput');
   if(input.value.trim()==='') return;
@@ -289,9 +329,9 @@ function addResponse(){
     const mochkilReply = mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)];
     const div = document.createElement('div');
     div.className='response';
-    div.innerHTML=<strong>You:</strong> ${userPrompt}<br>
+    div.innerHTML=`<strong>You:</strong> ${userPrompt}<br>
     <img src="azul.png" class="character"> <strong>Azul 🧪:</strong> ${azulReply}<br>
-    <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply};
+    <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}`;
     document.getElementById('responses').prepend(div);
 
     // Check keyword to start adventure
@@ -306,40 +346,43 @@ function addResponse(){
   },1000);
 }
 
-// Random prompt
 function randomPrompt(){
   const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
   document.getElementById('promptInput').value = prompt;
 }
 
-// Start story
 function startStory(storyKey){
   storyProgress = storyKey;
   questionIndex = 0;
   showNextQuestion();
 }
 
-// Show next question
 function showNextQuestion(){
   if(!storyProgress) return;
   const story = stories[storyProgress];
   if(questionIndex >= story.questions.length){
-    unlockVideo(story.video, story.vtt);
+    unlockVideo(story.video);
     storyProgress=null;
     return;
   }
   const q = story.questions[questionIndex];
   const div = document.createElement('div');
   div.className='response';
-  div.innerHTML=<strong>Question ${questionIndex+1}:</strong> ${q.q};
+  div.innerHTML=`<strong>Question ${questionIndex+1}:</strong> ${q.q}`;
   const btnContainer = document.createElement('div');
   q.a.forEach((ans,i)=>{
     const btn = document.createElement('button');
     btn.textContent = ans;
     btn.onclick = ()=>{
-      questionIndex++;
-      btnContainer.remove();
-      showNextQuestion();
+      // Check for branch video
+      if(q.branchVideos && q.branchVideos[i]){
+        unlockVideo(q.branchVideos[i]);
+        storyProgress=null;
+      } else {
+        questionIndex++;
+        btnContainer.remove();
+        showNextQuestion();
+      }
     }
     btnContainer.appendChild(btn);
   });
@@ -347,8 +390,7 @@ function showNextQuestion(){
   document.getElementById('responses').prepend(div);
 }
 
-// Unlock video
-function unlockVideo(src, vtt){
+function unlockVideo(src){
   const video = document.createElement('video');
   video.controls=true;
   video.style.display='block';
@@ -356,22 +398,11 @@ function unlockVideo(src, vtt){
   sourceElem.src=src;
   sourceElem.type='video/mp4';
   video.appendChild(sourceElem);
-
-  // Add subtitles if provided
-  if(vtt){
-    const track=document.createElement('track');
-    track.kind='subtitles';
-    track.label='Español / English';
-    track.srclang='en';
-    track.src=vtt;
-    track.default=true;
-    video.appendChild(track);
-  }
-
   document.getElementById('videosContainer').appendChild(video);
   video.play().catch(()=>{});
   if(navigator.vibrate) navigator.vibrate(100);
 }
+
 </script>
 </body>
 </html>
