@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maximum Reality – Azul & Mochkil</title>
 <style>
+/* Fonts & body */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
   margin:0;
   font-family: 'Press Start 2P', monospace;
@@ -13,8 +16,45 @@ body {
   text-align:center;
   padding:2rem;
   min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
 }
 
+/* VHS Scanline overlay */
+body::after {
+  content:"";
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.03),
+      rgba(255,255,255,0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  z-index:1;
+}
+
+/* Drifting paws */
+.paw {
+  position:fixed;
+  font-size:2rem;
+  color:rgba(255,255,255,0.03);
+  top:0; left:0;
+  pointer-events:none;
+  animation:floatPaws 20s linear infinite;
+}
+
+@keyframes floatPaws {
+  0% { transform: translate(0,0) rotate(0deg); }
+  50% { transform: translate(80vw, 100vh) rotate(180deg); }
+  100% { transform: translate(0,0) rotate(360deg); }
+}
+
+/* Headings & text */
 h1 {
   color:#39ff14;
   text-shadow:0 0 10px #39ff14;
@@ -27,6 +67,7 @@ p.subtitle {
   font-size:0.95rem;
 }
 
+/* Video */
 video {
   max-width:90%;
   border:3px solid #39ff14;
@@ -34,8 +75,11 @@ video {
   box-shadow:0 0 20px #ff00ff;
   display:block;
   margin:1rem auto 2rem;
+  z-index:2;
+  position:relative;
 }
 
+/* Cards */
 .card {
   background: rgba(255,255,255,0.08);
   border-radius:16px;
@@ -43,6 +87,9 @@ video {
   margin:20px auto;
   max-width:720px;
   text-align:left;
+  box-shadow:0 0 15px rgba(57,255,20,0.2), 0 0 25px rgba(255,0,255,0.15);
+  position:relative;
+  z-index:2;
 }
 
 .card h2 {
@@ -53,6 +100,7 @@ video {
 ul {padding-left:20px;}
 li {margin-bottom:8px;}
 
+/* Start button */
 .start-button {
   display:inline-block;
   margin:30px auto;
@@ -64,18 +112,24 @@ li {margin-bottom:8px;}
   border-radius:999px;
   text-decoration:none;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position:relative;
+  z-index:2;
 }
 .start-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
+/* Footer */
 .footer {
   margin-top:60px;
   font-size:0.85rem;
   opacity:0.7;
+  position:relative;
+  z-index:2;
 }
 
+/* Optional subtle fixed paw in center */
 body::before {
   content:"🐾";
   position:fixed;
@@ -102,16 +156,16 @@ body::before {
 <!-- Description cards -->
 <div class="card">
   <h2>📖 What Is This?</h2>
-  <p>Maximum Reality is an interactive story adventure where you chat with Azul, a floating science cat, and Mochkil, a mischievous tuxedo kitten. Ask questions, make choices, explore odd realities, and unlock whimsical stories along the way.</p>
+  <p>Maximum Reality is an interactive story adventure where you chat with Azul, a floating science cat, and Mochkil, a mischievous tuxedo kitten. Ask questions, make choices, explore fun stories, and unlock whimsical adventures.</p>
 </div>
 
 <div class="card">
   <h2>✨ What You Can Do</h2>
   <ul>
     <li>Start a brand-new adventure</li>
-    <li>Explore forests, caves, towns, and strange worlds</li>
-    <li>Meet silly characters who give absurd advice</li>
-    <li>Unlock story paths and surprises</li>
+    <li>Explore stories with Azul & Mochkil</li>
+    <li>Meet whimsical, silly characters</li>
+    <li>Unlock videos and surprises as you go</li>
   </ul>
 </div>
 
@@ -119,13 +173,18 @@ body::before {
   <h2>🧭 How It Works</h2>
   <ul>
     <li>Type what you want to do or ask in the chat</li>
-    <li>Follow the story as it unfolds step by step</li>
-    <li>There are no wrong choices — only unexpected adventures</li>
+    <li>Follow the story step by step</li>
+    <li>There are no wrong choices — only fun adventures</li>
   </ul>
 </div>
 
 <!-- Start button -->
 <a class="start-button" href="azul-game.html">🚀 Start the Adventure</a>
+
+<!-- Floating paws -->
+<span class="paw">🐾</span>
+<span class="paw">🐾</span>
+<span class="paw">🐾</span>
 
 <div class="footer">© Maximum Reality • Stay curious • Stay glitchy</div>
 
