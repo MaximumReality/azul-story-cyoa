@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Maximum Reality – Interactive Adventures</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Press Start 2P', monospace;
+  background:linear-gradient(#050505,#0b0b0b);
+  color:#eaeaea;
+  margin:0;
+  padding:2rem;
+  min-height:100vh;
+}
+
+h1{
+  text-align:center;
+  color:#39ff14;
+  text-shadow:0 0 12px #39ff14;
+}
+
+p{
+  text-align:center;
+  color:#aaa;
+}
+
+#chatContainer{
+  max-width:720px;
+  margin:2rem auto;
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+}
+
+input{
+  padding:0.6rem;
+  font-size:1rem;
+}
+
+button{
+  background:#111;
+  border:2px solid #39ff14;
+  color:#39ff14;
+  padding:0.5rem;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#39ff14;
+  color:#000;
+}
+
+.response{
+  background:#111;
+  padding:0.75rem;
+  border-radius:10px;
+  box-shadow:0 0 10px #39ff14,0 0 20px #ff00ff;
+}
+
+#responses{
+  display:flex;
+  flex-direction:column-reverse;
+  gap:1rem;
+}
+
+video{
+  max-width:100%;
+  margin:1rem 0;
+  border:3px solid #39ff14;
+  box-shadow:0 0 20px #ff00ff;
+}
+
+footer{
+  margin-top:3rem;
+  text-align:center;
+  border-top:2px solid #39ff14;
+  padding-top:1.5rem;
+}
+
+.neon-link{
+  color:#39ff14;
+  text-decoration:none;
+  margin:0 0.5rem;
+  text-shadow:0 0 6px #ff00ff;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Maximum Reality</h1>
+<p>Choose wisely. Wander freely. Unlock adventures.</p>
+
+<div id="chatContainer">
+  <input id="promptInput" placeholder="Type an idea or click random…">
+  <div>
+    <button onclick="sendPrompt()">Send</button>
+    <button onclick="randomPrompt()">🎲 Random</button>
+  </div>
+</div>
+
+<div id="responses"></div>
+
+<h2>Unlocked Adventures</h2>
+<div id="videosContainer"></div>
+
+<footer>
+  <p>💖 Support Maximum Reality</p>
+  <a class="neon-link" href="https://maximum-reality-shop.fourthwall.com/" target="_blank">Shop</a> |
+  <a class="neon-link" href="https://buymeacoffee.com/MaximumReality" target="_blank">Buy Me a Coffee</a> |
+  <a class="neon-link" href="https://www.youtube.com/@maximumrealityLori" target="_blank">YouTube</a>
+</footer>
+
+<script>
+/* =====================
+   GLOBAL STATE
+===================== */
+let activeStory=null;
+let questionIndex=0;
+
+/* =====================
+   RANDOM PROMPTS
+===================== */
+const randomPrompts=[
+  "Explore the jungle 🌴",
+  "Walk through an olive grove 🫒",
+  "Enter the treasure cave 🏰",
+  "Visit Dr. Azul 🩺",
+  "Birthday cake disaster 🎂",
+  "Train on the ninja farm 🥷🌾",
+  "New Zealand journey 🇳🇿",
+  "Video game adventure 🎮"
+];
+
+/* =====================
+   STORY DEFINITIONS
+===================== */
+const stories={
+  jungle:{
+    video:"azul_mochkil_jungle.mp4",
+    questions:[
+      {q:"The jungle is loud. What do you do?",a:["Listen","Run","Ignore"],exit:[2]},
+      {q:"A vine hangs low.",a:["Swing","Duck","Snack"],},
+      {q:"You hear rustling.",a:["Investigate","Hide","Leave"],exit:[2]},
+      {q:"Mochkil sees fruit.",a:["Eat it","Stop him","Take notes"],},
+      {q:"Path splits.",a:["River","Canopy","Cave"],}
+    ]
+  },
+
+  olive:{
+    video:"azul_mochkil_olivegrove.mp4",
+    questions:[
+      {q:"The grove is quiet.",a:["Breathe","Talk","Leave"],exit:[2]},
+      {q:"Olives fall.",a:["Catch","Taste","Juggle"],},
+      {q:"Farmer waves.",a:["Wave back","Hide","Help"],},
+      {q:"Mochkil climbs tree.",a:["Encourage","Worry","Film"],},
+      {q:"Sun sets.",a:["Stay","Head home","Nap"],}
+    ]
+  },
+
+  gameover:{
+    video:"azul_mochkil_gameover.mp4",
+    questions:[
+      {q:"Insert coin?",a:["Yes","No"],exit:[1]},
+      {q:"Choose character.",a:["Azul","Mochkil","Both"],},
+      {q:"Enemy appears!",a:["Jump","Snack","Glitch"],},
+      {q:"Final boss?",a:["Fight","Dance","Quit"],exit:[3]}
+    ]
+  }
+};
+
+/* =====================
+   CHAT ENGINE
+===================== */
+function sendPrompt(){
+  const input=document.getElementById("promptInput");
+  if(!input.value) return;
+
+  addText("You",input.value);
+
+  const txt=input.value.toLowerCase();
+  input.value="";
+
+  if(txt.includes("jungle")) startStory("jungle");
+  else if(txt.includes("olive")) startStory("olive");
+  else if(txt.includes("game")) startStory("gameover");
+}
+
+function randomPrompt(){
+  document.getElementById("promptInput").value =
+    randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
+}
+
+/* =====================
+   STORY ENGINE
+===================== */
+function startStory(key){
+  activeStory=key;
+  questionIndex=0;
+  askQuestion();
+}
+
+function askQuestion(){
+  const story=stories[activeStory];
+  const q=story.questions[questionIndex];
+
+  const box=document.createElement("div");
+  box.className="response";
+  box.innerHTML="<strong>Question:</strong> "+q.q;
+
+  q.a.forEach((ans,i)=>{
+    const b=document.createElement("button");
+    b.textContent=ans;
+    b.onclick=()=>{
+      if(q.exit && q.exit.includes(i)){
+        addText("System","You chose another path. A new journey awaits.");
+        activeStory=null;
+      } else {
+        questionIndex++;
+        if(questionIndex>=story.questions.length){
+          unlockVideo(story.video);
+          activeStory=null;
+        } else {
+          askQuestion();
+        }
+      }
+      box.remove();
+    };
+    box.appendChild(b);
+  });
+
+  document.getElementById("responses").prepend(box);
+}
+
+/* =====================
+   VIDEO UNLOCK
+===================== */
+function unlockVideo(src){
+  addText("System","🔓 Adventure unlocked!");
+
+  const v=document.createElement("video");
+  v.controls=true;
+  v.src=src;
+  document.getElementById("videosContainer").appendChild(v);
+}
+
+/* =====================
+   UTIL
+===================== */
+function addText(who,msg){
+  const d=document.createElement("div");
+  d.className="response";
+  d.innerHTML="<strong>"+who+":</strong> "+msg;
+  document.getElementById("responses").prepend(d);
+}
+</script>
+
+</body>
+</html>
