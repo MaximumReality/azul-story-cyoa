@@ -3,21 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Azul & Mochkil: Maximum Reality CYOA</title>
+<title>Azul & Mochkil: Maximum Reality</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 body {
   font-family:'Press Start 2P', cursive;
-  background: #0a0a0a;
-  color:#f0f0f0;
-  padding:1rem;
-  margin:0;
-  font-size: 0.6rem;
-  line-height: 1.4;
+  background: #0a0a0a; color:#f0f0f0;
+  padding:1rem; margin:0; font-size: 0.6rem;
 }
 
-h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size: 0.9rem; margin: 1rem 0; }
+h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size: 0.9rem; }
+
 #chatContainer { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:0.8rem; }
 
 input[type="text"] {
@@ -36,21 +33,23 @@ button {
 .response {
   padding:1rem; border-radius:10px; background:#111;
   border: 1px solid #39ff14; margin-top: 1rem;
-  animation:fadeIn 0.4s;
+  animation:fadeIn 0.4s; line-height: 1.6;
 }
 
-video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; box-shadow: 0 0 15px #ff00ff; }
-@keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
-footer { text-align: center; margin-top: 2rem; color: #444; font-size: 0.4rem; }
+.response strong { color: #39ff14; }
+img.character { width:40px; vertical-align:middle; border-radius:50%; margin-right:8px; border:1px solid #39ff14; }
+
+video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
+@keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1;} }
 </style>
 </head>
 <body>
 
-<h1>Maximum Reality CYOA 🐱🐈‍⬛</h1>
+<h1>Maximum Reality 🐱🐈‍⬛</h1>
 
 <div id="chatContainer">
-  <input type="text" id="playerName" placeholder="Enter name...">
-  <input type="text" id="promptInput" placeholder="Type Jungle, Ninja, Dream, etc...">
+  <input type="text" id="playerName" placeholder="Your name...">
+  <input type="text" id="promptInput" placeholder="Try 'Dr Azul 🩺', 'Ninja', 'Moon'...">
   <div class="button-row">
     <button onclick="addResponse()">SEND</button>
     <button onclick="randomPrompt()">🎲 RANDOM</button>
@@ -61,78 +60,35 @@ footer { text-align: center; margin-top: 2rem; color: #444; font-size: 0.4rem; }
 <div id="videosContainer"></div>
 
 <script>
+const azulReplies = ["Sarcastic comment loading...", "I'm hacking the system!", "Walking is for humans. I float.", "Oh, sure... like I haven't seen THIS before."];
+const mochkilReplies = ["Is it snack time?", "I can eat that.", "Let's be ninjas!", "I'm bored... feed me?"];
+
 const stories = {
-  ninja: {
-    triggers: ["ninja", "🥷🏻", "farm"],
-    video: "azul_mochkil_ninja_farm.mp4",
+  dr_azul: { 
+    triggers: ["dr", "doctor", "azul", "🩺", "🩻", "🥼"], 
+    video: "dr_azul.mp4", 
     questions: [
-      { q: "You enter the Ninja Farm. Is it quiet?", a: ["Too quiet...", "Extremely loud"], correct: 0 },
-      { q: "Mochkil is wearing a headband. Join him?", a: ["Yes, Sensei", "No, I'm a pirate"], correct: 0 },
-      { q: "The crops are throwing stars! Duck?", a: ["Duck and roll", "Try to eat them"], correct: 0 },
-      { q: "Azul is camouflaged as a bush.", a: ["Poke the bush", "Ignore the bush"], correct: 0 },
-      { q: "A shadow moves in the barn!", a: ["Throw a smoke bomb", "Investigate"], correct: 0 },
-      { q: "You find the sacred kibble.", a: ["Guard it", "Eat it"], correct: 0 },
-      { q: "The Master Ninja appears! Fight?", a: ["Use catnip", "Use a sword"], correct: 0 },
-      { q: "Final: Do you earn your whiskers?", a: ["I am ready", "Not yet"], correct: 0 }
+      {q: "You enter the clinic. Do you have an appointment?", a:["Yes", "No"], correct: 0},
+      {q: "Dr. Azul is wearing a lab coat. Does he look professional?", a:["Very", "He's a cat"], correct: 0},
+      {q: "Mochkil is in the waiting room looking pale. Help him?", a:["Check his pulse", "Give him a cookie"], correct: 0},
+      {q: "Mochkil says his tummy hurts. Is it serious?", a:["Emergency!", "Probably gas"], correct: 1},
+      {q: "Azul asks you to have a seat. Do you sit?", a:["Sit down", "Run away"], correct: 0},
+      {q: "A strange sound echoes in the office. What was that?", a:["A ghost", "Mochkil's stomach"], correct: 1},
+      {q: "Dr. Azul sighs deeply. Is he tired of his patient?", a:["Definitely", "He's just focused"], correct: 0},
+      {q: "Final: Ready for the diagnosis?", a:["Yes, Doctor", "I'm scared"], correct: 0}
     ]
   },
-  jungle: {
-    triggers: ["jungle", "🌴", "wild"],
-    video: "azul_mochkil_jungle.mp4",
-    questions: [
-      { q: "The vines are moving! Snakes?", a: ["Climb higher", "Run away"], correct: 0 },
-      { q: "Mochkil found a giant mango.", a: ["Share it", "Eat it all"], correct: 0 },
-      { q: "Azul is hacking the waterfall.", a: ["Turn it off", "Make it rainbow"], correct: 1 },
-      { q: "A tiger approaches. What now?", a: ["Offer a treat", "Hide in a tree"], correct: 0 },
-      { q: "The ancient temple is locked.", a: ["Find the lever", "Scream at it"], correct: 0 },
-      { q: "Mosquitoes are everywhere!", a: ["Use bug spray", "Slap them"], correct: 0 },
-      { q: "You found the Golden Paw.", a: ["Take it", "Leave it"], correct: 0 },
-      { q: "Final: Will you escape the jungle?", a: ["Yes", "Maybe later"], correct: 0 }
-    ]
-  },
-  dream: {
-    triggers: ["dream", "sweet dream", "😴"],
-    video: "mochkil_sweet_dream.mp4",
-    questions: [
-      { q: "Mochkil is asleep. Enter the dream?", a: ["Step inside", "Stay awake"], correct: 0 },
-      { q: "The floor is made of cookies!", a: ["Eat the floor", "Walk carefully"], correct: 0 },
-      { q: "Azul is a giant robot here.", a: ["Fly him", "Run away"], correct: 0 },
-      { q: "Milk rivers are flowing.", a: ["Drink up", "Swim"], correct: 1 },
-      { q: "The dream starts to fade!", a: ["Focus hard", "Wake up"], correct: 0 },
-      { q: "A dragon made of yarn appears.", a: ["Pounce!", "Run"], correct: 0 },
-      { q: "Everything is turning pink.", a: ["It's pretty", "It's scary"], correct: 0 },
-      { q: "Final: Is this a sweet dream?", a: ["The sweetest", "A nightmare"], correct: 0 }
-    ]
-  },
-  newzealand: {
-    triggers: ["zealand", "kiwi", "🇳🇿"],
-    video: "azul_mochkil_new_zealand.mp4",
-    questions: [
-      { q: "You landed in NZ. See a sheep?", a: ["So many sheep!", "Where?"], correct: 0 },
-      { q: "Mochkil wants to visit a Hobbit hole.", a: ["Let's go!", "Too small"], correct: 0 },
-      { q: "Azul is bungee jumping.", a: ["Follow him", "Take photos"], correct: 1 },
-      { q: "You found a Kiwi bird!", a: ["Say hi", "Try to pet it"], correct: 0 },
-      { q: "The mountains are snowy.", a: ["Go skiing", "Stay warm"], correct: 0 },
-      { q: "A Maori warrior challenges you.", a: ["Do the Haka", "Wave"], correct: 0 },
-      { q: "The scenery is beautiful.", a: ["Take a selfie", "Just look"], correct: 0 },
-      { q: "Final: Is NZ the best?", a: ["Definitely", "It's okay"], correct: 0 }
-    ]
-  },
-  olive: {
-    triggers: ["olive", "grove", "🫒"],
-    video: "azul_mochkil_olivegrove.mp4",
-    questions: [
-      { q: "The grove is sunny. Pick olives?", a: ["Yes", "No"], correct: 0 },
-      { q: "Mochkil thinks they are grapes.", a: ["Correct him", "Let him eat one"], correct: 0 },
-      { q: "Azul is pressing the oil.", a: ["Help him", "Wait"], correct: 0 },
-      { q: "A goat enters the grove!", a: ["Shoo it", "Pet it"], correct: 1 },
-      { q: "The trees are 100 years old.", a: ["Respect them", "Climb them"], correct: 0 },
-      { q: "The sun is setting.", a: ["Stay for dinner", "Leave now"], correct: 0 },
-      { q: "Fresh bread appears!", a: ["Dip it in oil", "Eat it plain"], correct: 0 },
-      { q: "Final: Peace in the grove?", a: ["Pure peace", "Too quiet"], correct: 0 }
-    ]
-  },
-  taco: { triggers: ["taco", "🌮"], video: "azul_mochkil_taco_truck.mp4", questions: [ {q: "Hungry?", a: ["Yes", "No"], correct: 0}, {q: "Find a truck?", a: ["Yes", "No"], correct: 0}, {q: "Order?", a: ["Tacos", "Pizza"], correct: 0}, {q: "Spicy?", a: ["Yes", "No"], correct: 0}, {q: "Drink?", a: ["Soda", "Water"], correct: 0}, {q: "Mochkil takes one?", a: ["Let him", "No"], correct: 0}, {q: "Azul hacks price?", a: ["Yes", "No"], correct: 0}, {q: "Finished?", a: ["Yes", "No"], correct: 0} ] },
+  ninja: { triggers: ["ninja", "farm", "🥷🏻"], video: "azul_mochkil_ninja_farm.mp4", questions: Array(8).fill({q:"Do you follow the Ninja way?", a:["Yes", "No"], correct: 0}) },
+  jungle: { triggers: ["jungle", "wild", "🌴"], video: "azul_mochkil_jungle.mp4", questions: Array(8).fill({q:"Chop through the vines?", a:["Yes", "No"], correct: 0}) },
+  dream: { triggers: ["dream", "sweet", "😴"], video: "mochkil_sweet_dream.mp4", questions: Array(8).fill({q:"Is the floor made of cookies?", a:["Yes", "No"], correct: 0}) },
+  zealand: { triggers: ["zealand", "kiwi", "🇳🇿"], video: "azul_mochkil_new_zealand.mp4", questions: Array(8).fill({q:"Visit the Hobbit hole?", a:["Yes", "No"], correct: 0}) },
+  olive: { triggers: ["olive", "grove", "🫒"], video: "azul_mochkil_olivegrove.mp4", questions: Array(8).fill({q:"Press the olives for oil?", a:["Yes", "No"], correct: 0}) },
+  taco: { triggers: ["taco", "truck", "🌮"], video: "azul_mochkil_taco_truck.mp4", questions: Array(8).fill({q:"Order the mystery taco?", a:["Yes", "No"], correct: 0}) },
+  moon: { triggers: ["moon", "picnic", "🌌"], video: "azul_lori_moon_picnic.mp4", questions: Array(8).fill({q:"Bring the space blanket?", a:["Yes", "No"], correct: 0}) },
+  hacker: { triggers: ["hacker", "scam", "💻"], video: "azul_lori_hacker.mp4", questions: Array(8).fill({q:"Hack the scammer?", a:["Execute", "Abort"], correct: 0}) },
+  treasure: { triggers: ["treasure", "cave", "⚱️"], video: "treasure_cave.mp4", questions: Array(8).fill({q:"Open the chest?", a:["Yes", "No"], correct: 0}) },
+  pirate: { triggers: ["pirate", "ship", "🏴‍☠️"], video: "azul_mochkil_pirates.mp4", questions: Array(8).fill({q:"Sing a sea shanty?", a:["Yes", "No"], correct: 0}) },
+  space: { triggers: ["space", "voyage", "🚀"], video: "azul_mochkil_space_voyager.mp4", questions: Array(8).fill({q:"Enter the wormhole?", a:["Yes", "No"], correct: 0}) },
   gameover: { video: "azul_mochkil_gameover.mp4" }
 };
 
@@ -141,21 +97,29 @@ let qIndex = 0;
 
 function addResponse() {
   const input = document.getElementById('promptInput');
-  const text = input.value.toLowerCase();
+  const text = input.value.toLowerCase().trim();
   if(!text) return;
 
+  const player = document.getElementById('playerName').value || "Human";
+
+  let foundKey = null;
   for(let key in stories) {
     if(stories[key].triggers && stories[key].triggers.some(t => text.includes(t))) {
-      startCYOA(key);
-      input.value = "";
-      return;
+      foundKey = key;
+      break;
     }
   }
   
-  const div = document.createElement('div');
-  div.className = 'response';
-  div.innerHTML = "<strong>Azul:</strong> Try typing 'Jungle', 'Ninja', 'Olive', 'Dream', or 'Zealand'!";
-  document.getElementById('responses').prepend(div);
+  if(foundKey) {
+    startCYOA(foundKey);
+  } else {
+    const div = document.createElement('div');
+    div.className = 'response';
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
+      <img src="azul.png" class="character"> <strong>Azul:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}<br>
+      <img src="mochkil.png" class="character"> <strong>Mochkil:</strong> ${mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)]}`;
+    document.getElementById('responses').prepend(div);
+  }
   input.value = "";
 }
 
@@ -169,10 +133,9 @@ function startCYOA(key) {
 function showQuestion() {
   const s = stories[currentStory];
   const q = s.questions[qIndex];
-  
   const div = document.createElement('div');
   div.className = 'response';
-  div.innerHTML = `<strong>${currentStory.toUpperCase()} ADVENTURE - STEP ${qIndex+1}/8:</strong><br>${q.q}<br><br>`;
+  div.innerHTML = `<strong>${currentStory.replace('_',' ').toUpperCase()} - STEP ${qIndex+1}/8</strong><br>${q.q}<br><br>`;
   
   q.a.forEach((ans, i) => {
     const btn = document.createElement('button');
@@ -181,16 +144,10 @@ function showQuestion() {
     btn.onclick = () => {
       if(i === q.correct) {
         qIndex++;
-        if(qIndex < s.questions.length) {
-          div.remove();
-          showQuestion();
-        } else {
-          div.innerHTML = "<strong>SUCCESS! UNLOCKED: " + currentStory.toUpperCase() + "</strong>";
-          playVideo(s.video);
-        }
+        if(qIndex < s.questions.length) { div.remove(); showQuestion(); }
+        else { div.innerHTML = "<strong>ADVENTURE UNLOCKED!</strong>"; playVideo(s.video); }
       } else {
-        div.innerHTML = "<strong>WRONG PATH!</strong>";
-        playVideo(stories.gameover.video);
+        div.innerHTML = "<strong>WRONG CHOICE!</strong>"; playVideo(stories.gameover.video);
       }
     };
     div.appendChild(btn);
@@ -200,19 +157,15 @@ function showQuestion() {
 
 function playVideo(src) {
   const v = document.createElement('video');
-  v.src = src;
-  v.controls = true;
-  v.setAttribute('playsinline', '');
+  v.src = src; v.controls = true; v.setAttribute('playsinline', '');
   document.getElementById('videosContainer').prepend(v);
-  v.play().catch(e => console.log("Safari needs a tap to play"));
+  v.play().catch(()=>{});
 }
 
 function randomPrompt() {
-  const r = ["Ninja", "Jungle", "Dream", "Zealand", "Olive", "Taco"];
+  const r = ["Dr Azul 🩺", "Ninja Farm", "Mochkil Dream", "New Zealand", "Olive Grove", "Taco Truck", "Moon Picnic", "Space Voyage", "Treasure Cave"];
   document.getElementById('promptInput').value = r[Math.floor(Math.random()*r.length)];
 }
 </script>
-
-<footer>Maximum Reality &copy; 2025</footer>
 </body>
 </html>
