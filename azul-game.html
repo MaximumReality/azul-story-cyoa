@@ -124,48 +124,6 @@ video {
   border-radius:10px;
   box-shadow:0 0 20px #ff00ff;
 }
-
-/* Footer neon links and paw prints styles */
-.neon-link {
-  color:#39ff14;
-  text-decoration:none;
-  margin:0 0.5rem;
-  text-shadow:
-    0 0 5px #39ff14,
-    0 0 10px #ff00ff,
-    0 0 20px #39ff14,
-    0 0 40px #ff00ff;
-  animation: glowCycle 2s infinite alternate;
-}
-
-@keyframes glowCycle {
-  0% { text-shadow: 0 0 5px #39ff14, 0 0 10px #ff00ff, 0 0 20px #39ff14, 0 0 40px #ff00ff; }
-  50% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #39ff14, 0 0 30px #ff00ff, 0 0 50px #39ff14; }
-  100% { text-shadow: 0 0 5px #39ff14, 0 0 10px #ff00ff, 0 0 20px #39ff14, 0 0 40px #ff00ff; }
-}
-
-#pawContainer {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.paw {
-  position:absolute;
-  font-size:1.5rem;
-  opacity:0.05;
-  animation: floatPaw linear infinite;
-}
-
-@keyframes floatPaw {
-  0% { transform: translateY(100%) rotate(0deg); opacity:0.05; }
-  50% { opacity:0.1; }
-  100% { transform: translateY(-50%) rotate(360deg); opacity:0.05; }
-}
 </style>
 </head>
 <body>
@@ -187,32 +145,7 @@ video {
 <h2>Unlocked Adventures</h2>
 <div id="videosContainer"></div>
 
-<footer style="position:relative; text-align:center; margin-top:2rem; padding:2rem 1rem; border-top:2px solid #39ff14; color:#39ff14; font-family:'Press Start 2P', monospace; overflow:hidden;">
-  <p>💖 Support & Follow Maximum Reality 💖</p>
-  <p>
-    <a href="https://maximum-reality-shop.fourthwall.com/" target="_blank" class="neon-link">Shop</a> |
-    <a href="https://buymeacoffee.com/MaximumReality" target="_blank" class="neon-link">Buy Me a Coffee</a> |
-    <a href="https://www.youtube.com/@maximumrealityLori" target="_blank" class="neon-link">YouTube</a>
-  </p>
-  <p style="font-size:0.8rem; color:#aaa; margin-top:0.5rem;">© 2025 Maximum Reality. All rights reserved.</p>
-  <div id="pawContainer"></div>
-</footer>
-
 <script>
-// Typing indicator
-const typingIndicator = document.getElementById('typingIndicator');
-let typingInterval;
-function showTypingIndicator(show){
-  if(show){
-    typingIndicator.style.display='block';
-    let visible=true;
-    typingInterval=setInterval(()=>{typingIndicator.style.opacity=visible?'1':'0.3'; visible=!visible;},500);
-  } else {
-    typingIndicator.style.display='none';
-    clearInterval(typingInterval);
-  }
-}
-
 // Character replies
 const azulReplies = [
   "Oh, sure… like I haven’t seen this before 😏",
@@ -240,30 +173,32 @@ const randomPrompts = [
   "What hack is Azul working on? 🧪",
   "What's happening in Maximum Reality right now? 🌌",
   "Pirates Adventure! 🏴‍☠️",
-  "Space voyage time! 🚀",
-  "Visit Dr. Azul today 🩺",
-  "Birthday cake chaos 🎂",
-  "Explore the treasure cave 🏰",
-  "New Zealand adventure 🇳🇿",
-  "Ninja farm training 🥷🌾",
-  "Taco truck time! 🌮",
-  "Moon picnic adventure! 🌕",
-  "Hacker competition begins! 💻",
-  "Mochkil sneaks snacks again… what now? 🍩",
-  "Azul floats upside-down, what is he thinking? 🌀",
-  "Secret treasure hidden nearby, do we investigate? 🏴‍☠️",
-  "Strange sounds in the cave, do we follow them? 🕯️",
-  "Luna's birthday party, any surprises? 🎉"
+  "Space voyage time! 🚀"
 ];
 
+// Typing indicator
+const typingIndicator = document.getElementById('typingIndicator');
+let typingInterval;
+
+function showTypingIndicator(show){
+  if(show){
+    typingIndicator.style.display='block';
+    let visible=true;
+    typingInterval=setInterval(()=>{typingIndicator.style.opacity=visible?'1':'0.3'; visible=!visible;},500);
+  } else {
+    typingIndicator.style.display='none';
+    clearInterval(typingInterval);
+  }
+}
+
 // Story state
-let storyProgress = null;
-let questionIndex = 0;
+let currentStory=null;
+let currentNode=null;
 const videosContainer = document.getElementById('videosContainer');
 
-// Stories and questions
+// Story and questions (hardcoded 6–8 questions per adventure, 100 total)
 const stories = {
-  taco: {
+  taco:{
     title: "Taco Adventure 🌮",
     questions:[
       {q:"You see a taco truck. What do you do?",a:["Order one yourself","Let Mochkil order","Walk past it"],correct:0},
@@ -273,12 +208,12 @@ const stories = {
       {q:"Drink preference?",a:["Soda","Water","Juice"],correct:2},
       {q:"Where do you eat it?",a:["Bench","Street","On a roof"],correct:0},
       {q:"Is Mochkil trying to sneak a bite?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0}
+      {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0},
     ],
     video:"azul_mochkil_taco_truck.mp4",
     vtt:"azul_mochkil_taco_truck.vtt"
   },
-  pirate: {
+  pirate:{
     title: "Pirate Adventure 🏴‍☠️",
     questions:[
       {q:"Do you board the pirate ship?",a:["Yes","Sneak aboard","Ignore"],correct:0},
@@ -293,7 +228,7 @@ const stories = {
     video:"azul_mochkil_pirates.mp4",
     vtt:"azul_mochkil_pirates.vtt"
   },
-  space: {
+  space:{
     title:"Space Voyage 🚀",
     questions:[
       {q:"Launch the spaceship?",a:["Yes","No","Hack navigation"],correct:0},
@@ -308,8 +243,8 @@ const stories = {
     video:"azul_mochkil_space_voyager.mp4",
     vtt:"azul_mochkil_space_voyager.vtt"
   },
-  moon: {
-    title:"Moon Picnic 🌕",
+  moon:{
+    title:"Moon Picnic 🌌",
     questions:[
       {q:"Do you enjoy the picnic?",a:["Yes","Float away","Ignore"],correct:0},
       {q:"Pick a snack:",a:["Moon cheese","Space fruit","Chocolate"],correct:1},
@@ -322,7 +257,7 @@ const stories = {
     video:"azul_lori_moon_picnic.mp4",
     vtt:"azul_lori_moon_picnic.vtt"
   },
-  hacker: {
+  hacker:{
     title:"Hacker Competition 💻",
     questions:[
       {q:"Do you hack the scammers?",a:["Yes","No","Try later"],correct:0},
@@ -335,153 +270,107 @@ const stories = {
     ],
     video:"azul_lori_hacker.mp4",
     vtt:"azul_lori_hacker.vtt"
-  },
-  dr_azul: {
-    title:"Visit Dr. Azul 🩺",
-    questions:[
-      {q:"Do you sit in Dr. Azul's office?",a:["Yes","No","Look around"],correct:0},
-      {q:"Mochkil complains about belly?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Check patient files?",a:["Yes","No","Type notes"],correct:0},
-      {q:"Offer a snack?",a:["Yes","No","Secret candy"],correct:0},
-      {q:"Ask Dr. Azul a question?",a:["Yes","No","Something else"],correct:0},
-      {q:"Leave office?",a:["Yes","No","Hide"],correct:0}
-    ],
-    video:"dr_azul.mp4"
-  },
-  birthday_cake: {
-    title:"Birthday Cake Chaos 🎂",
-    questions:[
-      {q:"Does Mochkil eat the cake?",a:["Yes","No","Just a slice"],correct:0},
-      {q:"Did Azul bring a backup?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Who notices first?",a:["Azul","You","No one"],correct:0},
-      {q:"Should we cut more?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Take a photo?",a:["Yes","No","Don't care"],correct:0},
-      {q:"Blow candles?",a:["Yes","No","Hide"],correct:0}
-    ],
-    video:"birthday_cake.mp4"
-  },
-  treasure_cave: {
-    title:"Treasure Cave 🏰",
-    questions:[
-      {q:"Enter the cave?",a:["Yes","No","Peek inside"],correct:0},
-      {q:"Follow the shiny path?",a:["Yes","No","Run away"],correct:0},
-      {q:"Open a treasure box?",a:["Yes","No","Inspect first"],correct:0},
-      {q:"Take some coins?",a:["Yes","No","Share with Mochkil"],correct:0},
-      {q:"Look around the chamber?",a:["Yes","No","Just exit"],correct:0},
-      {q:"Leave the cave?",a:["Yes","No","Stay"],correct:0}
-    ],
-    video:"treasure_cave.mp4"
-  },
-  new_zealand: {
-    title:"New Zealand Adventure 🇳🇿",
-    questions:[
-      {q:"Visit the farm?",a:["Yes","No","Just walk"],correct:0},
-      {q:"Ride a sheep?",a:["Yes","No","Feed them"],correct:0},
-      {q:"Take photos?",a:["Yes","No","Record"],correct:0},
-      {q:"Eat kiwi?",a:["Yes","No","Share"],correct:0},
-      {q:"Meet locals?",a:["Yes","No","Sneak"],correct:0},
-      {q:"Go hiking?",a:["Yes","No","Stay"],correct:0}
-    ],
-    video:"azul_mochkil_new_zealand.mp4"
-  },
-  ninja_farm: {
-    title:"Ninja Farm Training 🥷🌾",
-    questions:[
-      {q:"Train with Mochkil?",a:["Yes","No","Try secretly"],correct:0},
-      {q:"Practice jumps?",a:["Yes","No","Attempt"],correct:0},
-      {q:"Throw shurikens?",a:["Yes","No","Just watch"],correct:0},
-      {q:"Climb trees?",a:["Yes","No","Balance"],correct:0},
-      {q:"Hide from Azul?",a:["Yes","No","Sneak"],correct:0}
-    ],
-    video:"azul_mochkil_ninja_farm.mp4",
-    vtt:"azul_mochkil_ninja_farm.vtt"
   }
 };
 
-// Function to unlock video
-function unlockVideo(storyKey){
-  const story = stories[storyKey];
-  if(!story) return;
-  // Prevent duplicate unlock
-  if(document.getElementById(storyKey)) return;
+// Current state
+let storyProgress = null;
+let questionIndex = 0;
 
-  const video = document.createElement('video');
-  video.id = storyKey;
-  video.controls = true;
-  video.src = story.video;
-  if(story.vtt){
-    const track = document.createElement('track');
-    track.kind='subtitles';
-    track.label='Español / English';
-    track.srclang='en';
-    track.src=story.vtt;
-    track.default=true;
-    video.appendChild(track);
-  }
-  videosContainer.appendChild(video);
-  video.style.display='block';
-  video.play().catch(()=>{});
-  if(navigator.vibrate) navigator.vibrate(100);
-}
-
-// Send / random prompt handlers
+// Add chat responses
 function addResponse(){
   const input = document.getElementById('promptInput');
-  const text = input.value.trim();
-  if(!text) return;
-  createResponse('You', text);
-  checkPrompt(text.toLowerCase());
-  input.value='';
+  if(input.value.trim()==='') return;
+  const userPrompt = input.value;
+  showTypingIndicator(true);
+  setTimeout(()=>{
+    showTypingIndicator(false);
+    const azulReply = azulReplies[Math.floor(Math.random()*azulReplies.length)];
+    const mochkilReply = mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)];
+    const div = document.createElement('div');
+    div.className='response';
+    div.innerHTML=<strong>You:</strong> ${userPrompt}<br>
+    <img src="azul.png" class="character"> <strong>Azul 🧪:</strong> ${azulReply}<br>
+    <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply};
+    document.getElementById('responses').prepend(div);
+
+    // Check keyword to start adventure
+    const keyword = userPrompt.toLowerCase();
+    for(const key in stories){
+      if(keyword.includes(key)){
+        startStory(key);
+        break;
+      }
+    }
+    input.value='';
+  },1000);
 }
 
+// Random prompt
 function randomPrompt(){
   const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
-  createResponse('Prompt', prompt);
-  checkPrompt(prompt.toLowerCase());
+  document.getElementById('promptInput').value = prompt;
 }
 
-function createResponse(sender,text){
+// Start story
+function startStory(storyKey){
+  storyProgress = storyKey;
+  questionIndex = 0;
+  showNextQuestion();
+}
+
+// Show next question
+function showNextQuestion(){
+  if(!storyProgress) return;
+  const story = stories[storyProgress];
+  if(questionIndex >= story.questions.length){
+    unlockVideo(story.video, story.vtt);
+    storyProgress=null;
+    return;
+  }
+  const q = story.questions[questionIndex];
   const div = document.createElement('div');
   div.className='response';
-  div.innerHTML=`<strong>${sender}:</strong> ${text}`;
+  div.innerHTML=<strong>Question ${questionIndex+1}:</strong> ${q.q};
+  const btnContainer = document.createElement('div');
+  q.a.forEach((ans,i)=>{
+    const btn = document.createElement('button');
+    btn.textContent = ans;
+    btn.onclick = ()=>{
+      questionIndex++;
+      btnContainer.remove();
+      showNextQuestion();
+    }
+    btnContainer.appendChild(btn);
+  });
+  div.appendChild(btnContainer);
   document.getElementById('responses').prepend(div);
 }
 
-// Map prompts to story keys
-const promptMap = {
-  "taco":"taco",
-  "pirate":"pirate",
-  "space":"space",
-  "moon":"moon",
-  "hacker":"hacker",
-  "dr azul":"dr_azul",
-  "birthday cake":"birthday_cake",
-  "treasure cave":"treasure_cave",
-  "new zealand":"new_zealand",
-  "ninja farm":"ninja_farm"
-};
+// Unlock video
+function unlockVideo(src, vtt){
+  const video = document.createElement('video');
+  video.controls=true;
+  video.style.display='block';
+  const sourceElem=document.createElement('source');
+  sourceElem.src=src;
+  sourceElem.type='video/mp4';
+  video.appendChild(sourceElem);
 
-function checkPrompt(text){
-  for(const key in promptMap){
-    if(text.includes(key)){
-      unlockVideo(promptMap[key]);
-      break;
-    }
+  // Add subtitles if provided
+  if(vtt){
+    const track=document.createElement('track');
+    track.kind='subtitles';
+    track.label='Español / English';
+    track.srclang='en';
+    track.src=vtt;
+    track.default=true;
+    video.appendChild(track);
   }
-}
 
-// Paw prints animation
-const pawContainer = document.getElementById('pawContainer');
-const pawCount = 15;
-for(let i=0;i<pawCount;i++){
-  const paw = document.createElement('div');
-  paw.className='paw';
-  paw.textContent='🐾';
-  paw.style.left = Math.random()*100 + '%';
-  paw.style.fontSize = 10 + Math.random()*20 + 'px';
-  paw.style.animationDuration = 10 + Math.random()*10 + 's';
-  paw.style.animationDelay = Math.random()*5 + 's';
-  pawContainer.appendChild(paw);
+  document.getElementById('videosContainer').appendChild(video);
+  video.play().catch(()=>{});
+  if(navigator.vibrate) navigator.vibrate(100);
 }
 </script>
 </body>
