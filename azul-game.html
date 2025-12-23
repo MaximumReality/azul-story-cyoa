@@ -36,10 +36,12 @@ button {
   animation:fadeIn 0.4s; line-height: 1.6;
 }
 
-.sprite-row { display: flex; align-items: center; margin-top: 10px; }
+/* FORCED SPRITE STYLES */
+.sprite-row { display: flex !important; align-items: center !important; margin: 12px 0 !important; }
 .sprite-img { 
-  width: 45px; height: 45px; border-radius: 50%; 
-  border: 2px solid #39ff14; margin-right: 12px; background: #222;
+  width: 50px !important; height: 50px !important; 
+  border-radius: 50% !important; border: 2px solid #39ff14 !important; 
+  margin-right: 12px !important; background: #222;
 }
 
 video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
@@ -59,7 +61,7 @@ footer {
 
 <div id="chatContainer">
   <input type="text" id="playerName" placeholder="Your name...">
-  <input type="text" id="promptInput" placeholder="Try Jungle, Hacker, Dream...">
+  <input type="text" id="promptInput" placeholder="Try 'Azulo Hacker', 'Jungle', 'Dream'...">
   <div class="button-row">
     <button onclick="addResponse()">SEND</button>
     <button onclick="randomPrompt()">🎲 RANDOM</button>
@@ -76,118 +78,118 @@ footer {
 </footer>
 
 <script>
-const azulReplies = ["Beep boop.", "Hacking...", "Feed me first.", "I'm the boss."];
-const mochkilReplies = ["Snacks?", "Ninja time!", "Zzz...", "I love tacos!"];
+const azulReplies = ["System error? No, I'm just better than you.", "Hacking the kibble dispenser...", "Downloading snacks.", "I don't walk, I teleport."];
+const mochkilReplies = ["Did someone say adventure?", "I'm a ninja in training!", "Can I eat the binary code?", "Zzz... oh, it's my turn!"];
 
 const stories = {
-  hacker: { triggers: ["hacker", "💻"], video: "azul_lori_hacker.mp4", questions: [
-    {q: "Azul is ready to hack. Join?", a: ["Yes", "No"], correct: 0},
-    {q: "Firewall detected!", a: ["Code", "Smash"], correct: 0},
-    {q: "Lori needs help!", a: ["Trace call", "Ignore"], correct: 0},
-    {q: "Suggest password?", a: ["123", "Kibble99"], correct: 1},
-    {q: "Read binary?", a: ["Yes", "No"], correct: 0},
-    {q: "Find the scammer?", a: ["Yes", "No"], correct: 0},
-    {q: "Fix heat?", a: ["Fan", "Water"], correct: 0},
-    {q: "Finish hack?", a: ["Success", "Fail"], correct: 0}
+  hacker: { triggers: ["hacker", "💻", "azulo"], video: "azul_lori_hacker.mp4", questions: [
+    {q: "Azul is at the mainframe. Assist?", a: ["Hack now", "Wait"], correct: 0},
+    {q: "Firewall detected! Use Lori's key?", a: ["Yes", "Brute force"], correct: 0},
+    {q: "A scammer is trying to call!", a: ["Trace it", "Block"], correct: 0},
+    {q: "Binary code is flashing.", a: ["Read it", "Close eyes"], correct: 0},
+    {q: "Azul needs a password.", a: ["Kibble777", "Password123"], correct: 0},
+    {q: "The server is smoking!", a: ["Cool it down", "Keep typing"], correct: 0},
+    {q: "Find the root folder?", a: ["Yes", "No"], correct: 0},
+    {q: "Final: Is the hack successful?", a: ["Access Granted", "Denied"], correct: 0}
   ]},
   jungle: { triggers: ["jungle", "🌴"], video: "azul_mochkil_jungle.mp4", questions: [
-    {q: "Jungle is thick. Use machete?", a: ["Yes", "No"], correct: 0},
-    {q: "Mochkil sees a butterfly.", a: ["Stay", "Chase"], correct: 0},
-    {q: "Azul finds a flower.", a: ["Scan", "Pick"], correct: 0},
-    {q: "Monkey stole hat!", a: ["Climb", "Cry"], correct: 0},
-    {q: "Piranha river!", a: ["Raft", "Swim"], correct: 0},
-    {q: "Ancient cat statue.", a: ["Bow", "Hiss"], correct: 0},
-    {q: "Glow in cave.", a: ["Enter", "Run"], correct: 0},
-    {q: "Final: Hidden waterfall?", a: ["Found it!", "Lost"], correct: 0}
+    {q: "Jungle is dense. Use machete?", a: ["Yes", "No"], correct: 0},
+    {q: "Mochkil sees a butterfly.", a: ["Stay on path", "Chase it"], correct: 0},
+    {q: "Azul scans a rare leaf.", a: ["Help him", "Pick it"], correct: 0},
+    {q: "A monkey stole your hat!", a: ["Climb tree", "Let it go"], correct: 0},
+    {q: "River has piranhas.", a: ["Build raft", "Swim"], correct: 0},
+    {q: "Ancient cat statue found.", a: ["Bow", "Ignore"], correct: 0},
+    {q: "Glowing cave entrance.", a: ["Go inside", "Turn back"], correct: 0},
+    {q: "Final: Did you find the waterfall?", a: ["Yes!", "No"], correct: 0}
   ]},
-  dream: { triggers: ["dream", "sweet"], video: "mochkil_sweet_dream.mp4", questions: [
-    {q: "Mochkil is asleep. Enter dream?", a: ["Yes", "No"], correct: 0},
-    {q: "Clouds are candy.", a: ["Eat", "Fly"], correct: 0},
-    {q: "Flying tuna fish!", a: ["Catch", "Watch"], correct: 0},
-    {q: "Azul is Guardian.", a: ["Meow", "Hiss"], correct: 0},
-    {q: "Castle of kibble.", a: ["Enter", "Eat it"], correct: 0},
-    {q: "Yarn ball moon.", a: ["Unravel", "Leave"], correct: 0},
-    {q: "Mochkil purrs.", a: ["Stay", "Wake"], correct: 0},
-    {q: "Final: Sweetest dream?", a: ["Yes", "No"], correct: 0}
+  dream: { triggers: ["dream", "sweet", "😴"], video: "mochkil_sweet_dream.mp4", questions: [
+    {q: "Mochkil is twitching. Enter dream?", a: ["Yes", "Wait"], correct: 0},
+    {q: "Marshmallow clouds!", a: ["Eat them", "Fly"], correct: 1},
+    {q: "Flying tuna fish appear.", a: ["Catch one", "Watch"], correct: 0},
+    {q: "Azul is the Gatekeeper.", a: ["Say Meow", "Say Woof"], correct: 0},
+    {q: "A castle made of treats!", a: ["Go inside", "Eat the door"], correct: 0},
+    {q: "The moon is a yarn ball.", a: ["Unravel it", "Leave it"], correct: 0},
+    {q: "Mochkil starts purring.", a: ["Stay", "Wake up"], correct: 0},
+    {q: "Final: Was it the best dream?", a: ["Yes", "Maybe"], correct: 0}
   ]},
-  ninja: { triggers: ["ninja", "farm"], video: "azul_mochkil_ninja_farm.mp4", questions: [
-    {q: "Enter Ninja Farm?", a: ["Yes", "No"], correct: 0},
-    {q: "Stealth mode?", a: ["Hide", "Run"], correct: 0},
-    {q: "Sharpen claws?", a: ["Join", "Watch"], correct: 0},
-    {q: "Secret scroll.", a: ["Read", "Eat"], correct: 0},
-    {q: "Master Ninja!", a: ["Bow", "Fight"], correct: 0},
-    {q: "Walk on paper.", a: ["Light", "Heavy"], correct: 0},
-    {q: "Smoke bomb!", a: ["Deploy", "Wait"], correct: 0},
-    {q: "Final: True Ninja?", a: ["Yes", "No"], correct: 0}
+  ninja: { triggers: ["ninja", "🥷🏻", "farm"], video: "azul_mochkil_ninja_farm.mp4", questions: [
+    {q: "Enter the Ninja Farm?", a: ["Enter", "Wait"], correct: 0},
+    {q: "Mochkil is sneaking.", a: ["Hide with him", "Run"], correct: 0},
+    {q: "Azul is training.", a: ["Join him", "Watch"], correct: 0},
+    {q: "Secret scroll in barn.", a: ["Read", "Eat"], correct: 0},
+    {q: "Master Ninja challenges you.", a: ["Bow", "Hiss"], correct: 0},
+    {q: "Walk across rice paper.", a: ["Step light", "Run"], correct: 0},
+    {q: "Smoke bomb ready.", a: ["Throw", "Wait"], correct: 0},
+    {q: "Final: Are you a Ninja?", a: ["Yes", "Not yet"], correct: 0}
   ]},
-  pirate: { triggers: ["pirate", "ship"], video: "azul_mochkil_pirates.mp4", questions: [
-    {q: "Board the ship?", a: ["Aye!", "No"], correct: 0},
-    {q: "Map found.", a: ["Follow", "Burn"], correct: 0},
-    {q: "Pirate hat?", a: ["Give to cat", "Keep"], correct: 0},
-    {q: "Ocean storm!", a: ["Sails", "Hide"], correct: 0},
-    {q: "Buried treasure.", a: ["Dig", "Wait"], correct: 0},
-    {q: "Azul is Navigator.", a: ["Trust", "Check"], correct: 0},
-    {q: "Enemy ship!", a: ["Cannons", "Run"], correct: 0},
-    {q: "Final: Pirate Gold?", a: ["Yes!", "No"], correct: 0}
+  pirate: { triggers: ["pirate", "🏴‍☠️", "ship"], video: "azul_mochkil_pirates.mp4", questions: [
+    {q: "Board the SS Meow?", a: ["Aye!", "No"], correct: 0},
+    {q: "The map has a paw print.", a: ["Follow it", "Burn it"], correct: 0},
+    {q: "Mochkil needs a hat.", a: ["Give him yours", "No"], correct: 0},
+    {q: "Storm at sea!", a: ["Sails up", "Hide"], correct: 0},
+    {q: "Treasure on island.", a: ["Dig", "Wait"], correct: 0},
+    {q: "Azul is navigating.", a: ["Trust him", "Check stars"], correct: 0},
+    {q: "A rival ship appears.", a: ["Fire cannons", "Run"], correct: 0},
+    {q: "Final: Claim the gold?", a: ["Yes!", "No"], correct: 0}
   ]},
-  zealand: { triggers: ["zealand", "nz", "kiwi"], video: "azul_mochkil_new_zealand.mp4", questions: [
-    {q: "Visit NZ?", a: ["Yes", "No"], correct: 0},
-    {q: "Sheep on road.", a: ["Pet", "Honk"], correct: 0},
-    {q: "Hobbit Hole?", a: ["Visit", "Skip"], correct: 0},
-    {q: "Azul jumps.", a: ["Join", "Watch"], correct: 1},
-    {q: "Snowy peak.", a: ["Ski", "Warm"], correct: 0},
-    {q: "Kiwi bird!", a: ["Quiet", "Shout"], correct: 0},
-    {q: "Ocean dip?", a: ["Yes", "No"], correct: 1},
-    {q: "Final: Beautiful?", a: ["Yes", "No"], correct: 0}
+  zealand: { triggers: ["zealand", "kiwi", "🇳🇿"], video: "azul_mochkil_new_zealand.mp4", questions: [
+    {q: "Drive south in NZ?", a: ["Yes", "Stay"], correct: 0},
+    {q: "Sheep in the road.", a: ["Pet it", "Honk"], correct: 0},
+    {q: "See the Hobbit Hole?", a: ["Visit", "Skip"], correct: 0},
+    {q: "Azul bungee jumps.", a: ["Join him", "Watch"], correct: 1},
+    {q: "Snowy mountains.", a: ["Go skiing", "Stay warm"], correct: 0},
+    {q: "A Kiwi bird appears!", a: ["Be quiet", "Shout"], correct: 0},
+    {q: "Cold ocean water.", a: ["Jump in", "No way"], correct: 1},
+    {q: "Final: Is NZ paradise?", a: ["Yes", "No"], correct: 0}
   ]},
-  cave: { triggers: ["cave", "treasure"], video: "treasure_cave.mp4", questions: [
-    {q: "Dark cave. Torch?", a: ["Yes", "No"], correct: 0},
-    {q: "Bats!", a: ["Duck", "Jump"], correct: 0},
-    {q: "Keypad lock.", a: ["Hack", "Smash"], correct: 0},
-    {q: "Cave-in!", a: ["Run", "Wait"], correct: 0},
-    {q: "Gold bowl.", a: ["Take", "Leave"], correct: 0},
-    {q: "Statue riddle.", a: ["Solve", "Guess"], correct: 0},
-    {q: "Glow room.", a: ["Enter", "Exit"], correct: 0},
-    {q: "Final: Real gold?", a: ["Yes", "No"], correct: 0}
+  cave: { triggers: ["cave", "treasure", "⚱️"], video: "treasure_cave.mp4", questions: [
+    {q: "Light a torch?", a: ["Yes", "No"], correct: 0},
+    {q: "Bats flying!", a: ["Duck", "Stand tall"], correct: 0},
+    {q: "Digital lock found.", a: ["Azul hack it", "Smash"], correct: 0},
+    {q: "Ground is shaking.", a: ["Run", "Stay"], correct: 0},
+    {q: "Mochkil finds gold.", a: ["Put in bag", "Leave"], correct: 0},
+    {q: "Ancient riddle.", a: ["Solve", "Guess"], correct: 0},
+    {q: "Room is glowing.", a: ["Enter", "Exit"], correct: 0},
+    {q: "Final: Gold is yours?", a: ["Yes", "Fake gold"], correct: 0}
   ]},
-  dr_azul: { triggers: ["dr", "doctor"], video: "dr_azul.mp4", questions: [
-    {q: "Appointment?", a: ["Yes", "No"], correct: 0},
-    {q: "Enter room.", a: ["Yes", "Run"], correct: 0},
-    {q: "Mochkil sick?", a: ["Check", "Snacks"], correct: 0},
-    {q: "Stethoscope.", a: ["Cold!", "Warm"], correct: 0},
-    {q: "Script?", a: ["Read", "Eat"], correct: 0},
-    {q: "Cat poot!", a: ["Laugh", "Gasp"], correct: 0},
-    {q: "Sticker?", a: ["Yes", "No"], correct: 0},
-    {q: "Final: Healthy?", a: ["Yes", "No"], correct: 0}
+  dr_azul: { triggers: ["dr", "doctor", "🩺"], video: "dr_azul.mp4", questions: [
+    {q: "Sign in?", a: ["Yes", "No"], correct: 0},
+    {q: "Enter Dr. Azul's room.", a: ["Enter", "Run"], correct: 0},
+    {q: "Mochkil has a tummy ache.", a: ["Treat", "Checkup"], correct: 1},
+    {q: "Stethoscope is cold.", a: ["Be brave", "Jump"], correct: 0},
+    {q: "Reading the script.", a: ["Listen", "Eat it"], correct: 0},
+    {q: "Mochkil poots!", a: ["Laugh", "Gasp"], correct: 0},
+    {q: "Need a sticker?", a: ["Yes", "No"], correct: 0},
+    {q: "Final: All healthy?", a: ["Yes", "No"], correct: 0}
   ]},
-  olive: { triggers: ["olive", "grove"], video: "azul_mochkil_olivegrove.mp4", questions: [
+  olive: { triggers: ["olive", "grove", "🫒"], video: "azul_mochkil_olivegrove.mp4", questions: [
     {q: "Pick olives?", a: ["Yes", "No"], correct: 0},
-    {q: "Mochkil eating.", a: ["Stop", "Join"], correct: 0},
-    {q: "Oil press.", a: ["Help", "Wait"], correct: 0},
-    {q: "Grove goat.", a: ["Pet", "Run"], correct: 0},
+    {q: "Mochkil is eating.", a: ["Stop him", "Let him"], correct: 0},
+    {q: "Help press oil?", a: ["Yes", "Wait"], correct: 0},
+    {q: "A goat appears.", a: ["Pet", "Run"], correct: 0},
     {q: "Old trees.", a: ["Respect", "Climb"], correct: 0},
-    {q: "Sunset.", a: ["Stay", "Leave"], correct: 0},
-    {q: "Warm bread.", a: ["Dip", "Plain"], correct: 0},
-    {q: "Final: Peace?", a: ["Yes", "No"], correct: 0}
+    {q: "Sunset in grove.", a: ["Stay", "Leave"], correct: 0},
+    {q: "Warm bread.", a: ["Dip in oil", "Plain"], correct: 0},
+    {q: "Final: Peace found?", a: ["Yes", "No"], correct: 0}
   ]},
-  moon: { triggers: ["moon", "picnic"], video: "azul_lori_moon_picnic.mp4", questions: [
-    {q: "Moon dust.", a: ["Step", "Jump"], correct: 0},
-    {q: "Basket time.", a: ["Open", "Wait"], correct: 0},
-    {q: "Earth view.", a: ["Stare", "Photo"], correct: 0},
-    {q: "Low grav flip.", a: ["Flip", "Stay"], correct: 0},
-    {q: "Rover hack.", a: ["Ride", "Stop"], correct: 0},
-    {q: "Moon cheese.", a: ["Eat", "No"], correct: 0},
-    {q: "Space wish.", a: ["Yes", "No"], correct: 0},
-    {q: "Final: Picnic?", a: ["Yes", "No"], correct: 0}
+  moon: { triggers: ["moon", "picnic", "🌌"], video: "azul_lori_moon_picnic.mp4", questions: [
+    {q: "Step on moon?", a: ["Step", "Jump"], correct: 0},
+    {q: "Open basket?", a: ["Yes", "No"], correct: 0},
+    {q: "See Earth?", a: ["Photo", "Stare"], correct: 0},
+    {q: "Low gravity flip?", a: ["Flip", "Stay"], correct: 0},
+    {q: "Azul hacks rover.", a: ["Ride", "Stop him"], correct: 0},
+    {q: "Glowing moon-cheese.", a: ["Eat", "No"], correct: 0},
+    {q: "Wish on star.", a: ["Yes", "No"], correct: 0},
+    {q: "Final: Best picnic?", a: ["Yes", "No"], correct: 0}
   ]},
-  taco: { triggers: ["taco", "truck"], video: "azul_mochkil_taco_truck.mp4", questions: [
-    {q: "Truck open.", a: ["Approach", "Wait"], correct: 0},
-    {q: "Cat menu.", a: ["Azul", "Guess"], correct: 0},
-    {q: "Order taco.", a: ["Yes", "Big"], correct: 0},
-    {q: "Spicy salsa.", a: ["One drop", "Scoop"], correct: 0},
-    {q: "Azul hack.", a: ["Free", "Pay"], correct: 0},
-    {q: "Scammer!", a: ["Hiss", "Meow"], correct: 0},
-    {q: "Hot taco.", a: ["Wait", "Eat"], correct: 1},
+  taco: { triggers: ["taco", "truck", "🌮"], video: "azul_mochkil_taco_truck.mp4", questions: [
+    {q: "Order taco?", a: ["Yes", "Wait"], correct: 0},
+    {q: "Menu is code.", a: ["Ask Azul", "Guess"], correct: 0},
+    {q: "Big burrito?", a: ["Yes", "Small"], correct: 0},
+    {q: "Spicy salsa?", a: ["Drop", "Scoop"], correct: 0},
+    {q: "Hack discount?", a: ["Yes", "No"], correct: 0},
+    {q: "Scammer cuts line!", a: ["Hiss", "Meow"], correct: 0},
+    {q: "Taco is hot.", a: ["Wait", "Eat now"], correct: 1},
     {q: "Final: Worth it?", a: ["Yes", "No"], correct: 0}
   ]}
 };
@@ -253,11 +255,11 @@ function playVideo(src) {
   const v = document.createElement('video');
   v.src = src; v.controls = true; v.setAttribute('playsinline', '');
   document.getElementById('videosContainer').prepend(v);
-  v.play();
+  v.play().catch(()=>{});
 }
 
 function randomPrompt() {
-  const r = ["Hacker", "Jungle", "Dream", "Ninja", "Pirate", "Zealand", "Cave", "Dr Azul", "Olive", "Moon", "Taco"];
+  const r = ["Azulo Hacker", "Jungle", "Dream", "Ninja", "Pirate", "Zealand", "Cave", "Dr Azul", "Olive", "Moon", "Taco"];
   document.getElementById('promptInput').value = r[Math.floor(Math.random()*r.length)];
 }
 </script>
