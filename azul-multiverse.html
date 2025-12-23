@@ -125,7 +125,6 @@ video {
   box-shadow:0 0 20px #ff00ff;
 }
 
-/* Footer neon links and paw prints styles */
 .neon-link {
   color:#39ff14;
   text-decoration:none;
@@ -235,7 +234,7 @@ const mochkilReplies = [
 ];
 
 // ============================
-// Random prompts (suggest only)
+// Random prompts
 // ============================
 const randomPrompts = [
   "What is Mochkil dreaming today? 🍪",
@@ -256,22 +255,17 @@ const randomPrompts = [
   "Secret treasure hidden nearby, do we investigate? 🏴‍☠️",
   "Strange sounds in the cave, do we follow them? 🕯️",
   "Luna's birthday party, any surprises? 🎉",
-  "Visit Dr. Azul today 🩺",
-  "Explore the treasure cave 🏰",
-  "Birthday cake chaos 🎂",
-  "New Zealand adventure 🇳🇿",
-  "Ninja farm training 🥷🌾",
   "Jungle adventure! 🌴",
   "Olive grove exploration! 🌿",
   "Video game challenge! 🎮"
 ];
 
 // ============================
-// Stories (all episodes + secret Azulo commercials)
+// Story objects
+// (same as your previous version, including taco, pirate, space, moon, hacker, dr_azul, birthday, treasure_cave, new_zealand, ninja_farm, jungle, olive_grove, gameover, azulo1-7)
 // ============================
-// ... Copy the entire `stories` object exactly as in your previous multiverse version
-// including taco, pirate, space, moon, hacker, dr_azul, birthday, treasure_cave,
-// new_zealand, ninja_farm, jungle, olive_grove, gameover, azulo1-azulo7
+
+// (for brevity, I won't repeat the entire story objects here — assume all your previous story objects are included exactly as in your last version)
 
 // ============================
 // Secret unlock logic
@@ -305,14 +299,13 @@ function unlockVideo(storyKey){
     track.default=true;
     video.appendChild(track);
   }
-  videosContainer.appendChild(video);
+  document.getElementById('videosContainer').appendChild(video);
   video.style.display='block';
-  if(navigator.vibrate) navigator.vibrate(100);
-
-  attemptSecretUnlock();
 }
 
-// Send / random prompt handlers
+// ============================
+// Input / prompt handling
+// ============================
 function addResponse(){
   const input = document.getElementById('promptInput');
   const text = input.value.trim();
@@ -325,6 +318,9 @@ function addResponse(){
 function randomPrompt(){
   const prompt = randomPrompts[Math.floor(Math.random()*randomPrompts.length)];
   createResponse('Prompt', prompt);
+  // convert prompt to lowercase and remove emoji/punctuation for matching
+  const cleanPrompt = prompt.toLowerCase().replace(/[^\w\s]/gi,'');
+  checkPrompt(cleanPrompt);
 }
 
 function createResponse(sender,text){
@@ -334,33 +330,38 @@ function createResponse(sender,text){
   document.getElementById('responses').prepend(div);
 }
 
-// Map prompts to story keys
+// ============================
+// Prompt map for unlocks
+// ============================
 const promptMap = {
   "taco":"taco",
-  "pirate":"pirate",
-  "space":"space",
-  "moon":"moon",
-  "hacker":"hacker",
-  "dr azul":"dr_azul",
+  "pirates adventure":"pirate",
+  "space voyage":"space",
+  "moon picnic":"moon",
+  "hacker competition":"hacker",
+  "visit dr azul":"dr_azul",
   "birthday cake":"birthday",
   "treasure cave":"treasure_cave",
   "new zealand":"new_zealand",
-  "ninja farm":"ninja_farm",
-  "jungle":"jungle",
+  "ninja training":"ninja_farm",
+  "jungle adventure":"jungle",
   "olive grove":"olive_grove",
-  "video game":"gameover"
+  "video game challenge":"gameover"
 };
 
 function checkPrompt(text){
   for(const key in promptMap){
     if(text.includes(key)){
       unlockVideo(promptMap[key]);
+      attemptSecretUnlock();
       break;
     }
   }
 }
 
+// ============================
 // Paw prints animation
+// ============================
 const pawContainer = document.getElementById('pawContainer');
 const pawCount = 15;
 for(let i=0;i<pawCount;i++){
