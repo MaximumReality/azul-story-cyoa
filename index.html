@@ -44,7 +44,7 @@ body::after {
   100% { background-position: 0 10px; }
 }
 
-/* Neon grid behind video */
+/* Neon grid behind video with pulsing glow */
 .grid-background {
   position:relative;
   width:100%;
@@ -56,7 +56,7 @@ body::after {
     linear-gradient(0deg, rgba(57,255,20,0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(57,255,20,0.05) 1px, transparent 1px);
   background-size:40px 40px;
-  animation:moveGrid 20s linear infinite;
+  animation:moveGrid 20s linear infinite, pulseGrid 4s ease-in-out infinite alternate;
   border-radius:10px;
   overflow:hidden;
   box-shadow:0 0 15px rgba(57,255,20,0.1), 0 0 25px rgba(0,255,255,0.1);
@@ -65,6 +65,11 @@ body::after {
 @keyframes moveGrid {
   0% { background-position: 0 0, 0 0; }
   100% { background-position: 0 40px, 40px 0; }
+}
+
+@keyframes pulseGrid {
+  0% { box-shadow:0 0 12px rgba(57,255,20,0.1), 0 0 20px rgba(0,255,255,0.1); }
+  100% { box-shadow:0 0 25px rgba(57,255,20,0.2), 0 0 40px rgba(0,255,255,0.2); }
 }
 
 /* Drifting paws */
@@ -181,7 +186,7 @@ body::before {
 <h1>Maximum Reality</h1>
 <p class="subtitle">Welcome to the whimsical world of Azul 🧪 & Mochkil 🍪</p>
 
-<!-- Grid background container with video inside -->
+<!-- Grid background container with pulsing neon and video inside -->
 <div class="grid-background">
   <video controls>
     <source src="maximum_intro.mp4" type="video/mp4">
