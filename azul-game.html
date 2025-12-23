@@ -13,7 +13,7 @@ body {
   padding:1rem; margin:0; font-size: 0.6rem;
 }
 
-h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size: 0.9rem; margin: 1.5rem 0; }
+h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size: 0.8rem; margin: 1.5rem 0; }
 
 #chatContainer { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:0.8rem; }
 
@@ -30,21 +30,28 @@ button {
   border:2px solid #39ff14; border-radius:5px; cursor: pointer;
 }
 
+#responses { margin-top: 20px; }
+
 .response {
   padding:1rem; border-radius:10px; background:#111;
-  border: 1px solid #39ff14; margin-top: 1rem;
+  border: 1px solid #39ff14; margin-bottom: 1rem;
   animation:fadeIn 0.4s; line-height: 1.6;
+  display: block; overflow: hidden;
 }
 
-.response strong { color: #39ff14; }
-
+/* SPRITE FIX: Ensures they are visible and sized correctly */
 .sprite {
-  width: 40px; height: 40px; 
+  width: 45px !important; 
+  height: 45px !important; 
+  display: inline-block;
   vertical-align: middle; 
   border-radius: 50%; 
   border: 2px solid #39ff14; 
   margin-right: 10px;
+  background: #222; /* Fallback color if image fails */
 }
+
+.response strong { color: #39ff14; vertical-align: middle; }
 
 video { width: 100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
 
@@ -63,8 +70,8 @@ footer {
 <h1>Maximum Reality 🐱🐈‍⬛</h1>
 
 <div id="chatContainer">
-  <input type="text" id="playerName" placeholder="Your name (or skip for 'You')">
-  <input type="text" id="promptInput" placeholder="Try 'Dr Azul 🩺', 'Jungle', 'Dream'...">
+  <input type="text" id="playerName" placeholder="Your name...">
+  <input type="text" id="promptInput" placeholder="Try Jungle, Dream, Ninja...">
   <div class="button-row">
     <button onclick="addResponse()">SEND</button>
     <button onclick="randomPrompt()">🎲 RANDOM</button>
@@ -195,19 +202,28 @@ function addResponse() {
   const text = input.value.toLowerCase().trim();
   if(!text) return;
   const player = document.getElementById('playerName').value || "You";
+  
   let foundKey = null;
   for(let key in stories) {
     if(stories[key].triggers && stories[key].triggers.some(t => text.includes(t))) {
       foundKey = key; break;
     }
   }
-  if(foundKey) { startCYOA(foundKey); } 
-  else {
+
+  if(foundKey) { 
+    startCYOA(foundKey); 
+  } else {
     const div = document.createElement('div');
     div.className = 'response';
     div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
-      <img src="azul.png" class="sprite"> <strong>Azul:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}<br>
-      <img src="mochkil.png" class="sprite"> <strong>Mochkil:</strong> ${mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)]}`;
+      <div style="margin-bottom:10px;">
+        <img src="azul.png" class="sprite" alt="Azul"> 
+        <strong>Azul:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}
+      </div>
+      <div>
+        <img src="mochkil.png" class="sprite" alt="Mochkil"> 
+        <strong>Mochkil:</strong> ${mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)]}
+      </div>`;
     document.getElementById('responses').prepend(div);
   }
   input.value = "";
