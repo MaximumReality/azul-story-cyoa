@@ -19,7 +19,7 @@ body {
   position:relative;
 }
 
-/* VHS Scanline overlay with subtle scrolling + flicker */
+/* VHS Scanline overlay */
 body::after {
   content:"";
   position:fixed;
@@ -49,7 +49,7 @@ body::after {
   100% { opacity:0.03; }
 }
 
-/* Neon grid behind video with pulsing glow */
+/* Grid background behind video */
 .grid-background {
   position:relative;
   width:100%;
@@ -73,11 +73,11 @@ body::after {
 }
 
 @keyframes pulseGrid {
-  0% { box-shadow:0 0 12px rgba(57,255,20,0.1), 0 0 20px rgba(0,255,255,0.1); }
-  100% { box-shadow:0 0 25px rgba(57,255,20,0.2), 0 0 40px rgba(255,0,255,0.3); }
+  0% { box-shadow:0 0 12px rgba(57,255,20,0.2), 0 0 20px rgba(255,0,255,0.15); }
+  100% { box-shadow:0 0 25px rgba(57,255,20,0.4), 0 0 40px rgba(255,0,255,0.3); }
 }
 
-/* Drifting paws with glow pulse */
+/* Floating paws */
 .paw {
   position:fixed;
   font-size:2rem;
@@ -111,21 +111,17 @@ p.subtitle {
   font-size:0.95rem;
 }
 
-/* Video styling with green border, magenta glow, glitch & color shift */
-.grid-background video {
-  max-width:100%;
-  width:100%;
-  height:100%;
+/* Video wrapper with stable border & glow */
+.video-wrapper {
   border:3px solid #39ff14; /* green outline */
   border-radius:10px;
   box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset; /* magenta glow */
-  display:block;
+  overflow:hidden;
   position:relative;
-  z-index:1;
+  z-index:2;
   animation:
     videoGreenPulse 4s ease-in-out infinite alternate,
     videoMagentaPulse 4s ease-in-out infinite alternate 2s,
-    videoGlitch 0.3s linear infinite,
     videoColorShift 0.6s ease-in-out infinite alternate;
 }
 
@@ -143,7 +139,24 @@ p.subtitle {
   100% { box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset; }
 }
 
-/* Subtle glitch/jitter */
+/* Subtle color shift on glow */
+@keyframes videoColorShift {
+  0% { border-color:#39ff14; box-shadow:0 0 25px #ff00ff,0 0 45px #ff00ff inset; }
+  50% { border-color:#7fff3f; box-shadow:0 0 25px #ff55ff,0 0 50px #ff55ff inset; }
+  100% { border-color:#39ff14; box-shadow:0 0 20px #ff00ff,0 0 40px #ff00ff inset; }
+}
+
+/* Glitch effect only on video inside wrapper */
+.video-wrapper video {
+  display:block;
+  width:100%;
+  height:100%;
+  border:none;
+  border-radius:10px;
+  animation: videoGlitch 0.3s linear infinite;
+}
+
+/* Video glitch/jitter */
 @keyframes videoGlitch {
   0%   { transform: translate(0,0) rotate(0deg); }
   10%  { transform: translate(-1px,1px) rotate(-0.2deg); }
@@ -156,22 +169,6 @@ p.subtitle {
   80%  { transform: translate(-1px,0px) rotate(0.1deg); }
   90%  { transform: translate(0px,-1px) rotate(0deg); }
   100% { transform: translate(0,0) rotate(0deg); }
-}
-
-/* Subtle color shift on glow */
-@keyframes videoColorShift {
-  0% {
-    border-color:#39ff14;
-    box-shadow:0 0 25px #ff00ff, 0 0 45px #ff00ff inset;
-  }
-  50% {
-    border-color:#7fff3f;
-    box-shadow:0 0 25px #ff55ff, 0 0 50px #ff55ff inset;
-  }
-  100% {
-    border-color:#39ff14;
-    box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset;
-  }
 }
 
 /* Cards with smaller font */
@@ -250,12 +247,14 @@ body::before {
 <h1>Maximum Reality</h1>
 <p class="subtitle">Welcome to the whimsical world of Azul 🧪 & Mochkil 🍪</p>
 
-<!-- Grid background container with pulsing neon and video inside -->
+<!-- Video wrapper -->
 <div class="grid-background">
-  <video controls>
-    <source src="maximum_intro.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <div class="video-wrapper">
+    <video controls>
+      <source src="maximum_intro.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 </div>
 
 <!-- Description cards -->
