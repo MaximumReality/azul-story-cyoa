@@ -234,18 +234,20 @@ const mochkilReplies = [
   "Wait… what are we doing? Oh cool! 🐾"
 ];
 
+// ============================
 // Random prompts
+// ============================
 const randomPrompts = [
   "What is Mochkil dreaming today? 🍪",
   "What hack is Azul working on? 🧪",
   "What's happening in Maximum Reality right now? 🌌",
   "Pirates Adventure! 🏴‍☠️",
   "Space voyage time! 🚀",
-  "Visit Dr. Azul today 🩺",
-  "Birthday cake chaos 🎂",
-  "Explore the treasure cave 🏰",
-  "New Zealand adventure 🇳🇿",
-  "Ninja farm training 🥷🌾",
+  "Should we visit Dr. Azul today? 🩺",
+  "Birthday cake party incoming! 🎂",
+  "Treasure cave exploration! 🏰",
+  "Let's go to New Zealand! 🥝",
+  "Ninja training at the farm! 🥷🌾",
   "Taco truck time! 🌮",
   "Moon picnic adventure! 🌕",
   "Hacker competition begins! 💻",
@@ -253,15 +255,21 @@ const randomPrompts = [
   "Azul floats upside-down, what is he thinking? 🌀",
   "Secret treasure hidden nearby, do we investigate? 🏴‍☠️",
   "Strange sounds in the cave, do we follow them? 🕯️",
-  "Luna's birthday party, any surprises? 🎉"
+  "Luna's birthday party, any surprises? 🎉",
+  // New adventures
+  "Visit Dr. Azul today 🩺",
+  "Explore the treasure cave 🏰",
+  "Birthday cake chaos 🎂",
+  "New Zealand adventure 🇳🇿",
+  "Ninja farm training 🥷🌾",
+  "Jungle adventure! 🌴",
+  "Olive grove exploration! 🌿",
+  "Video game challenge! 🎮"
 ];
 
-// Story state
-let storyProgress = null;
-let questionIndex = 0;
-const videosContainer = document.getElementById('videosContainer');
-
-// Stories and questions
+// ============================
+// Story objects
+// ============================
 const stories = {
   taco: {
     title: "Taco Adventure 🌮",
@@ -273,7 +281,7 @@ const stories = {
       {q:"Drink preference?",a:["Soda","Water","Juice"],correct:2},
       {q:"Where do you eat it?",a:["Bench","Street","On a roof"],correct:0},
       {q:"Is Mochkil trying to sneak a bite?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0}
+      {q:"Do you share your taco?",a:["Yes","No","With Azul"],correct:0},
     ],
     video:"azul_mochkil_taco_truck.mp4",
     vtt:"azul_mochkil_taco_truck.vtt"
@@ -309,7 +317,7 @@ const stories = {
     vtt:"azul_mochkil_space_voyager.vtt"
   },
   moon: {
-    title:"Moon Picnic 🌕",
+    title:"Moon Picnic 🌌",
     questions:[
       {q:"Do you enjoy the picnic?",a:["Yes","Float away","Ignore"],correct:0},
       {q:"Pick a snack:",a:["Moon cheese","Space fruit","Chocolate"],correct:1},
@@ -339,65 +347,131 @@ const stories = {
   dr_azul: {
     title:"Visit Dr. Azul 🩺",
     questions:[
-      {q:"Do you sit in Dr. Azul's office?",a:["Yes","No","Look around"],correct:0},
-      {q:"Mochkil complains about belly?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Check patient files?",a:["Yes","No","Type notes"],correct:0},
-      {q:"Offer a snack?",a:["Yes","No","Secret candy"],correct:0},
-      {q:"Ask Dr. Azul a question?",a:["Yes","No","Something else"],correct:0},
-      {q:"Leave office?",a:["Yes","No","Hide"],correct:0}
+      {q:"Sit in the chair?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Explain your symptoms?",a:["Honestly","Exaggerate","Stay silent"],correct:0},
+      {q:"Drink water?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Take a snack?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Ask for advice?",a:["Yes","No","Go back"],correct:0},
+      {q:"Leave politely?",a:["Yes","No","Sneak out"],correct:0}
     ],
-    video:"dr_azul.mp4"
+    video:"dr_azul.mp4",
+    vtt:null
   },
-  birthday_cake: {
+  birthday: {
     title:"Birthday Cake Chaos 🎂",
     questions:[
-      {q:"Does Mochkil eat the cake?",a:["Yes","No","Just a slice"],correct:0},
-      {q:"Did Azul bring a backup?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Who notices first?",a:["Azul","You","No one"],correct:0},
-      {q:"Should we cut more?",a:["Yes","No","Maybe"],correct:0},
-      {q:"Take a photo?",a:["Yes","No","Don't care"],correct:0},
-      {q:"Blow candles?",a:["Yes","No","Hide"],correct:0}
+      {q:"Mochkil eyes the cake?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Take one bite?",a:["Yes","No","Save for later"],correct:0},
+      {q:"Azul brought a spare?",a:["Yes","No","Check"],correct:0},
+      {q:"Share cake?",a:["Yes","No","With friends"],correct:0},
+      {q:"Clean up?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Blow out candles?",a:["Yes","No","Oops"],correct:0}
     ],
-    video:"birthday_cake.mp4"
+    video:"birthday_cake.mp4",
+    vtt:null
   },
   treasure_cave: {
     title:"Treasure Cave 🏰",
     questions:[
-      {q:"Enter the cave?",a:["Yes","No","Peek inside"],correct:0},
-      {q:"Follow the shiny path?",a:["Yes","No","Run away"],correct:0},
-      {q:"Open a treasure box?",a:["Yes","No","Inspect first"],correct:0},
-      {q:"Take some coins?",a:["Yes","No","Share with Mochkil"],correct:0},
-      {q:"Look around the chamber?",a:["Yes","No","Just exit"],correct:0},
-      {q:"Leave the cave?",a:["Yes","No","Stay"],correct:0}
+      {q:"Enter the cave?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Follow the gold?",a:["Yes","No","Turn back"],correct:0},
+      {q:"Pick up treasure?",a:["Yes","No","Leave it"],correct:0},
+      {q:"Check the chest?",a:["Yes","No","Open all"],correct:0},
+      {q:"Trapdoors or stairs?",a:["Trapdoors","Stairs","Ignore"],correct:1},
+      {q:"Share treasure?",a:["Yes","No","Mochkil"],correct:0}
     ],
-    video:"treasure_cave.mp4"
+    video:"treasure_cave.mp4",
+    vtt:null
   },
   new_zealand: {
     title:"New Zealand Adventure 🇳🇿",
     questions:[
-      {q:"Visit the farm?",a:["Yes","No","Just walk"],correct:0},
-      {q:"Ride a sheep?",a:["Yes","No","Feed them"],correct:0},
-      {q:"Take photos?",a:["Yes","No","Record"],correct:0},
-      {q:"Eat kiwi?",a:["Yes","No","Share"],correct:0},
-      {q:"Meet locals?",a:["Yes","No","Sneak"],correct:0},
-      {q:"Go hiking?",a:["Yes","No","Stay"],correct:0}
+      {q:"Visit the mountains?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Ride a sheep?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Try local food?",a:["Yes","No","Skip"],correct:0},
+      {q:"Take photos?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Follow a kiwi bird?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Learn Maori words?",a:["Yes","No","Ignore"],correct:0}
     ],
-    video:"azul_mochkil_new_zealand.mp4"
+    video:"azul_mochkil_new_zealand.mp4",
+    vtt:null
   },
   ninja_farm: {
-    title:"Ninja Farm Training 🥷🌾",
+    title:"Ninja Farm 🥷🌾",
     questions:[
-      {q:"Train with Mochkil?",a:["Yes","No","Try secretly"],correct:0},
-      {q:"Practice jumps?",a:["Yes","No","Attempt"],correct:0},
-      {q:"Throw shurikens?",a:["Yes","No","Just watch"],correct:0},
-      {q:"Climb trees?",a:["Yes","No","Balance"],correct:0},
-      {q:"Hide from Azul?",a:["Yes","No","Sneak"],correct:0}
+      {q:"Train with Mochkil?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Pick a weapon?",a:["Sword","Staff","Shuriken"],correct:0},
+      {q:"Harvest crops?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Hide from the farmer?",a:["Yes","No","Maybe"],correct:0},
+      {q:"Sneak snacks?",a:["Yes","No","Check"],correct:0},
+      {q:"Celebrate success?",a:["Yes","No","Ignore"],correct:0}
     ],
     video:"azul_mochkil_ninja_farm.mp4",
     vtt:"azul_mochkil_ninja_farm.vtt"
-  }
+  },
+  jungle: {
+    title:"Jungle Adventure 🌴",
+    questions:[
+      {q:"Enter the jungle?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Follow the sound of monkeys?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Climb a tree?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Cross a river?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Find hidden temple?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Collect jungle fruits?",a:["Yes","No","Ignore"],correct:0}
+    ],
+    video:"azul_mochkil_jungle.mp4",
+    vtt:null
+  },
+  olive_grove: {
+    title:"Olive Grove 🌿",
+    questions:[
+      {q:"Walk among olive trees?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Pick olives?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Meet local farmer?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Taste olive oil?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Rest under shade?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Collect olives for later?",a:["Yes","No","Ignore"],correct:0}
+    ],
+    video:"azul_mochkil_olivegrove.mp4",
+    vtt:null
+  },
+  gameover: {
+    title:"Video Game Adventure 🎮",
+    questions:[
+      {q:"Start the game?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Choose a character?",a:["Azul","Mochkil","You"],correct:0},
+      {q:"Power-up or wait?",a:["Power-up","Wait","Ignore"],correct:0},
+      {q:"Fight the boss?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Use special move?",a:["Yes","No","Ignore"],correct:0},
+      {q:"Win the level?",a:["Yes","No","Ignore"],correct:0}
+    ],
+    video:"azul_mochkil_gameover.mp4",
+    vtt:null
+  },
+  // ============================
+  // Secret Azulo commercials (random unlocks)
+  // ============================
+  azulo1: { video:"azulo1.mp4", secret:true },
+  azulo2: { video:"azulo2.mp4", secret:true },
+  azulo3: { video:"azulo3.mp4", secret:true },
+  azulo4: { video:"azulo4.mp4", secret:true },
+  azulo5: { video:"azulo5.mp4", secret:true },
+  azulo6: { video:"azulo6.mp4", secret:true },
+  azulo7: { video:"azulo7.mp4", secret:true }
 };
 
+// ============================
+// Secret unlock logic
+// ============================
+function attemptSecretUnlock() {
+  const chance = Math.random();
+  if(chance < 0.05){ // 5% chance to unlock a random Azulo commercial
+    const secretKeys = Object.keys(stories).filter(k=>stories[k].secret);
+    const key = secretKeys[Math.floor(Math.random()*secretKeys.length)];
+    unlockVideo(stories[key].video, stories[key].vtt || null);
+    console.log("Secret unlocked:", key);
+  }
+}
 // Function to unlock video
 function unlockVideo(storyKey){
   const story = stories[storyKey];
