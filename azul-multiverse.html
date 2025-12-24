@@ -255,6 +255,20 @@ const stories = {
     {q:"Share?", a:["Yes","No"], correct:0},
     {q:"Final: Happy?", a:["Yes","No"], correct:0}
   ]}
+  gameover: {
+  triggers: ["game over", "ending", "the end", "mysterious"],
+  video: "azul_mochkil_gameover.mp4",
+  questions: [
+    { q: "Sometimes stories just… end.", a: ["Listen"], correct: 0 },
+    { q: "Not every ending is a failure.", a: ["Continue"], correct: 0 },
+    { q: "A voice speaks softly from nowhere…", a: ["Hear it"], correct: 0 },
+    { q: "You are always welcome back.", a: ["Stay"], correct: 0 }
+    else { 
+  div.innerHTML = "<strong>FAILED!</strong>"; 
+  playVideo("azul_mochkil_gameover.mp4"); 
+}
+  ]
+}
 };
 gameover: {
   triggers: ["game over", "ending", "the end", "mysterious"],
