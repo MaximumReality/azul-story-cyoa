@@ -33,8 +33,10 @@ button {
 .response {
   padding:1rem; border-radius:10px; background:#111;
   border: 1px solid #39ff14; margin-bottom: 1rem;
-  animation:fadeIn 0.4s; line-height: 1.6;
+  line-height: 1.6;
 }
+
+.typing { color:#ff69b4; font-size:0.5rem; font-style:italic; margin-bottom:0.5rem; }
 
 .sprite-row { display: flex !important; align-items: center !important; margin: 12px 0 !important; }
 .sprite-img { 
@@ -54,8 +56,6 @@ footer {
 .footer-links { font-size: 0.45rem; margin-bottom: 8px; }
 .neon-link { color:#39ff14; text-decoration:none; margin: 0 8px; white-space: nowrap; }
 .copyright { display: block; font-size: 0.35rem; color: #666; margin-top: 10px; }
-
-@keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1;} }
 </style>
 </head>
 <body>
@@ -85,109 +85,240 @@ footer {
 </footer>
 
 <script>
-// CHARACTER REPLIES
 const azulReplies = ["Is it Azulo Cereal time?", "I'm optimizing the toy surprise.", "Hack the crunchiness!", "I only accept cereal bits."];
 const mochkilReplies = ["I want the ninja toy!", "Crunch crunch crunch!", "Can we live in a cereal box?", "Zzz... blue milk."];
 
-// STORIES AND CYOA QUESTIONS
 const stories = {
-  hacker: { triggers: ["hacker","coding","💻"], video:"azul_lori_hacker.mp4", questions: [...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  jungle: { triggers: ["jungle","🌴"], video:"azul_mochkil_jungle.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  pirate: { triggers: ["pirate","ship","🏴‍☠️"], video:"azul_mochkil_pirates.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  dream: { triggers:["dream","😴"], video:"mochkil_sweet_dream.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  ninja: { triggers:["ninja","farm","🥷"], video:"azul_mochkil_ninja_farm.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  zealand: { triggers:["zealand","nz","🇳🇿"], video:"azul_mochkil_new_zealand.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  cave: { triggers:["cave","⚱️"], video:"treasure_cave.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  dr_azul: { triggers:["dr","doctor","🩺","🩻","🥼"], video:"dr_azul.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  olive: { triggers:["olive","🫒"], video:"azul_mochkil_olivegrove.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  moon: { triggers:["moon","🌌"], video:"azul_lori_moon_picnic.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  taco: { triggers:["taco","🌮"], video:"azul_mochkil_taco_truck.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  birthday: { triggers:["birthday","cake","🎂"], video:"birthday_cake.mp4", questions:[...Array(8)].map((_,i)=>({q:`Step ${i+1} question`,a:["Option 1","Option 2"],correct:0})) },
-  gameover: { triggers:["gameover","game over"], video:"azul_mochkil_gameover.mp4", questions:[...Array(8)].map((_,i)=>({q:`Play game step ${i+1}`,a:["Option 1","Option 2"],correct:0})) }
+  hacker: { triggers:["hacker","coding","💻"], video:"azul_lori_hacker.mp4", questions:[
+    {q:"Azul is at the keyboard. Assist?", a:["Hack","Wait"], correct:0},
+    {q:"Firewall detected!", a:["Code","Smash"], correct:0},
+    {q:"Trace the scammer?", a:["Yes","No"], correct:0},
+    {q:"Lori's password?", a:["Azulo99","Admin"], correct:0},
+    {q:"Binary scrolling!", a:["Read","Ignore"], correct:0},
+    {q:"System hot!", a:["Fan","Type"], correct:1},
+    {q:"Root folder found?", a:["Yes","No"], correct:0},
+    {q:"Final: Hack complete?", a:["Success!","Fail"], correct:0}
+  ]},
+  jungle: { triggers:["jungle","🌴"], video:"azul_mochkil_jungle.mp4", questions:[
+    {q:"Use machete?", a:["Yes","No"], correct:0},
+    {q:"Chase butterfly?", a:["No","Yes"], correct:0},
+    {q:"Scan leaf?", a:["Yes","Pick"], correct:0},
+    {q:"Monkey stole hat!", a:["Climb","Run"], correct:0},
+    {q:"Raft or Swim?", a:["Raft","Swim"], correct:0},
+    {q:"Bow to statue?", a:["Yes","No"], correct:0},
+    {q:"Enter glow cave?", a:["Yes","No"], correct:0},
+    {q:"Final: Waterfall?", a:["Found!","Lost"], correct:0}
+  ]},
+  pirate: { triggers:["pirate","ship","🏴‍☠️"], video:"azul_mochkil_pirates.mp4", questions:[
+    {q:"Board ship?", a:["Aye!","No"], correct:0},
+    {q:"Follow map?", a:["Yes","No"], correct:0},
+    {q:"Hat for Mochkil?", a:["Give","Keep"], correct:0},
+    {q:"Storm clouds!", a:["Sails","Hide"], correct:0},
+    {q:"Dig sand?", a:["Dig","Wait"], correct:0},
+    {q:"Trust Navigator?", a:["Yes","No"], correct:0},
+    {q:"Fire Cannons?", a:["Fire!","Run"], correct:0},
+    {q:"Final: Gold?", a:["Claim!","No"], correct:0}
+  ]},
+  dream: { triggers:["dream","😴"], video:"mochkil_sweet_dream.mp4", questions:[
+    {q:"Enter dream?", a:["Yes","Wait"], correct:0},
+    {q:"Eat clouds?", a:["Yes","No"], correct:0},
+    {q:"Catch flying fish?", a:["Yes","No"], correct:0},
+    {q:"Meow to Guardian?", a:["Yes","No"], correct:0},
+    {q:"Enter castle?", a:["Yes","No"], correct:0},
+    {q:"Unravel moon?", a:["Yes","No"], correct:0},
+    {q:"Stay purring?", a:["Yes","Wake"], correct:0},
+    {q:"Final: Sweet?", a:["The Sweetest","No"], correct:0}
+  ]},
+  ninja: { triggers:["ninja","farm","🥷"], video:"azul_mochkil_ninja_farm.mp4", questions:[
+    {q:"Enter farm?", a:["Yes","No"], correct:0},
+    {q:"Sneak mode?", a:["Yes","No"], correct:0},
+    {q:"Sharpen claws?", a:["Yes","No"], correct:0},
+    {q:"Read scroll?", a:["Yes","No"], correct:0},
+    {q:"Bow to Master?", a:["Yes","No"], correct:0},
+    {q:"Step light?", a:["Yes","No"], correct:0},
+    {q:"Throw bomb?", a:["Yes","No"], correct:0},
+    {q:"Final: Ninja?", a:["Yes","No"], correct:0}
+  ]},
+  zealand: { triggers:["zealand","nz","🇳🇿"], video:"azul_mochkil_new_zealand.mp4", questions:[
+    {q:"Go south?", a:["Yes","No"], correct:0},
+    {q:"Pet sheep?", a:["Yes","No"], correct:0},
+    {q:"Visit Hobbit?", a:["Yes","No"], correct:0},
+    {q:"Bungee jump?", a:["Watch","Jump"], correct:0},
+    {q:"Ski peak?", a:["Yes","No"], correct:0},
+    {q:"Quiet for Kiwi?", a:["Yes","No"], correct:0},
+    {q:"Swim?", a:["No","Yes"], correct:0},
+    {q:"Final: Paradise?", a:["Yes","No"], correct:0}
+  ]},
+  cave: { triggers:["cave","⚱️"], video:"treasure_cave.mp4", questions:[
+    {q:"Torch?", a:["Yes","No"], correct:0},
+    {q:"Duck bats?", a:["Yes","No"], correct:0},
+    {q:"Hack lock?", a:["Yes","No"], correct:0},
+    {q:"Run shaking?", a:["Yes","No"], correct:0},
+    {q:"Take gold?", a:["Yes","No"], correct:0},
+    {q:"Solve riddle?", a:["Yes","No"], correct:0},
+    {q:"Enter glow?", a:["Yes","No"], correct:0},
+    {q:"Final: Pure?", a:["Yes","No"], correct:0}
+  ]},
+  dr_azul: { triggers:["dr","doctor","🩺","🥼","🩻"], video:"dr_azul.mp4", questions:[
+    {q:"Sign in?", a:["Yes","No"], correct:0},
+    {q:"Enter office?", a:["Yes","No"], correct:0},
+    {q:"Check Mochkil?", a:["Yes","No"], correct:1},
+    {q:"Stay brave?", a:["Yes","No"], correct:0},
+    {q:"Listen script?", a:["Yes","No"], correct:0},
+    {q:"Laugh at poot?", a:["Yes","No"], correct:0},
+    {q:"Sticker?", a:["Yes","No"], correct:0},
+    {q:"Final: Good?", a:["Yes","No"], correct:0}
+  ]},
+  olive: { triggers:["olive","🫒"], video:"azul_mochkil_olivegrove.mp4", questions:[
+    {q:"Pick?", a:["Yes","No"], correct:0},
+    {q:"Stop eater?", a:["Yes","No"], correct:0},
+    {q:"Press?", a:["Yes","No"], correct:0},
+    {q:"Pet goat?", a:["Yes","No"], correct:0},
+    {q:"Respect trees?", a:["Yes","No"], correct:0},
+    {q:"Stay sunset?", a:["Yes","No"], correct:0},
+    {q:"Dip bread?", a:["Yes","No"], correct:0},
+    {q:"Final: Peace?", a:["Yes","No"], correct:0}
+  ]},
+  moon: { triggers:["moon","🌌"], video:"azul_lori_moon_picnic.mp4", questions:[
+    {q:"Dust step?", a:["Yes","No"], correct:0},
+    {q:"Open basket?", a:["Yes","No"], correct:0},
+    {q:"Photo?", a:["Yes","No"], correct:0},
+    {q:"Flip?", a:["Yes","No"], correct:0},
+    {q:"Ride rover?", a:["Yes","No"], correct:0},
+    {q:"Taste cheese?", a:["Yes","No"], correct:0},
+    {q:"Wish?", a:["Yes","No"], correct:0},
+    {q:"Final: Best?", a:["Yes","No"], correct:0}
+  ]},
+  taco: { triggers:["taco","🌮"], video:"azul_mochkil_taco_truck.mp4", questions:[
+    {q:"Approach?", a:["Yes","No"], correct:0},
+    {q:"Ask Azul?", a:["Yes","No"], correct:0},
+    {q:"Order big?", a:["Yes","No"], correct:0},
+    {q:"One drop?", a:["Yes","No"], correct:0},
+    {q:"Discount?", a:["Yes","No"], correct:0},
+    {q:"Hiss scammer?", a:["Yes","No"], correct:0},
+    {q:"Wait hot?", a:["Wait","Eat"], correct:0},
+    {q:"Final: Yummy?", a:["Yes","No"], correct:0}
+  ]},
+  birthday: { triggers:["birthday","cake","🎂"], video:"birthday_cake.mp4", questions:[
+    {q:"Blow candles?", a:["Yes","No"], correct:0},
+    {q:"Eat cake?", a:["Yes","No"], correct:0},
+    {q:"Open gift?", a:["Yes","No"], correct:0},
+    {q:"Sing song?", a:["Yes","No"], correct:0},
+    {q:"Dance?", a:["Yes","No"], correct:0},
+    {q:"Make wish?", a:["Yes","No"], correct:0},
+    {q:"Hug?", a:["Yes","No"], correct:0},
+    {q:"Final: Celebrate?", a:["Yes","No"], correct:0}
+  ]}
 };
 
 let currentStory = null;
 let qIndex = 0;
 
-// SEND / PROMPT HANDLER
-function addResponse(){
+function typeResponse(element, text, delay=50) {
+  element.innerHTML = "";
+  let i=0;
+  function typing() {
+    if(i<text.length) { element.innerHTML += text.charAt(i); i++; setTimeout(typing, delay); }
+  }
+  typing();
+}
+
+function addResponse() {
   const input = document.getElementById('promptInput');
   const text = input.value.toLowerCase().trim();
   if(!text) return;
-  const player = document.getElementById('playerName').value || "Mysterious Human";
+  const player = document.getElementById('playerName').value || "mysterious human";
 
-  // AZULO COMMERCIAL RANDOM
-  if(text.includes("azulo")){
-    const rand = Math.floor(Math.random()*7)+1;
-    const div=document.createElement('div');
-    div.className='response';
-    div.innerHTML=`<strong>${player}:</strong> ${input.value}<br><br><div style="color:#ff69b4;text-align:center;">✨ AZULO CEREAL COMMERCIAL BREAK! ✨</div>`;
+  if (text.includes("azulo")) {
+    const rand = Math.floor(Math.random() * 7) + 1;
+    const div = document.createElement('div');
+    div.className = 'response';
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br><div style="color:#ff69b4; text-align:center;">✨ AZULO CEREAL COMMERCIAL BREAK! ✨</div>`;
     document.getElementById('responses').prepend(div);
     playVideo(`azulo${rand}.mp4`);
-    input.value="";
+    input.value = "";
     return;
   }
 
-  // CHECK FOR STORY TRIGGERS
   let foundKey = null;
-  for(let key in stories){
-    if(stories[key].triggers.some(t=>text.includes(t))){
-      foundKey=key; break;
+  for(let key in stories) {
+    if(stories[key].triggers.some(t => text.includes(t))) {
+      foundKey = key; break;
     }
   }
 
-  if(foundKey){ startCYOA(foundKey); }
-  else{
-    const div=document.createElement('div');
-    div.className='response';
-    div.innerHTML=`<strong>${player}:</strong> ${input.value}<br><br>
-      <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}</div></div>
-      <div class="sprite-row"><img src="mochkil.png" class="sprite-img"><div><strong>Mochkil:</strong> ${mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)]}</div></div>`;
+  if(foundKey) {
+    startCYOA(foundKey);
+  } else {
+    const div = document.createElement('div');
+    div.className = 'response';
+    const azulText = azulReplies[Math.floor(Math.random()*azulReplies.length)];
+    const mochText = mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)];
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
+      <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul:</strong> <span class="typing"></span></div></div>
+      <div class="sprite-row"><img src="mochkil.png" class="sprite-img"><div><strong>Mochkil:</strong> <span class="typing"></span></div></div>`;
     document.getElementById('responses').prepend(div);
+    const spans = div.querySelectorAll('.typing');
+    typeResponse(spans[0], azulText, 40);
+    typeResponse(spans[1], mochText, 40);
   }
-  input.value="";
+  input.value = "";
 }
 
-// START CYOA
-function startCYOA(key){ currentStory=key; qIndex=0; document.getElementById('responses').innerHTML=""; showQuestion(); }
+function startCYOA(key) {
+  currentStory = key; qIndex = 0;
+  document.getElementById('responses').innerHTML = "";
+  showQuestion();
+}
 
-function showQuestion(){
-  const s=stories[currentStory]; const q=s.questions[qIndex];
-  const div=document.createElement('div');
-  div.className='response';
-  div.innerHTML=`<strong>${currentStory.toUpperCase()} - STEP ${qIndex+1}/${s.questions.length}</strong><br><br>
-      <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul:</strong> ${q.q}</div></div><br>`;
-  
-  q.a.forEach((ans,i)=>{
-    const btn=document.createElement('button');
-    btn.textContent=ans; btn.style.margin="5px";
-    btn.onclick=()=>{
-      qIndex++;
-      if(qIndex<s.questions.length){ div.remove(); showQuestion(); }
-      else{ div.innerHTML=`<strong>${currentStory.toUpperCase()} COMPLETE!</strong>`; playVideo(s.video); }
-    };
-    div.appendChild(btn);
-  });
+function showQuestion() {
+  const s = stories[currentStory]; 
+  const q = s.questions[qIndex];
+  const div = document.createElement('div');
+  div.className = 'response';
+  div.innerHTML = `<strong>${currentStory.toUpperCase()} - STEP ${qIndex+1}/${s.questions.length}</strong><br><br>
+      <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul:</strong> <span class="typing"></span></div></div>`;
   document.getElementById('responses').prepend(div);
+
+  const typingSpan = div.querySelector('.typing');
+  typeResponse(typingSpan, q.q, 40);
+
+  setTimeout(() => {
+    q.a.forEach((ans, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = ans; btn.style.margin = "5px";
+      btn.onclick = () => {
+        qIndex++;
+        if(qIndex < s.questions.length) { div.remove(); showQuestion(); }
+        else { playVideo(s.video); }
+      };
+      div.appendChild(btn);
+    });
+  }, q.q.length*40 + 200);
 }
 
-// VIDEO PLAYER
-function playVideo(src){
-  const v=document.createElement('video');
-  v.src=src; v.controls=true; v.setAttribute('playsinline','');
-  const track=document.createElement('track');
-  track.kind='captions'; track.label='English'; track.srclang='en';
-  track.src=src.replace('.mp4','.vtt'); track.default=true;
+function playVideo(src) {
+  const v = document.createElement('video');
+  v.src = src;
+  v.controls = true;
+  v.setAttribute('playsinline', '');
+  
+  const track = document.createElement('track');
+  track.kind = 'captions';
+  track.label = 'English';
+  track.srclang = 'en';
+  track.src = src.replace('.mp4','.vtt');
+  track.default = true;
   v.appendChild(track);
-  document.getElementById('videosContainer').innerHTML=""; 
+
+  document.getElementById('videosContainer').innerHTML = ""; 
   document.getElementById('videosContainer').prepend(v);
-  v.play().catch(e=>console.log(e));
+  v.play().catch(e => console.log(e));
 }
 
-// RANDOM PROMPT
-function randomPrompt(){
-  const r=["Azulo","Hacker","Jungle","Dream","Ninja","Pirate","Zealand","Cave","Dr Azul","Olive","Moon","Taco","Birthday","GameOver"];
-  document.getElementById('promptInput').value=r[Math.floor(Math.random()*r.length)];
+function randomPrompt() {
+  const r = ["Azulo","Hacker","Jungle","Dream","Ninja","Pirate","Zealand","Cave","Dr Azul","Olive","Moon","Taco","Birthday"];
+  document.getElementById('promptInput').value = r[Math.floor(Math.random()*r.length)];
 }
 </script>
 </body>
