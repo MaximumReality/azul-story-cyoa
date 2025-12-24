@@ -107,6 +107,89 @@ footer {
 </footer>
 
 <script>
+// Typing speeds (ms per character)
+const TYPE_SPEED_AZUL = 25;
+const TYPE_SPEED_MOCHKIL = 60;
+
+// Character replies
+const azulReplies = [
+  "Is it Azulo Cereal time?",
+  "I'm optimizing the toy surprise.",
+  "Hack the crunchiness!",
+  "I only accept cereal bits."
+];
+const mochkilReplies = [
+  "I want the ninja toy!",
+  "Crunch crunch crunch!",
+  "Can we live in a cereal box?",
+  "Zzz... blue milk."
+];
+
+function typeWriter(element, text, speed, callback) {
+  element.textContent = "";
+  let i = 0;
+  function type() {
+    if(i < text.length){
+      element.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    } else if(callback) {
+      callback();
+    }
+  }
+  type();
+}
+
+function addResponse() {
+  const input = document.getElementById('promptInput');
+  const player = document.getElementById('playerName').value.trim() || "Mysterious Human";
+  const text = input.value.trim().toLowerCase();
+  if(!text) return;
+
+  // AZULO commercial shortcut
+  if(text.includes("azulo")){
+    const rand = Math.floor(Math.random()*7)+1;
+    const div = document.createElement('div');
+    div.className='response';
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
+      <div style="color:#ff69b4; text-align:center;">✨ AZULO CEREAL COMMERCIAL BREAK! ✨</div>`;
+    document.getElementById('responses').prepend(div);
+    playVideo(`azulo${rand}.mp4`);
+    input.value="";
+    return;
+  }
+
+  // Check for stories
+  let storyKey = null;
+  for(const key in stories){
+    if(stories[key].triggers.some(t=>text.includes(t))){
+      storyKey = key;
+      break;
+    }
+  }
+
+  if(storyKey){
+    startCYOA(storyKey);
+  } else {
+    const div = document.createElement('div');
+    div.className='response';
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
+      <div class="sprite-row"><img src="azul.png" class="sprite-img"><div class="type-azul"></div></div>
+      <div class="sprite-row"><img src="mochkil.png" class="sprite-img"><div class="type-mochkil"></div></div>`;
+    document.getElementById('responses').prepend(div);
+
+    const azulDiv = div.querySelector(".type-azul");
+    const mochDiv = div.querySelector(".type-mochkil");
+
+    typeWriter(azulDiv, `<strong>Azul:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}`, TYPE_SPEED_AZUL, ()=>{
+      typeWriter(mochDiv, `<strong>Mochkil:</strong> ${mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)]}`, TYPE_SPEED_MOCHKIL);
+    });
+  }
+
+  input.value="";
+}
+</script>
+  <script>
 // Replies
 const azulReplies = [
   "Keep your eyes peeled — surprises ahead ✨",
