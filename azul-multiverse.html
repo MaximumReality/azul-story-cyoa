@@ -134,173 +134,187 @@ footer {
    STORY REGISTRY – ONLY EDIT HERE
 ================================ */
 
-const STORIES = {
+const stories = {
+
+  // Core Adventures
+  taco: {
+    title: "Taco Adventure 🌮",
+    questions: [
+      { q: "You see a taco truck. What do you do?", a: ["Order one yourself","Let Mochkil order","Walk past it"] },
+      { q: "What topping do you choose?", a: ["Chicken","Beef","Mystery taco"] },
+      { q: "Do you want salsa on it?", a: ["Yes!","No","Extra spicy"] },
+      { q: "Choose a side:", a: ["Churros","Fries","Nothing"] },
+      { q: "Drink preference?", a: ["Soda","Water","Juice"] },
+      { q: "Where do you eat it?", a: ["Bench","Street","On a roof"] },
+      { q: "Is Mochkil trying to sneak a bite?", a: ["Yes","No","Maybe"] },
+      { q: "Do you share your taco?", a: ["Yes","No","With Azul"] }
+    ],
+    video: "azul_mochkil_taco_truck.mp4",
+    vtt: "azul_mochkil_taco_truck.vtt"
+  },
 
   pirate: {
+    title: "Pirate Adventure 🏴‍☠️",
+    questions: [
+      { q: "Do you board the pirate ship?", a: ["Yes","Sneak aboard","Ignore"] },
+      { q: "Pick a pirate role:", a: ["Captain","Cook","Deckhand"] },
+      { q: "Weapon of choice?", a: ["Sword","Cannon","Map"] },
+      { q: "Treasure preference?", a: ["Gold","Gems","Map"] },
+      { q: "Do you sing a sea shanty?", a: ["Yes","No","Maybe"] },
+      { q: "Hide or fight?", a: ["Hide","Fight","Negotiate"] },
+      { q: "Ship color?", a: ["Black","Red","White"] },
+      { q: "Parrot companion?", a: ["Yes","No","Mochkil"] }
+    ],
     video: "azul_mochkil_pirates.mp4",
-    triggers:["pirate","🏴‍☠️","ship"],
-    steps:[
-      {s:"Azul",t:"Salt levels optimal for adventure.",c:["Scan horizon","Stretch paws"]},
-      {s:"Mochkil",t:"I brought snacks. Important.",c:["Eat snacks","Save snacks"]},
-      {s:"Azul",t:"Unknown vessel detected.",c:["Wave","Observe"]},
-      {s:"Mochkil",t:"I found a hat!",c:["Wear it","Give to Azul"]},
-      {s:"Azul",t:"Map shows an X.",c:["Follow map","Pocket map"]},
-      {s:"Mochkil",t:"I hear singing ghosts.",c:["Sing back","Hide"]},
-      {s:"Azul",t:"Treasure confirmed.",c:["Document","Celebrate"]},
-      {s:"Mochkil",t:"Best pirate day ever.",c:["Watch memory","Dance"]}
-    ]
-  },
-
-  jungle: {
-    video:"azul_mochkil_jungle.mp4",
-    triggers:["jungle","🌴"],
-    steps:[
-      {s:"Azul",t:"Humidity rising rapidly.",c:["Adjust sensors","Proceed"]},
-      {s:"Mochkil",t:"Everything is green.",c:["Touch leaf","Wave"]},
-      {s:"Azul",t:"Ancient stones detected.",c:["Examine","Photograph"]},
-      {s:"Mochkil",t:"A frog waved at me.",c:["Wave back","Bow"]},
-      {s:"Azul",t:"Path splits ahead.",c:["Left","Right"]},
-      {s:"Mochkil",t:"I hear drums!",c:["Dance","Hide"]},
-      {s:"Azul",t:"Waterfall nearby.",c:["Approach","Observe"]},
-      {s:"Mochkil",t:"Jungle memory saved.",c:["Watch memory","Nap"]}
-    ]
-  },
-
-  olive: {
-    video:"azul_mochkil_olivegrove.mp4",
-    triggers:["olive","🫒","grove"],
-    steps:[
-      {s:"Azul",t:"Light filters through ancient trees.",c:["Walk slowly","Pause"]},
-      {s:"Mochkil",t:"It smells warm here.",c:["Sniff air","Smile"]},
-      {s:"Azul",t:"Olives are ready.",c:["Pick gently","Observe"]},
-      {s:"Mochkil",t:"Goat is staring.",c:["Pet goat","Bow"]},
-      {s:"Azul",t:"Press is prepared.",c:["Turn crank","Watch"]},
-      {s:"Mochkil",t:"Oil is shiny!",c:["Dip bread","Admire"]},
-      {s:"Azul",t:"Sunset approaching.",c:["Stay","Sit quietly"]},
-      {s:"Mochkil",t:"Peace unlocked.",c:["Watch memory","Rest"]}
-    ]
-  },
-
-  ninja: {
-    video:"azul_mochkil_ninja_farm.mp4",
-    triggers:["ninja","farm","🥷"],
-    steps:[
-      {s:"Azul",t:"Stealth mode engaged.",c:["Crouch","Observe"]},
-      {s:"Mochkil",t:"I am being very sneaky.",c:["Whisper","Freeze"]},
-      {s:"Azul",t:"Windmill rotating.",c:["Climb","Hide"]},
-      {s:"Mochkil",t:"Chickens know too much.",c:["Bow","Sneak past"]},
-      {s:"Azul",t:"Scroll discovered.",c:["Read","Pocket"]},
-      {s:"Mochkil",t:"I tripped but silently.",c:["Recover","Pretend"]},
-      {s:"Azul",t:"Mission success.",c:["Document","Nod"]},
-      {s:"Mochkil",t:"Ninja memory saved.",c:["Watch memory","Nap"]}
-    ]
-  },
-
-  zealand: {
-    video:"azul_mochkil_new_zealand.mp4",
-    triggers:["zealand","new zealand","nz","🇳🇿"],
-    steps:[
-      {s:"Azul",t:"Terrain is breathtaking.",c:["Scan horizon","Pause"]},
-      {s:"Mochkil",t:"I see many sheep.",c:["Wave","Count"]},
-      {s:"Azul",t:"Mountains detected.",c:["Approach","Photograph"]},
-      {s:"Mochkil",t:"Wind is dramatic.",c:["Pose","Hide"]},
-      {s:"Azul",t:"Bridge ahead.",c:["Cross","Observe"]},
-      {s:"Mochkil",t:"I will not jump.",c:["Watch","Cheer"]},
-      {s:"Azul",t:"Scenic memory secured.",c:["Save","Smile"]},
-      {s:"Mochkil",t:"New Zealand unlocked.",c:["Watch memory","Rest"]}
-    ]
+    vtt: "azul_mochkil_pirates.vtt"
   },
 
   space: {
-    video:"azul_mochkil_space_voyager.mp4",
-    triggers:["space","🚀","voyager"],
-    steps:[
-      {s:"Azul",t:"Engines nominal.",c:["Launch","Double-check"]},
-      {s:"Mochkil",t:"I float funny.",c:["Spin","Laugh"]},
-      {s:"Azul",t:"Stars are aligning.",c:["Navigate","Observe"]},
-      {s:"Mochkil",t:"Planet looks friendly.",c:["Wave","Blink"]},
-      {s:"Azul",t:"Signal detected.",c:["Decode","Ignore"]},
-      {s:"Mochkil",t:"Alien waved back.",c:["Wave","Hide"]},
-      {s:"Azul",t:"Mission complete.",c:["Log data","Celebrate"]},
-      {s:"Mochkil",t:"Space memory saved.",c:["Watch memory","Nap"]}
-    ]
+    title: "Space Voyage 🚀",
+    questions: [
+      { q: "Launch the spaceship?", a: ["Yes","No","Hack navigation"] },
+      { q: "Destination?", a: ["Moon","Mars","Mystery planet"] },
+      { q: "Fuel check?", a: ["Full","Half","Empty"] },
+      { q: "Co-pilot?", a: ["Azul","Mochkil","You"] },
+      { q: "Alien greeting?", a: ["Wave","Laser","Hide"] },
+      { q: "Collect samples?", a: ["Yes","No","Just look"] },
+      { q: "Zero gravity meal?", a: ["Freeze-dried","Pizza","Tacos"] },
+      { q: "Do you float upside-down?", a: ["Yes","No","Maybe"] }
+    ],
+    video: "azul_mochkil_space_voyager.mp4",
+    vtt: "azul_mochkil_space_voyager.vtt"
   },
 
-  taco: {
-    video:"azul_mochkil_taco_truck.mp4",
-    triggers:["taco","🌮","truck"],
-    steps:[
-      {s:"Azul",t:"Food truck detected.",c:["Approach","Observe"]},
-      {s:"Mochkil",t:"Smells amazing.",c:["Drool","Compose self"]},
-      {s:"Azul",t:"Menu scanned.",c:["Order big","Order bigger"]},
-      {s:"Mochkil",t:"I want all of them.",c:["Share","Guard tacos"]},
-      {s:"Azul",t:"Salsa level rising.",c:["Taste","Wait"]},
-      {s:"Mochkil",t:"Worth it.",c:["Celebrate","Nap"]},
-      {s:"Azul",t:"Meal logged.",c:["Save memory","Smile"]},
-      {s:"Mochkil",t:"Taco joy unlocked.",c:["Watch memory","Purr"]}
-    ]
+  moon: {
+    title: "Moon Picnic 🌌",
+    questions: [
+      { q: "Do you enjoy the picnic?", a: ["Yes","Float away","Ignore"] },
+      { q: "Pick a snack:", a: ["Moon cheese","Space fruit","Chocolate"] },
+      { q: "Seat location?", a: ["Crater","Rover","Blanket"] },
+      { q: "Bring a blanket?", a: ["Yes","No","Use suit"] },
+      { q: "Look at stars?", a: ["Yes","No","Maybe"] },
+      { q: "Who floats away?", a: ["You","Mochkil","Azul"] },
+      { q: "Take photos?", a: ["Yes","No","Draw"] }
+    ],
+    video: "azul_lori_moon_picnic.mp4",
+    vtt: "azul_lori_moon_picnic.vtt"
   },
 
-  drazul: {
-    video:"dr_azul.mp4",
-    triggers:["doctor","dr","🩺","🩻","🥼"],
-    steps:[
-      {s:"Azul",t:"Patient file opened.",c:["Review","Sip coffee"]},
-      {s:"Mochkil",t:"My tummy feels weird.",c:["Explain","Shrug"]},
-      {s:"Azul",t:"Diagnosis in progress.",c:["Listen","Observe"]},
-      {s:"Mochkil",t:"Oh wait.",c:["Pause","Blink"]},
-      {s:"Mochkil",t:"…nevermind.",c:["Smile","Laugh"]},
-      {s:"Azul",t:"Sigh.",c:["Update chart","Close file"]},
-      {s:"Azul",t:"Case resolved.",c:["Log","Stretch"]},
-      {s:"Mochkil",t:"Doctor memory saved.",c:["Watch memory","Snack"]}
-    ]
+  hacker: {
+    title: "Hacker Competition 💻",
+    questions: [
+      { q: "Do you hack the scammers?", a: ["Yes","No","Try later"] },
+      { q: "Keyboard preference?", a: ["Mechanical","Soft","Virtual"] },
+      { q: "Which software?", a: ["Custom","Standard","Mystery"] },
+      { q: "Co-hacker?", a: ["Azul","Mochkil","No one"] },
+      { q: "Level of stealth?", a: ["High","Medium","Low"] },
+      { q: "Victory celebration?", a: ["Yes","No","Maybe"] },
+      { q: "Public or private?", a: ["Private","Public","Secret"] }
+    ],
+    video: "azul_lori_hacker.mp4",
+    vtt: "azul_lori_hacker.vtt"
   },
 
-  dream: {
-    video:"mochkil_sweet_dream.mp4",
-    triggers:["dream","sleep","😴"],
-    steps:[
-      {s:"Azul",t:"Brainwaves slowing.",c:["Monitor","Dim lights"]},
-      {s:"Mochkil",t:"Everything is soft.",c:["Float","Smile"]},
-      {s:"Azul",t:"REM detected.",c:["Observe","Log"]},
-      {s:"Mochkil",t:"Flying snacks!",c:["Chase","Giggle"]},
-      {s:"Azul",t:"Dream stabilizing.",c:["Protect","Watch"]},
-      {s:"Mochkil",t:"Purring engaged.",c:["Continue","Snore"]},
-      {s:"Azul",t:"Rest complete.",c:["Save memory","Close log"]},
-      {s:"Mochkil",t:"Sweet dream unlocked.",c:["Watch memory","Sleep"]}
-    ]
+  // Other Adventures
+  jungle: {
+    title: "Jungle Adventure 🌴",
+    questions: [
+      { q: "Do you explore the jungle?", a: ["Yes","No","Follow Mochkil"] },
+      { q: "You find a waterfall. Approach?", a: ["Yes","No","Take a photo"] },
+      { q: "A monkey appears. Feed it?", a: ["Yes","No","Run"] },
+      { q: "Climb a tree?", a: ["Yes","No","Swing"] },
+      { q: "Discover hidden path?", a: ["Yes","No","Call Azul"] }
+    ],
+    video: "azul_mochkil_jungle.mp4"
   },
 
-  cave: {
-    video:"treasure_cave.mp4",
-    triggers:["cave","⚱️","treasure"],
-    steps:[
-      {s:"Azul",t:"Cave entrance detected.",c:["Enter","Scan"]},
-      {s:"Mochkil",t:"It echoes.",c:["Meow","Whisper"]},
-      {s:"Azul",t:"Artifacts ahead.",c:["Inspect","Photograph"]},
-      {s:"Mochkil",t:"Something glows.",c:["Point","Stare"]},
-      {s:"Azul",t:"Trap avoided.",c:["Careful step","Freeze"]},
-      {s:"Mochkil",t:"Gold!",c:["Admire","Share"]},
-      {s:"Azul",t:"Treasure secured.",c:["Document","Smile"]},
-      {s:"Mochkil",t:"Cave memory saved.",c:["Watch memory","Rest"]}
-    ]
+  new_zealand: {
+    title: "New Zealand Adventure 🏔️",
+    questions: [
+      { q: "Explore the mountains?", a: ["Yes","No","Fly over"] },
+      { q: "Spot wildlife?", a: ["Yes","No","Take notes"] },
+      { q: "Visit the river?", a: ["Yes","No","Swim"] },
+      { q: "Taste the berries?", a: ["Yes","No","Give to Mochkil"] }
+    ],
+    video: "azul_mochkil_new_zealand.mp4"
   },
 
-  birthday: {
-    video:"birthday_cake.mp4",
-    triggers:["birthday","cake","🎂"],
-    steps:[
-      {s:"Azul",t:"Candles detected.",c:["Light them","Count them"]},
-      {s:"Mochkil",t:"I practiced singing.",c:["Listen","Clap"]},
-      {s:"Azul",t:"Cake integrity nominal.",c:["Slice","Photograph"]},
-      {s:"Mochkil",t:"Frosting acquired.",c:["Share","Lick paw"]},
-      {s:"Azul",t:"Wish acknowledged.",c:["Make wish","Smile"]},
-      {s:"Mochkil",t:"Best day ever.",c:["Celebrate","Dance"]}
-    ]
-  }
+  ninja_farm: {
+    title: "Ninja Farm 🥷",
+    questions: [
+      { q: "Sneak past the chickens?", a: ["Yes","No","Jump"] },
+      { q: "Find hidden weapon?", a: ["Yes","No","Trade with Mochkil"] },
+      { q: "Harvest crops?", a: ["Yes","No","Play"] }
+    ],
+    video: "azul_mochkil_ninja_farm.mp4",
+    vtt: "azul_mochkil_ninja_farm.vtt"
+  },
 
-};
-  <script>
+  olivegrove: {
+    title: "Olive Grove Adventure 🌿",
+    questions: [
+      { q: "Pick olives?", a: ["Yes","No","Taste"] },
+      { q: "Find secret path?", a: ["Yes","No","Ask Azul"] }
+    ],
+    video: "azul_mochkil_olivegrove.mp4"
+  },
+
+  treasure_cave: {
+    title: "Treasure Cave 🕳️",
+    questions: [
+      { q: "Enter the cave?", a: ["Yes","No","Call Azul"] },
+      { q: "Pick up treasure?", a: ["Yes","No","Inspect"] }
+    ],
+    video: "treasure_cave.mp4"
+  },
+
+  gameover: {
+    title: "Game Over ☠️",
+    questions: [
+      { q: "Restart adventure?", a: ["Yes","No","Random"] }
+    ],
+    video: "azul_mochkil_gameover.mp4"
+  },
+
+  dr_azul: {
+    title: "Dr Azul 🩺",
+    questions: [
+      { q: "Mochkil has a tummy ache. What happens?", a: ["Wait","Run","Oops!"] },
+      { q: "Azul sighs. Reaction?", a: ["Giggle","Laugh","Help Mochkil"] }
+    ],
+    video: "dr_azul.mp4"
+  },
+
+  mochkil_sweet_dream: {
+    title: "Mochkil's Sweet Dream 🍬",
+    questions: [
+      { q: "Sail down milk river?", a: ["Yes","No","Float"] },
+      { q: "Eat candy shores?", a: ["Yes","No","Share"] },
+      { q: "Drink chocolate syrup waterfalls?", a: ["Yes","No","Taste cautiously"] },
+      { q: "See cotton candy clouds?", a: ["Yes","No","Catch one"] }
+    ],
+    video: "mochkil_sweet_dream.mp4"
+  },
+
+  birthday_cake: {
+    title: "Luna's 2nd Birthday 🎂",
+    questions: [
+      { q: "Mochkil eats the cake. Reaction?", a: ["Laugh","Cry","Azul saves the day"] },
+      { q: "Azul brings second cake?", a: ["Yes","No","Share"] }
+    ],
+    video: "birthday_cake.mp4"
+  },
+
+  // Bonus / Surprise Unlockables
+  azulo1: { title: "Bonus Surprise 1 🎁", video: "azulo1.mp4" },
+  azulo2: { title: "Bonus Surprise 2 🎁", video: "azulo2.mp4" },
+  azulo3: { title: "Bonus Surprise 3 🎁", video: "azulo3.mp4" },
+  azulo4: { title: "Bonus Surprise 4 🎁", video: "azulo4.mp4" },
+  azulo5: { title: "Bonus Surprise 5 🎁", video: "azulo5.mp4" },
+  azulo6: { title: "Bonus Surprise 6 🎁", video: "azulo6.mp4" },
+  azulo7: { title: "Bonus Surprise 7 🎁", video: "azulo7.mp4" }
+
+}; <script>
 /* ===== SAFE STORY EXTENSIONS ===== */
 
 Object.assign(STORIES, {
