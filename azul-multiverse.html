@@ -136,7 +136,6 @@ footer {
 
 const stories = {
 
-  // Core Adventures
   taco: {
     title: "Taco Adventure 🌮",
     questions: [
@@ -215,12 +214,11 @@ const stories = {
     vtt: "azul_lori_hacker.vtt"
   },
 
-  // Other Adventures
   jungle: {
     title: "Jungle Adventure 🌴",
     questions: [
-      { q: "Do you explore the jungle?", a: ["Yes","No","Follow Mochkil"] },
-      { q: "You find a waterfall. Approach?", a: ["Yes","No","Take a photo"] },
+      { q: "Explore the jungle?", a: ["Yes","No","Follow Mochkil"] },
+      { q: "Waterfall ahead. Approach?", a: ["Yes","No","Take a photo"] },
       { q: "A monkey appears. Feed it?", a: ["Yes","No","Run"] },
       { q: "Climb a tree?", a: ["Yes","No","Swing"] },
       { q: "Discover hidden path?", a: ["Yes","No","Call Azul"] }
@@ -314,104 +312,7 @@ const stories = {
   azulo6: { title: "Bonus Surprise 6 🎁", video: "azulo6.mp4" },
   azulo7: { title: "Bonus Surprise 7 🎁", video: "azulo7.mp4" }
 
-}; <script>
-/* ===== SAFE STORY EXTENSIONS ===== */
-
-Object.assign(STORIES, {
-
-  game: {
-    title: "🎮 Game Over (But Not Really)",
-    triggers: ["game", "video game", "🎮", "arcade", "play"],
-    questions: [
-      {
-        azul: "You see a glowing arcade cabinet. Do you press start?",
-        mochkil: "…what if it presses back?",
-        answers: ["Press start", "Inspect buttons"]
-      },
-      {
-        azul: "The screen flickers. Choose your difficulty.",
-        mochkil: "I vote snack mode.",
-        answers: ["Easy", "Chaos"]
-      },
-      {
-        azul: "A pixel cat appears. Friend or foe?",
-        mochkil: "It looks judgmental.",
-        answers: ["Friend", "Also friend"]
-      },
-      {
-        azul: "Final boss approaches. Strategy?",
-        mochkil: "I hide behind Azul.",
-        answers: ["Button mash", "Tactical thinking"]
-      }
-    ],
-    video: "azul_mochkil_gameover.mp4"
-  },
-
-  dr_azul: {
-    title: "🩺 Dr. Azul Will See You Now",
-    triggers: ["doctor", "dr azul", "clinic", "🩺"],
-    questions: [
-      {
-        azul: "What brings you in today, mysterious human?",
-        mochkil: "Wrong answers only.",
-        answers: ["Everything hurts", "Existential dread"]
-      },
-      {
-        azul: "Diagnosis loading…",
-        mochkil: "That’s never good.",
-        answers: ["Trust the science", "Blame the cat"]
-      }
-    ],
-    video: "dr_azul.mp4"
-  },
-
-  hacker: {
-    title: "💻 Hacker Mode Unlocked",
-    triggers: ["hacker", "hack", "scammer", "💻"],
-    questions: [
-      {
-        azul: "Incoming scam call detected. Action?",
-        mochkil: "Answer in robot voice.",
-        answers: ["Trace call", "Mess with them"]
-      },
-      {
-        azul: "Firewall breached. Next move?",
-        mochkil: "Throw keyboard?",
-        answers: ["Counter-hack", "Deploy cat"]
-      }
-    ],
-    video: "azul_lori_hacker.mp4"
-  },
-
-  picnic: {
-    title: "🧺 Moon Picnic",
-    triggers: ["picnic", "moon picnic", "🧺"],
-    questions: [
-      {
-        azul: "Blanket deployed. What did you bring?",
-        mochkil: "No ants. I swear.",
-        answers: ["Cheese", "Mystery snacks"]
-      }
-    ],
-    video: "azul_lori_moon_picnic.mp4"
-  },
-
-  space: {
-    title: "🚀 Space Voyage",
-    triggers: ["space", "rocket", "🚀"],
-    questions: [
-      {
-        azul: "Launch sequence initiated. Ready?",
-        mochkil: "I forgot my helmet.",
-        answers: ["Launch", "Abort (but don’t)"]
-      }
-    ],
-    video: "azul_mochkil_space_voyager.mp4"
-  }
-
-});
-</script>
-  
+};
 /* ================================
    ENGINE (DO NOT EDIT)
 ================================ */
