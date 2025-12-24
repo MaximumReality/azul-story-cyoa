@@ -7,56 +7,29 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-body {
-  font-family:'Press Start 2P', monospace;
-  background: #0a0a0a; color:#f0f0f0;
-  padding:1rem; margin:0; font-size:0.6rem;
-}
-h1 {
-  color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size:0.8rem; margin:1.5rem 0;
-}
+body { font-family:'Press Start 2P', cursive; background: #0a0a0a; color:#f0f0f0; padding:1rem; margin:0; font-size: 0.6rem; }
+h1 { color:#39ff14; text-shadow:0 0 10px #39ff14; text-align:center; font-size: 0.8rem; margin: 1.5rem 0; }
 
 #chatContainer { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:0.8rem; }
+input[type="text"] { font-family:monospace; font-size:16px; padding:0.8rem; border-radius:5px; border:1px solid #333; width:100%; box-sizing:border-box; background: #111; color: #39ff14; }
 
-input[type="text"] {
-  font-family:monospace; font-size:16px; padding:0.8rem;
-  border-radius:5px; border:1px solid #333; width:100%;
-  box-sizing:border-box; background:#111; color:#39ff14;
-}
+.button-row { display:flex; gap:10px; }
+button { flex:1; font-family:'Press Start 2P'; font-size:0.5rem; padding:0.8rem; background:#222; color:#39ff14; border:2px solid #39ff14; border-radius:5px; cursor:pointer; }
 
-.button-row { display: flex; gap: 10px; }
-button {
-  flex: 1; font-family: 'Press Start 2P'; font-size:0.5rem;
-  padding:0.8rem; background:#222; color:#39ff14;
-  border:2px solid #39ff14; border-radius:5px; cursor:pointer;
-}
-
-.response {
-  padding:1rem; border-radius:10px; background:#111;
-  border:1px solid #39ff14; margin-bottom:1rem;
-  animation:fadeIn 0.4s; line-height:1.6;
-}
+.response { padding:1rem; border-radius:10px; background:#111; border:1px solid #39ff14; margin-bottom:1rem; animation:fadeIn 0.4s; line-height:1.6; }
 
 .sprite-row { display:flex !important; align-items:center !important; margin:12px 0 !important; }
-.sprite-img {
-  width:50px !important; height:50px !important;
-  border-radius:50%; border:2px solid #39ff14;
-  margin-right:12px; background:#222;
-}
+.sprite-img { width:50px !important; height:50px !important; border-radius:50%; border:2px solid #39ff14; margin-right:12px; background:#222; }
 
 video { width:100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
 
-/* Footer */
-footer {
-  text-align:center; margin-top:3rem; padding:2rem 1rem; 
-  border-top:1px solid #333; line-height:1.8; width:100%; box-sizing:border-box;
-}
+footer { text-align:center; margin-top:3rem; padding:2rem 1rem; border-top:1px solid #333; line-height:1.8; width:100%; box-sizing:border-box; }
 .footer-title { display:block; font-size:0.5rem; color:#ff69b4; margin-bottom:8px; }
 .footer-links { font-size:0.45rem; margin-bottom:8px; }
-.neon-link { color:#39ff14; text-decoration:none; margin:0 8px; white-space:nowrap; }
+.neon-link { color:#39ff14; text-decoration:none; margin:0 8px; white-space: nowrap; }
 .copyright { display:block; font-size:0.35rem; color:#666; margin-top:10px; }
 
-@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1;} }
+@keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1;} }
 </style>
 </head>
 <body>
@@ -90,49 +63,50 @@ const azulReplies = ["Is it Azulo Cereal time?", "I'm optimizing the toy surpris
 const mochkilReplies = ["I want the ninja toy!", "Crunch crunch crunch!", "Can we live in a cereal box?", "Zzz... blue milk."];
 
 const stories = {
-  hacker: { triggers: ["hacker","coding","💻"], video:"azul_lori_hacker.mp4", questions:8 },
-  jungle: { triggers:["jungle","🌴"], video:"azul_mochkil_jungle.mp4", questions:8 },
-  pirate: { triggers:["pirate","ship","🏴‍☠️"], video:"azul_mochkil_pirates.mp4", questions:8 },
-  dream: { triggers:["dream","😴"], video:"mochkil_sweet_dream.mp4", questions:8 },
-  ninja: { triggers:["ninja","farm","🥷"], video:"azul_mochkil_ninja_farm.mp4", questions:8 },
-  zealand: { triggers:["zealand","nz","🇳🇿"], video:"azul_mochkil_new_zealand.mp4", questions:8 },
-  cave: { triggers:["cave","⚱️"], video:"treasure_cave.mp4", questions:8 },
-  dr_azul: { triggers:["dr","doctor","🩺","🥼","🩻"], video:"dr_azul.mp4", questions:8 },
-  olive: { triggers:["olive","🫒"], video:"azul_mochkil_olivegrove.mp4", questions:8 },
-  moon: { triggers:["moon","🌌"], video:"azul_lori_moon_picnic.mp4", questions:8 },
-  taco: { triggers:["taco","🌮"], video:"azul_mochkil_taco_truck.mp4", questions:8 },
-  birthday: { triggers:["birthday","cake","🎂"], video:"birthday_cake.mp4", questions:8 }
+  hacker: { triggers: ["hacker","coding","💻"], video:"azul_lori_hacker.mp4", questions:[] },
+  jungle: { triggers:["jungle","🌴"], video:"azul_mochkil_jungle.mp4", questions:[] },
+  pirate: { triggers:["pirate","ship","🏴‍☠️"], video:"azul_mochkil_pirates.mp4", questions:[] },
+  dream: { triggers:["dream","😴"], video:"mochkil_sweet_dream.mp4", questions:[] },
+  ninja: { triggers:["ninja","farm","🥷"], video:"azul_mochkil_ninja_farm.mp4", questions:[] },
+  zealand: { triggers:["zealand","nz","🇳🇿"], video:"azul_mochkil_new_zealand.mp4", questions:[] },
+  cave: { triggers:["cave","⚱️"], video:"treasure_cave.mp4", questions:[] },
+  dr_azul: { triggers:["dr","doctor","🩺","🥼","🩻"], video:"dr_azul.mp4", questions:[] },
+  olive: { triggers:["olive","🫒"], video:"azul_mochkil_olivegrove.mp4", questions:[] },
+  moon: { triggers:["moon","🌌"], video:"azul_lori_moon_picnic.mp4", questions:[] },
+  taco: { triggers:["taco","🌮"], video:"azul_mochkil_taco_truck.mp4", questions:[] },
+  birthday: { triggers:["birthday","cake","🎂"], video:"birthday_cake.mp4", questions:[] },
+  gameover: { triggers:["gameover","fail","🎮"], video:"azul_mochkil_gameover.mp4", questions:[] }
 };
 
-let currentStory = null;
-let stepIndex = 0;
+// Main functions
+let currentStory=null;
 
-function addResponse() {
-  const input = document.getElementById('promptInput');
-  const text = input.value.toLowerCase().trim();
+function addResponse(){
+  const input=document.getElementById('promptInput');
+  const text=input.value.toLowerCase().trim();
   if(!text) return;
-  const player = document.getElementById('playerName').value || "You";
+  const player=document.getElementById('playerName').value || "You";
 
-  if(text.includes("azulo")) {
-    const rand = Math.floor(Math.random()*7)+1;
-    const div = document.createElement('div');
+  // AZULO COMMERCIALS
+  if(text.includes("azulo")){
+    const rand=Math.floor(Math.random()*7)+1;
+    const div=document.createElement('div');
     div.className='response';
     div.innerHTML=`<strong>${player}:</strong> ${input.value}<br><br><div style="color:#ff69b4; text-align:center;">✨ AZULO CEREAL COMMERCIAL BREAK! ✨</div>`;
     document.getElementById('responses').prepend(div);
     playVideo(`azulo${rand}.mp4`);
-    input.value="";
-    return;
+    input.value=""; return;
   }
 
-  let foundKey = null;
-  for(let key in stories) {
-    if(stories[key].triggers.some(t => text.includes(t))) { foundKey=key; break; }
+  // Find story
+  let foundKey=null;
+  for(let key in stories){
+    if(stories[key].triggers.some(t=>text.includes(t))){ foundKey=key; break; }
   }
 
-  if(foundKey) {
-    startCYOA(foundKey);
-  } else {
-    const div = document.createElement('div');
+  if(foundKey){ startCYOA(foundKey); }
+  else{
+    const div=document.createElement('div');
     div.className='response';
     div.innerHTML=`<strong>${player}:</strong> ${input.value}<br><br>
       <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}</div></div>
@@ -142,40 +116,18 @@ function addResponse() {
   input.value="";
 }
 
-function startCYOA(key) {
+// CYOA
+function startCYOA(key){
   currentStory=key;
-  stepIndex=0;
   document.getElementById('responses').innerHTML="";
-  showStep();
+  playVideo(stories[key].video);
 }
 
-function showStep() {
-  const story=stories[currentStory];
-  const div=document.createElement('div');
-  div.className='response';
-  div.innerHTML=`<strong>${currentStory.toUpperCase()} - STEP ${stepIndex+1}/${story.questions}</strong><br><br>
-    <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul:</strong> Make your choice for this step.</div></div><br>`;
-  
-  ["Option 1","Option 2"].forEach((opt,i)=>{
-    const btn=document.createElement('button');
-    btn.textContent=opt; btn.style.margin="5px";
-    btn.onclick=()=>{
-      stepIndex++;
-      div.remove();
-      if(stepIndex<story.questions) showStep();
-      else playVideo(story.video);
-    };
-    div.appendChild(btn);
-  });
-  document.getElementById('responses').prepend(div);
-}
-
-function playVideo(src) {
+function playVideo(src){
   const v=document.createElement('video');
   v.src=src;
   v.controls=true;
   v.setAttribute('playsinline','');
-
   const track=document.createElement('track');
   track.kind='captions';
   track.label='English';
@@ -183,16 +135,14 @@ function playVideo(src) {
   track.src=src.replace('.mp4','.vtt');
   track.default=true;
   v.appendChild(track);
-
   document.getElementById('videosContainer').innerHTML="";
   document.getElementById('videosContainer').prepend(v);
   v.play().catch(e=>console.log(e));
 }
 
-function randomPrompt() {
-  const keys=Object.keys(stories);
-  const r=keys[Math.floor(Math.random()*keys.length)];
-  document.getElementById('promptInput').value=r;
+function randomPrompt(){
+  const r=["Azulo","Hacker","Jungle","Dream","Ninja","Pirate","Zealand","Cave","Dr Azul","Olive","Moon","Taco","Birthday","Gameover"];
+  document.getElementById('promptInput').value=r[Math.floor(Math.random()*r.length)];
 }
 </script>
 </body>
