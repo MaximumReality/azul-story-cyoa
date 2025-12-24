@@ -313,6 +313,72 @@ const stories = {
   azulo7: { title: "Bonus Surprise 7 🎁", video: "azulo7.mp4" }
 
 };
+  function addResponse() {
+  const input = document.getElementById('promptInput');
+  const userPrompt = input.value.trim();
+  if (userPrompt === '') return;
+
+  showTypingIndicator(true);
+
+  setTimeout(() => {
+    showTypingIndicator(false);
+
+    // ✅ Bonus unlockables via "commercial"
+    if (userPrompt.toLowerCase().includes("commercial")) {
+      const bonusIndex = Math.floor(Math.random() * 7) + 1; // 1–7
+      const videoName = `azulo${bonusIndex}.mp4`;
+
+      const bonusDiv = document.createElement('div');
+      bonusDiv.className = 'response';
+      bonusDiv.innerHTML = `<strong>Bonus Surprise!</strong> 🎉 You unlocked a secret clip!`;
+      document.getElementById('responses').prepend(bonusDiv);
+
+      unlockVideo(videoName);
+      input.value = "";
+      return;
+    }
+
+    // Random Azul & Mochkil replies
+    const azulReply = azulReplies[Math.floor(Math.random() * azulReplies.length)];
+    const mochkilReply = mochkilReplies[Math.floor(Math.random() * mochkilReplies.length)];
+
+    const div = document.createElement('div');
+    div.className = 'response';
+    div.innerHTML = `
+      <strong>You:</strong> ${userPrompt}<br>
+      <img src="azul.png" class="character"> <strong>Azul 🧪:</strong> ${azulReply}<br>
+      <img src="mochkil.png" class="character"> <strong>Mochkil 🍪:</strong> ${mochkilReply}
+    `;
+    document.getElementById('responses').prepend(div);
+
+    // Check story triggers
+    const keyword = userPrompt.toLowerCase();
+    for (const key in stories) {
+      if (keyword.includes(key)) {
+        startStory(key);
+        break;
+      }
+    }
+
+    // Clear input
+    input.value = "";
+  }, 1000);
+}
+
+  function randomPrompt() {
+  const randomPrompts = [
+    "What is Mochkil dreaming today? 🍪",
+    "What hack is Azul working on? 🧪",
+    "What's happening in Maximum Reality right now? 🌌",
+    "Pirates Adventure! 🏴‍☠️",
+    "Space voyage time! 🚀",
+    "Commercial! 🎁"  // Bonus unlockable trigger
+  ];
+
+  const prompt = randomPrompts[Math.floor(Math.random() * randomPrompts.length)];
+  document.getElementById('promptInput').value = prompt;
+}
+  
 /* ================================
    ENGINE (DO NOT EDIT)
 ================================ */
