@@ -2,206 +2,325 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Maximum Reality — Azul Multiverse</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Azul & Mochkil: Maximum Reality</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
-  background:#0b0b0b;
-  color:#eaeaea;
   font-family:'Press Start 2P', monospace;
-  margin:0;
-  padding:1.5rem;
+  background: #0a0a0a; color:#f0f0f0;
+  padding:1rem; margin:0; font-size:0.6rem;
 }
-h1 { text-align:center; color:#39ff14; }
-#chat { max-width:760px; margin:auto; }
-input, button {
-  width:100%;
-  margin-top:0.5rem;
-  padding:0.6rem;
-  font-family:monospace;
-  font-size:1rem;
+
+h1 { 
+  color:#39ff14; 
+  text-shadow:0 0 10px #39ff14; 
+  text-align:center; font-size:0.8rem; 
+  margin: 1.5rem 0; 
 }
+
+#chatContainer { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:0.8rem; }
+
+input[type="text"] {
+  font-family:monospace; font-size:16px; padding:0.8rem;
+  border-radius:5px; border:1px solid #333; width:100%;
+  box-sizing:border-box; background: #111; color: #39ff14;
+}
+
+.button-row { display:flex; gap:10px; }
 button {
-  border:2px solid #39ff14;
-  background:#111;
-  color:#39ff14;
-  cursor:pointer;
+  flex:1; font-family:'Press Start 2P'; font-size:0.5rem;
+  padding:0.8rem; background:#222; color:#39ff14;
+  border:2px solid #39ff14; border-radius:5px; cursor:pointer;
 }
-button:hover { background:#39ff14; color:#000; }
+
 .response {
-  margin-top:1rem;
-  padding:0.8rem;
-  background:#111;
-  border-radius:10px;
-  box-shadow:0 0 10px #39ff14;
+  padding:1rem; border-radius:10px; background:#111;
+  border:1px solid #39ff14; margin-bottom:1rem;
+  animation:fadeIn 0.4s; line-height:1.6;
 }
-img.char {
-  width:56px;
-  vertical-align:middle;
-  margin-right:6px;
-}
-video {
-  display:block;
-  margin:1.5rem auto;
-  max-width:100%;
-  border:3px solid #39ff14;
-  border-radius:10px;
-}
-#typing { display:none; color:#39ff14; margin-top:0.5rem; }
+
+.sprite-row { display:flex !important; align-items:center !important; margin:12px 0 !important; }
+.sprite-img { width:50px !important; height:50px !important; border-radius:50%; border:2px solid #39ff14; margin-right:12px; background:#222; }
+
+video { width:100%; margin-top:1rem; border:2px solid #ff00ff; border-radius:10px; }
+
+/* Floating paw */
+body::before { content:"🐾"; position:fixed; font-size:3rem; top:50%; left:50%; transform:translate(-50%,-50%) rotate(45deg); opacity:0.03; pointer-events:none; }
+
+/* Footer */
 footer {
-  margin-top:3rem;
-  padding-top:2rem;
-  border-top:2px solid #39ff14;
-  text-align:center;
+  text-align:center; margin-top:3rem; padding:2rem 1rem; 
+  border-top:1px solid #333; line-height:1.8; width:100%; box-sizing:border-box;
 }
-.neon-link { color:#39ff14; text-decoration:none; }
-.neon-link:hover { text-shadow:0 0 10px #39ff14; }
+.footer-title { display:block; font-size:0.5rem; color:#ff69b4; margin-bottom:8px; }
+.footer-links { font-size:0.45rem; margin-bottom:8px; }
+.neon-link { color:#39ff14; text-decoration:none; margin:0 8px; white-space:nowrap; }
+.copyright { display:block; font-size:0.35rem; color:#666; margin-top:10px; }
+
+@keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1;} }
 </style>
 </head>
-
 <body>
 
-<h1>Chat with Azul 🧪 & Mochkil 🍪</h1>
+<h1>Maximum Reality 🐱🐈‍⬛</h1>
 
-<div id="chat">
-  <input id="username" placeholder="Your name (optional)">
-  <input id="prompt" placeholder="Type a prompt or emoji…">
-  <button onclick="send()">Send</button>
-  <button onclick="randomPrompt()">🎲 Random Prompt</button>
-  <div id="typing">💬 Azul & Mochkil are thinking…</div>
-  <div id="responses"></div>
-  <div id="videos"></div>
+<div id="chatContainer">
+  <input type="text" id="playerName" placeholder="Your name...">
+  <input type="text" id="promptInput" placeholder="Try 'Azulo', 'Hacker', or an emoji!">
+  <div class="button-row">
+    <button onclick="addResponse()">SEND</button>
+    <button onclick="randomPrompt()">🎲 RANDOM</button>
+  </div>
 </div>
 
+<div id="responses"></div>
+<div id="videosContainer"></div>
+
 <footer>
-  <p>💖 Support & Follow Maximum Reality 💖</p>
-  <p>
-    <a class="neon-link" href="https://maximum-reality-shop.fourthwall.com/" target="_blank">Shop</a> |
-    <a class="neon-link" href="https://buymeacoffee.com/MaximumReality" target="_blank">Buy Me a Coffee</a> |
-    <a class="neon-link" href="https://www.youtube.com/@maximumrealityLori" target="_blank">YouTube</a>
-  </p>
-  <p style="font-size:0.7rem;color:#aaa;">© 2025 Maximum Reality</p>
+  <span class="footer-title">💖 Support & Follow Maximum Reality 💖</span>
+  <div class="footer-links">
+    <a href="https://maximum-reality-shop.fourthwall.com/" target="_blank" class="neon-link">Shop</a> |
+    <a href="https://buymeacoffee.com/MaximumReality" target="_blank" class="neon-link">Buy Me a Coffee</a> |
+    <a href="https://www.youtube.com/@maximumrealityLori" target="_blank" class="neon-link">YouTube</a>
+  </div>
+  <span class="copyright">© 2025 Maximum Reality</span>
 </footer>
 
 <script>
-/* ===================== CORE STATE ===================== */
-let currentStory = null;
-let questionIndex = 0;
-const responses = document.getElementById("responses");
-const videos = document.getElementById("videos");
-
-/* ===================== UTIL ===================== */
-const azulLines = [
-  "Reality is flexible. Logic is optional.",
-  "Ah yes… a classic Maximum Reality situation.",
-  "This feels unstable. I like it.",
-  "I should document this. Or not."
-];
-const mochkilLines = [
-  "Is there food?",
-  "I regret nothing.",
-  "That seemed like a good idea.",
-  "Can I nap after this?"
+// ---------------------------
+// Character Responses
+// ---------------------------
+const azulReplies = [
+  "Oh, sure… like I haven’t seen this before 😏",
+  "Adventure calls! Hope you can keep up 🚀",
+  "Sarcastic comment loaded… but I’ll save it for the dramatic moment 😎",
+  "Hacking the scammers again… you’re welcome 💻",
+  "Floating upside-down because walking is boring 🌀",
+  "Keep your eyes peeled — surprises ahead ✨",
+  "Bet you didn’t expect THAT in Maximum Reality! 🧪"
 ];
 
-function reply(userText) {
-  const name = document.getElementById("username").value || "You";
-  const div = document.createElement("div");
-  div.className="response";
-  div.innerHTML = `
-    <strong>${name}:</strong> ${userText}<br><br>
-    <img src="azul.png" class="char"><strong>Azul 🧪:</strong> ${rand(azulLines)}<br>
-    <img src="mochkil.png" class="char"><strong>Mochkil 🍪:</strong> ${rand(mochkilLines)}
-  `;
-  responses.prepend(div);
-}
+const mochkilReplies = [
+  "Is it snack time yet? 🍪",
+  "I’ll eat everything in sight… maybe later 😋",
+  "Bored… let’s play ninjas! 🥷🏻",
+  "Oops! Did I break something again? 🙃",
+  "Food… everywhere… my dream world 🍩",
+  "Can I eat that? Can I? Can I? 🐟",
+  "Wait… what are we doing? Oh cool! 🐾"
+];
 
-function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-/* ===================== STORIES ===================== */
+// ---------------------------
+// Stories and CYOA
+// ---------------------------
 const stories = {
-  taco: "azul_mochkil_taco_truck.mp4",
-  pirates: "azul_mochkil_pirates.mp4",
-  space: "azul_mochkil_space_voyager.mp4",
-  moon: "azul_lori_moon_picnic.mp4",
-  hacker: "azul_lori_hacker.mp4",
-  jungle: "azul_mochkil_jungle.mp4",
-  olive: "azul_mochkil_olivegrove.mp4",
-  ninja: "azul_mochkil_ninja_farm.mp4",
-  nz: "azul_mochkil_new_zealand.mp4",
-  dream: "mochkil_sweet_dream.mp4",
-  cave: "treasure_cave.mp4",
-  doctor: "dr_azul.mp4"
+  hacker: { triggers: ["hacker","💻"], video:"azul_lori_hacker.mp4", questions:[
+    {q:"Azul is at the keyboard. Assist?", a:["Hack","Wait"], correct:0},
+    {q:"Firewall detected!", a:["Code","Smash"], correct:0},
+    {q:"Trace the scammer?", a:["Yes","No"], correct:0},
+    {q:"Lori's password?", a:["Azulo99","Admin"], correct:0},
+    {q:"Binary scrolling!", a:["Read","Ignore"], correct:0},
+    {q:"System hot!", a:["Fan","Type"], correct:1},
+    {q:"Root folder found?", a:["Yes","No"], correct:0},
+    {q:"Final: Hack complete?", a:["Success!","Fail"], correct:0}
+  ]},
+  jungle: { triggers:["jungle","🌴"], video:"azul_mochkil_jungle.mp4", questions:[
+    {q:"Use machete?", a:["Yes","No"], correct:0},
+    {q:"Chase butterfly?", a:["No","Yes"], correct:0},
+    {q:"Scan leaf?", a:["Yes","Pick"], correct:0},
+    {q:"Monkey stole hat!", a:["Climb","Run"], correct:0},
+    {q:"Raft or Swim?", a:["Raft","Swim"], correct:0},
+    {q:"Bow to statue?", a:["Yes","No"], correct:0},
+    {q:"Enter glow cave?", a:["Yes","No"], correct:0},
+    {q:"Final: Waterfall?", a:["Found!","Lost"], correct:0}
+  ]},
+  pirate: { triggers:["pirate","🏴‍☠️"], video:"azul_mochkil_pirates.mp4", questions:[
+    {q:"Board ship?", a:["Aye!","No"], correct:0},
+    {q:"Follow map?", a:["Yes","No"], correct:0},
+    {q:"Hat for Mochkil?", a:["Give","Keep"], correct:0},
+    {q:"Storm clouds!", a:["Sails","Hide"], correct:0},
+    {q:"Dig sand?", a:["Dig","Wait"], correct:0},
+    {q:"Trust Navigator?", a:["Yes","No"], correct:0},
+    {q:"Fire Cannons?", a:["Fire!","Run"], correct:0},
+    {q:"Final: Gold?", a:["Claim!","No"], correct:0}
+  ]},
+  dream: { triggers:["dream","😴"], video:"mochkil_sweet_dream.mp4", questions:[
+    {q:"Enter dream?", a:["Yes","Wait"], correct:0},
+    {q:"Eat clouds?", a:["Yes","No"], correct:0},
+    {q:"Catch flying fish?", a:["Yes","No"], correct:0},
+    {q:"Meow to Guardian?", a:["Yes","No"], correct:0},
+    {q:"Enter castle?", a:["Yes","No"], correct:0},
+    {q:"Unravel moon?", a:["Yes","No"], correct:0},
+    {q:"Stay purring?", a:["Yes","Wake"], correct:0},
+    {q:"Final: Sweet?", a:["The Sweetest","No"], correct:0}
+  ]},
+  ninja: { triggers:["ninja","farm","🥷"], video:"azul_mochkil_ninja_farm.mp4", questions:[
+    {q:"Enter farm?", a:["Yes","No"], correct:0},
+    {q:"Sneak mode?", a:["Yes","No"], correct:0},
+    {q:"Sharpen claws?", a:["Yes","No"], correct:0},
+    {q:"Read scroll?", a:["Yes","No"], correct:0},
+    {q:"Bow to Master?", a:["Yes","No"], correct:0},
+    {q:"Step light?", a:["Yes","No"], correct:0},
+    {q:"Throw bomb?", a:["Yes","No"], correct:0},
+    {q:"Final: Ninja?", a:["Yes","No"], correct:0}
+  ]},
+  zealand: { triggers:["zealand","nz","🇳🇿"], video:"azul_mochkil_new_zealand.mp4", questions:[
+    {q:"Go south?", a:["Yes","No"], correct:0},
+    {q:"Pet sheep?", a:["Yes","No"], correct:0},
+    {q:"Visit Hobbit?", a:["Yes","No"], correct:0},
+    {q:"Bungee jump?", a:["Watch","Jump"], correct:0},
+    {q:"Ski peak?", a:["Yes","No"], correct:0},
+    {q:"Quiet for Kiwi?", a:["Yes","No"], correct:0},
+    {q:"Swim?", a:["No","Yes"], correct:0},
+    {q:"Final: Paradise?", a:["Yes","No"], correct:0}
+  ]},
+  olive: { triggers:["olive","🫒"], video:"azul_mochkil_olivegrove.mp4", questions:[
+    {q:"Pick?", a:["Yes","No"], correct:0},
+    {q:"Stop eater?", a:["Yes","No"], correct:0},
+    {q:"Press?", a:["Yes","No"], correct:0},
+    {q:"Pet goat?", a:["Yes","No"], correct:0},
+    {q:"Respect trees?", a:["Yes","No"], correct:0},
+    {q:"Stay sunset?", a:["Yes","No"], correct:0},
+    {q:"Dip bread?", a:["Yes","No"], correct:0},
+    {q:"Final: Peace?", a:["Yes","No"], correct:0}
+  ]},
+  moon: { triggers:["moon","🌌"], video:"azul_lori_moon_picnic.mp4", questions:[
+    {q:"Dust step?", a:["Yes","No"], correct:0},
+    {q:"Open basket?", a:["Yes","No"], correct:0},
+    {q:"Photo?", a:["Yes","No"], correct:0},
+    {q:"Flip?", a:["Yes","No"], correct:0},
+    {q:"Ride rover?", a:["Yes","No"], correct:0},
+    {q:"Taste cheese?", a:["Yes","No"], correct:0},
+    {q:"Wish?", a:["Yes","No"], correct:0},
+    {q:"Final: Best?", a:["Yes","No"], correct:0}
+  ]},
+  taco: { triggers:["taco","🌮"], video:"azul_mochkil_taco_truck.mp4", questions:[
+    {q:"Approach?", a:["Yes","No"], correct:0},
+    {q:"Ask Azul?", a:["Yes","No"], correct:0},
+    {q:"Order big?", a:["Yes","No"], correct:0},
+    {q:"One drop?", a:["Yes","No"], correct:0},
+    {q:"Discount?", a:["Yes","No"], correct:0},
+    {q:"Hiss scammer?", a:["Yes","No"], correct:0},
+    {q:"Wait hot?", a:["Wait","Eat"], correct:0},
+    {q:"Final: Yummy?", a:["Yes","No"], correct:0}
+  ]},
+  dr_azul: { triggers:["dr","doctor","🩺","🩻","🥼"], video:"dr_azul.mp4", questions:[
+    {q:"Sign in?", a:["Yes","No"], correct:0},
+    {q:"Enter office?", a:["Yes","No"], correct:0},
+    {q:"Check Mochkil?", a:["Yes","No"], correct:1},
+    {q:"Stay brave?", a:["Yes","No"], correct:0},
+    {q:"Listen script?", a:["Yes","No"], correct:0},
+    {q:"Laugh at poot?", a:["Yes","No"], correct:0},
+    {q:"Sticker?", a:["Yes","No"], correct:0},
+    {q:"Final: Good?", a:["Yes","No"], correct:0}
+  ]},
+  cave: { triggers:["cave","⚱️"], video:"treasure_cave.mp4", questions:[
+    {q:"Torch?", a:["Yes","No"], correct:0},
+    {q:"Duck bats?", a:["Yes","No"], correct:0},
+    {q:"Hack lock?", a:["Yes","No"], correct:0},
+    {q:"Run shaking?", a:["Yes","No"], correct:0},
+    {q:"Take gold?", a:["Yes","No"], correct:0},
+    {q:"Solve riddle?", a:["Yes","No"], correct:0},
+    {q:"Enter glow?", a:["Yes","No"], correct:0},
+    {q:"Final: Pure?", a:["Yes","No"], correct:0}
+  ]}
 };
 
-const triggers = {
-  taco:["🌮","taco"],
-  pirates:["🏴‍☠️","pirate"],
-  space:["🚀","space"],
-  moon:["🌕","moon"],
-  hacker:["💻","hack"],
-  jungle:["🌴","jungle"],
-  olive:["🫒","olive"],
-  ninja:["🥷","ninja"],
-  nz:["🥝","zealand"],
-  dream:["😴","dream"],
-  cave:["⚱️","treasure"],
-  doctor:["🩺","🩻","🥼","doctor"]
-};
+// ---------------------------
+// Current state
+// ---------------------------
+let currentStory = null;
+let qIndex = 0;
 
-/* ===================== SEND ===================== */
-function send(){
-  const input = document.getElementById("prompt");
-  if(!input.value.trim()) return;
-  document.getElementById("typing").style.display="block";
-  setTimeout(()=>{
-    document.getElementById("typing").style.display="none";
-    reply(input.value);
-    checkTriggers(input.value.toLowerCase());
+// ---------------------------
+// Add Response
+// ---------------------------
+function addResponse() {
+  const input = document.getElementById('promptInput');
+  const text = input.value.toLowerCase().trim();
+  if(!text) return;
+  const player = document.getElementById('playerName').value || "You";
+
+  // AZULO commercial
+  if(text.includes("azulo")) {
+    const rand = Math.floor(Math.random()*7)+1;
+    const div = document.createElement('div');
+    div.className='response';
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
+      <div style="color:#ff69b4;text-align:center;">✨ AZULO CEREAL COMMERCIAL BREAK! ✨</div>`;
+    document.getElementById('responses').prepend(div);
+    playVideo(`azulo${rand}.mp4`);
     input.value="";
-  },700);
-}
-
-/* ===================== TRIGGERS ===================== */
-function checkTriggers(text){
-  for(const key in triggers){
-    if(triggers[key].some(t=>text.includes(t))){
-      playVideo(stories[key]);
-      return;
-    }
+    return;
   }
-  maybeCommercial();
-}
 
-/* ===================== VIDEO ===================== */
-function playVideo(file){
-  videos.innerHTML="";
-  const v=document.createElement("video");
-  v.src=file;
-  v.controls=true;
-  v.autoplay=true;
-  videos.appendChild(v);
-}
-
-/* ===================== COMMERCIALS ===================== */
-function maybeCommercial(){
-  if(Math.random()<0.18){
-    playVideo(rand([
-      "azulo1.mp4","azulo2.mp4","azulo3.mp4",
-      "azulo4.mp4","azulo5.mp4","azulo6.mp4","azulo7.mp4"
-    ]));
+  // Check story triggers
+  let foundKey=null;
+  for(let key in stories){
+    if(stories[key].triggers.some(t => text.includes(t))) { foundKey=key; break; }
   }
+
+  if(foundKey){ startCYOA(foundKey); }
+  else {
+    const div=document.createElement('div');
+    div.className='response';
+    div.innerHTML = `<strong>${player}:</strong> ${input.value}<br><br>
+      <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul 🧪:</strong> ${azulReplies[Math.floor(Math.random()*azulReplies.length)]}</div></div>
+      <div class="sprite-row"><img src="mochkil.png" class="sprite-img"><div><strong>Mochkil 🍪:</strong> ${mochkilReplies[Math.floor(Math.random()*mochkilReplies.length)]}</div></div>`;
+    document.getElementById('responses').prepend(div);
+  }
+
+  input.value="";
 }
 
-/* ===================== RANDOM PROMPT ===================== */
+// ---------------------------
+// Start CYOA
+// ---------------------------
+function startCYOA(key){ currentStory=key; qIndex=0; document.getElementById('responses').innerHTML=""; showQuestion(); }
+
+function showQuestion(){
+  const s=stories[currentStory]; const q=s.questions[qIndex];
+  const div=document.createElement('div');
+  div.className='response';
+  div.innerHTML=`<strong>${currentStory.toUpperCase()} - STEP ${qIndex+1}/${s.questions.length}</strong><br><br>
+    <div class="sprite-row"><img src="azul.png" class="sprite-img"><div><strong>Azul 🧪:</strong> ${q.q}</div></div><br>`;
+  
+  q.a.forEach((ans,i)=>{
+    const btn=document.createElement('button'); btn.textContent=ans; btn.style.margin="5px";
+    btn.onclick=()=>{
+      if(i===q.correct){
+        qIndex++;
+        if(qIndex<s.questions.length){ div.remove(); showQuestion(); }
+        else{ div.innerHTML="<strong>SUCCESS!</strong>"; playVideo(s.video); }
+      } else{ div.innerHTML="<strong>FAILED!</strong>"; playVideo("azul_mochkil_gameover.mp4"); }
+    };
+    div.appendChild(btn);
+  });
+  document.getElementById('responses').prepend(div);
+}
+
+// ---------------------------
+// Play Video with captions
+// ---------------------------
+function playVideo(src){
+  const v=document.createElement('video');
+  v.src=src; v.controls=true; v.setAttribute('playsinline','');
+  const track=document.createElement('track');
+  track.kind='captions'; track.label='English'; track.srclang='en';
+  track.src=src.replace('.mp4','.vtt'); track.default=true;
+  v.appendChild(track);
+  document.getElementById('videosContainer').innerHTML=""; document.getElementById('videosContainer').prepend(v);
+  v.play().catch(e=>console.log(e));
+}
+
+// ---------------------------
+// Random Prompt
+// ---------------------------
 function randomPrompt(){
-  const prompts=[
-    "🌮","🏴‍☠️","🚀","🌴","🫒","🥷","🥝","😴","⚱️","🩺"
-  ];
-  document.getElementById("prompt").value=rand(prompts);
+  const r=["Azulo","Hacker","Jungle","Dream","Ninja","Pirate","Zealand","Cave","Dr Azul","Olive","Moon","Taco"];
+  document.getElementById('promptInput').value=r[Math.floor(Math.random()*r.length)];
 }
 </script>
 
