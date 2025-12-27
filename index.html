@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maximum Reality Portal</title>
+<title>Maximum Reality</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -49,14 +49,14 @@ body::after {
   100% { opacity:0.03; }
 }
 
-/* Grid background */
+/* Grid background behind video */
 .grid-background {
   position:relative;
   width:90%;
   max-width:640px;
   margin:1rem auto 2rem;
   z-index:0;
-  height:auto; /* height determined by video */
+  height:auto;
   border-radius:10px;
   overflow:hidden;
   background:
@@ -98,11 +98,12 @@ body::after {
   100% { text-shadow:0 0 12px rgba(57,255,20,0.4), 0 0 24px rgba(255,0,255,0.35); }
 }
 
-/* Headings */
+/* Headings & text */
 h1 {
   color:#39ff14;
-  text-shadow:0 0 10px #39ff14;
+  text-shadow:0 0 6px #39ff14; /* slightly thinner for readability */
   margin-bottom:0.5rem;
+  font-weight:400;
 }
 
 p.subtitle {
@@ -111,7 +112,7 @@ p.subtitle {
   font-size:0.95rem;
 }
 
-/* Video wrapper */
+/* Video wrapper with stable border & glow */
 .video-wrapper {
   border:3px solid #39ff14;
   border-radius:10px;
@@ -119,8 +120,30 @@ p.subtitle {
   overflow:hidden;
   position:relative;
   z-index:2;
-  max-width:640px;
+  max-height:360px;
   margin:auto;
+  animation:
+    videoGreenPulse 4s ease-in-out infinite alternate,
+    videoMagentaPulse 4s ease-in-out infinite alternate 2s,
+    videoColorShift 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes videoGreenPulse {
+  0% { border-color:#39ff14; }
+  50% { border-color:#7fff3f; }
+  100% { border-color:#39ff14; }
+}
+
+@keyframes videoMagentaPulse {
+  0% { box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset; }
+  50% { box-shadow:0 0 35px #ff00ff, 0 0 60px #ff00ff inset; }
+  100% { box-shadow:0 0 20px #ff00ff, 0 0 40px #ff00ff inset; }
+}
+
+@keyframes videoColorShift {
+  0% { border-color:#39ff14; box-shadow:0 0 25px #ff00ff,0 0 45px #ff00ff inset; }
+  50% { border-color:#7fff3f; box-shadow:0 0 25px #ff55ff,0 0 50px #ff55ff inset; }
+  100% { border-color:#39ff14; box-shadow:0 0 20px #ff00ff,0 0 40px #ff00ff inset; }
 }
 
 .video-wrapper video {
@@ -129,12 +152,50 @@ p.subtitle {
   height:auto;
   border:none;
   border-radius:10px;
+  animation: videoGlitch 0.3s linear infinite;
 }
+
+@keyframes videoGlitch {
+  0%   { transform: translate(0,0) rotate(0deg); }
+  10%  { transform: translate(-1px,1px) rotate(-0.2deg); }
+  20%  { transform: translate(1px,-1px) rotate(0.2deg); }
+  30%  { transform: translate(-1px,1px) rotate(0deg); }
+  40%  { transform: translate(1px,0px) rotate(-0.1deg); }
+  50%  { transform: translate(-1px,-1px) rotate(0.1deg); }
+  60%  { transform: translate(0px,1px) rotate(0deg); }
+  70%  { transform: translate(1px,-1px) rotate(-0.1deg); }
+  80%  { transform: translate(-1px,0px) rotate(0.1deg); }
+  90%  { transform: translate(0px,-1px) rotate(0deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+
+/* Cards */
+.card {
+  background: rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:16px 20px;
+  margin:16px auto;
+  max-width:720px;
+  text-align:left;
+  box-shadow:0 0 12px rgba(57,255,20,0.2), 0 0 20px rgba(255,0,255,0.15);
+  position:relative;
+  z-index:2;
+  font-size:0.75rem;
+  line-height:1.3rem;
+}
+
+.card h2 {
+  margin-top:0;
+  font-size:1rem;
+}
+
+ul {padding-left:20px;}
+li {margin-bottom:6px;}
 
 /* Buttons */
 .start-button {
   display:inline-block;
-  margin-top:16px;
+  margin:16px auto;
   padding:16px 28px;
   font-size:1.1rem;
   font-weight:600;
@@ -148,19 +209,36 @@ p.subtitle {
 
 .start-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
-/* CYOA button - blue */
-.cyoa-button { background: #7dd3fc; }
-.cyoa-button:hover { box-shadow: 0 8px 20px rgba(125,211,252,0.5); background: #a5f3fc; }
+/* CYOA Button (blue) */
+.cy-button {
+  background:#7dd3fc;
+}
 
-/* Book button - purple */
-.book-button { background: #c084fc; }
-.book-button:hover { box-shadow: 0 8px 20px rgba(192,132,252,0.5); background: #d8b4fe; }
+/* Book Button (purple) */
+.book-button {
+  background:#c084fc;
+  margin-top:0;
+}
 
-/* Abduction button - green */
-.abduction-button { background: #39ff14; }
-.abduction-button:hover { box-shadow: 0 8px 20px rgba(57,255,20,0.5); background: #7fff3f; }
+.book-button:hover {
+  background:#d8b4fe;
+  box-shadow:0 8px 20px rgba(192,132,252,0.5);
+}
+
+/* Abduction Button (bright green) */
+.abduction-button {
+  background:#39ff14;
+  color:#0a0a0a;
+  margin-top:0;
+}
+
+.abduction-button:hover {
+  background:#7fff3f;
+  box-shadow:0 8px 20px rgba(57,255,20,0.5);
+}
 
 /* Footer */
 .footer {
@@ -171,7 +249,7 @@ p.subtitle {
   z-index:2;
 }
 
-/* Central faint paw pulsing */
+/* Central faint paw */
 body::before {
   content:"🐾";
   position:fixed;
@@ -192,10 +270,10 @@ body::before {
 </head>
 <body>
 
-<h1>Maximum Reality Portal</h1>
-<p class="subtitle">Your gateway to all Maximum Reality adventures</p>
+<h1>Maximum Reality</h1>
+<p class="subtitle">Welcome to the whimsical world of Azul 🧪 & Mochkil 🍪</p>
 
-<!-- Video -->
+<!-- Video wrapper -->
 <div class="grid-background">
   <div class="video-wrapper">
     <video controls>
@@ -205,9 +283,34 @@ body::before {
   </div>
 </div>
 
+<!-- Description cards -->
+<div class="card">
+  <h2>📖 What Is This?</h2>
+  <p>Maximum Reality is an interactive story adventure where you chat with Azul, a floating science cat, and Mochkil, a mischievous tuxedo kitten. Ask questions, make choices, explore fun stories, and unlock whimsical adventures.</p>
+</div>
+
+<div class="card">
+  <h2>✨ What You Can Do</h2>
+  <ul>
+    <li>Start a brand-new adventure</li>
+    <li>Explore stories with Azul & Mochkil</li>
+    <li>Meet whimsical, silly characters</li>
+    <li>Unlock videos and surprises as you go</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>🧭 How It Works</h2>
+  <ul>
+    <li>Type what you want to do or ask in the chat</li>
+    <li>Follow the story step by step</li>
+    <li>There are no wrong choices — only fun adventures</li>
+  </ul>
+</div>
+
 <!-- Buttons -->
-<a class="start-button cyoa-button" href="azul-game.html">💫 CYOA</a><br>
-<a class="start-button book-button" href="https://maximumreality.github.io/Pulse/index.html">📕 Pulse of Connection</a><br>
+<a class="start-button cy-button" href="azul-game.html">🚀 CYOA</a>
+<a class="start-button book-button" href="https://maximumreality.github.io/Pulse/index.html">📕 Pulse of Connection</a>
 <a class="start-button abduction-button" href="https://maximumreality.github.io/Abduction/">🛸 Abduction</a>
 
 <!-- Floating paws -->
